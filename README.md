@@ -5,7 +5,7 @@ Join us on our [Discord channel!](https://discord.gg/QjAqKgx)
 
 ##About
 
-
+ 
 Wulfram is a game of first person hovertank combat and honest tactical strategy, all set in a light science fiction setting of violent planetary colonization. Like many artistic endeavors, it is far simpler to play Wulfram than it seems when explained on paper. Hopefully this introduction will provide enough of a reference for you to discover the full richness of the game on your own.
 
 Two warring factions (called the Crimson Federation and the Azure Alliance, or more simply, the red team and the blue team) arrive at a disputed planet. Each side is provided with a minimal base, and then you, and every other player, get a Tank or Scout built for you to control. Both of these units are built by RepairPads, and whoever destroys all the enemy Tanks, Scouts, and the RepairPads that let them build more, wins the game.
