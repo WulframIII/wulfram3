@@ -1,5 +1,7 @@
+
 #Wulfram3
 
+Join us on our [Discord channel!](https://discord.gg/QjAqKgx) 
 
 ##About
 
