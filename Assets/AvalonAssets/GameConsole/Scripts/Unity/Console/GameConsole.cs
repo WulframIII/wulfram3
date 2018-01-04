@@ -70,7 +70,7 @@ namespace AvalonAssets.Unity.Console
         ///     Key to open console
         /// </summary>
         [Tooltip("Key to open console.")]
-        public KeyCode OpenConsoleKey = KeyCode.BackQuote;
+        public KeyCode OpenConsoleKey = KeyCode.F12;
 
         /// <summary>
         ///     Output text to console.
