@@ -42,7 +42,9 @@ ModelImporter:
     400032: Omni08
     400034: Omni080
     2300000: Line05
+    2300002: //RootNode
     3300000: Line05
+    3300002: //RootNode
     4300000: Line05
   externalObjects:
   - first:
@@ -53,8 +55,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: ms1MS1.BMP
+    second: {fileID: 2100000, guid: 02ec71a098c8c544f8e0f7c685da61f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: ms2
     second: {fileID: 2100000, guid: fed2b754ed4bdfd4fb1041c472c0911a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ms2MS2.BMP
+    second: {fileID: 2100000, guid: 7f5150981cf100042a66b59c970c7096, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -63,8 +75,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: ms3MS3.BMP
+    second: {fileID: 2100000, guid: 57efcf7ee47514841876e55b50ca4fc3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: ms4
     second: {fileID: 2100000, guid: bead1fa7abe0dd147b5ee7aa60c54bd8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ms4MS4.BMP
+    second: {fileID: 2100000, guid: 94ce664572dad8d4a9873ef70b620509, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -73,13 +95,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: ms5MS5.BMP
+    second: {fileID: 2100000, guid: e2393c6b56e5aa94bb1049589fcc9551, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: msentry3
     second: {fileID: 2100000, guid: 073fef6384b583d479ef675fa854c8bd, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: msentry3MSEN
+    second: {fileID: 2100000, guid: f70a976dfce65c54fbed3c1c8d752afe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: s1bottoms
     second: {fileID: 2100000, guid: 539c47d413d97b84d989b47e7c4602c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: s1bottomsMS1
+    second: {fileID: 2100000, guid: d7b07076090131547b0c24571ae17c87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: s1bottomsMS2
+    second: {fileID: 2100000, guid: 1630a667939f7934f9acea518908d778, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -113,7 +155,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
-    importBlendShapes: 1
+    importBlendShapes: 0
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
@@ -122,6 +164,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -129,7 +173,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
