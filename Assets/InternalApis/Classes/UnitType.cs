@@ -18,6 +18,7 @@ namespace Assets.InternalApis.Classes
         MissleLauncher, 
         Skypump, 
         Darklight,
+        Unlink,
     }
 
     public enum MapType

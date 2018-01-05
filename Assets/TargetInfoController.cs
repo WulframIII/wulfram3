@@ -24,7 +24,9 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void LateUpdate() {
-            if (target != null && target.GetComponentInChildren<MeshRenderer>().isVisible && Camera.main != null) {
+            //if (target != null && target.GetComponentInChildren<MeshRenderer>().isVisible && Camera.main != null)
+
+            if (target != null  && Camera.main != null) {
                 targetInfoPanel.SetActive(true);
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
                 pos.z = 0;

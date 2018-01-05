@@ -1,4 +1,5 @@
 ﻿using Assets.InternalApis.Classes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,9 @@ namespace Com.Wulfram3 {
                 case "scout":
                     unitType = UnitType.Scout;
                     break;
+                case "repair pad":
+                    unitType = UnitType.RepairPad;
+                    break;
                 default:
                     unitType = UnitType.None;
                     break;
@@ -48,6 +52,37 @@ namespace Com.Wulfram3 {
         // Update is called once per frame
         void Update() {
 
+        }
+
+        public bool IsUnitFriendly()
+        {
+            if (PlayerMovementManager.LocalPlayerInstance.GetComponent<Unit>().unitTeam == this.unitTeam)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public PunTeams.Team GetHostileTeam()
+        {
+            switch (unitTeam)
+            {
+                case PunTeams.Team.red:
+                    return PunTeams.Team.blue;
+
+                case PunTeams.Team.blue:
+                    return PunTeams.Team.red;
+                default:
+                    return PunTeams.Team.none;
+            }
+        }
+
+        public override string ToString()
+        {
+            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam);
         }
     }
 }
