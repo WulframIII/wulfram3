@@ -19,6 +19,7 @@ namespace Com.Wulfram3 {
 
         // Use this for initialization
         void Start() {
+            Debug.Log(this.ToString());
             switch (team.ToLower())
             {
                 case "blue":
@@ -27,9 +28,9 @@ namespace Com.Wulfram3 {
                 case "red":
                     unitTeam = PunTeams.Team.red;
                     break;
-                default:
-                    unitTeam = PunTeams.Team.none;
-                    break;
+                //default:
+                //    unitTeam = PunTeams.Team.none;
+                //    break;
             }
 
             switch (name.ToLower())
@@ -43,15 +44,15 @@ namespace Com.Wulfram3 {
                 case "repair pad":
                     unitType = UnitType.RepairPad;
                     break;
-                default:
-                    unitType = UnitType.None;
-                    break;
+                //default:
+                //    unitType = UnitType.None;
+                //    break;
             }
         }
 
         // Update is called once per frame
         void Update() {
-
+            Debug.Log(this.ToString());
         }
 
         public bool IsUnitFriendly()
@@ -82,7 +83,7 @@ namespace Com.Wulfram3 {
 
         public override string ToString()
         {
-            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam);
+            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam) + "| |" + this.name + " " + this.team;
         }
     }
 }

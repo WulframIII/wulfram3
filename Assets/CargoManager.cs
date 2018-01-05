@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.InternalApis.Classes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace Com.Wulfram3 {
         public AudioClip pickup;
         public AudioClip dropdown;
         public string pickedUpCargo = "";
+        public UnitType cargoType;
+        public PunTeams.Team cargoTeam;
 
         // Use this for initialization
         void Start() {

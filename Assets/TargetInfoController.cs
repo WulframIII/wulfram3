@@ -38,12 +38,28 @@ namespace Com.Wulfram3 {
                 PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
                 var dist = Math.Round(Vector3.Distance(target.transform.position, player.transform.position), 0);
 
+                var hpm = target.GetComponent<HitPointsManager>();
+                var unit = target.GetComponent<Unit>();
+
+                if(hpm == null)
+                {
+                    Debug.LogException(new Exception("GAME OBJECT IS MISSING HIT POINT MANAGER"));
+                }
+
+                if (unit == null)
+                {
+                    Debug.LogException(new Exception("GAME OBJECT IS MISSING UNIT"));
+                }
+
+                if(hpm == null || unit ==null)
+                {
+                    targetInfoPanel.SetActive(false);
+                    return;
+                }
+
                 hitpoints.text = dist + "M " + target.GetComponent<HitPointsManager>().health + "HP";
                 name.text = target.GetComponent<Unit>().name;
                 team.text = target.GetComponent<Unit>().team;
-
-
-
 
                 var panel = targetInfoPanel.GetComponent<Image>();
                 switch (target.GetComponent<Unit>().unitTeam)

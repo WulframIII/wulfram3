@@ -79,7 +79,7 @@ public class GroundPlacementController : Photon.PunBehaviour
 
     public void RotateFromMouseWheel()
     {
-        Debug.Log(Input.mouseScrollDelta);
+        //Debug.Log(Input.mouseScrollDelta);
         mouseWheelRotation += Input.mouseScrollDelta.y;
         currentPlaceableObject.transform.Rotate(Vector3.up, mouseWheelRotation * 10f);
     }
