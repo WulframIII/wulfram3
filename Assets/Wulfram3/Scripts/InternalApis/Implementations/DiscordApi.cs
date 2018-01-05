@@ -1,14 +1,10 @@
-﻿//using Assets.Plugins.webgljs;
-using Assets.InternalApis.Interfaces;
-using Assets.Plugins.webgljs;
-using Proyecto26;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Assets.InternalApis.Implementations
+namespace Assets.Wulfram3.Scripts.InternalApis.Implementations
 {
     /// <summary>
     /// This will access the users Discord account, getting data about a user (Username, email, ect.)

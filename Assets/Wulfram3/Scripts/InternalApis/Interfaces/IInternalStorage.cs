@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Assets.InternalApis.Interfaces
+﻿namespace Assets.Wulfram3.Scripts.InternalApis.Interfaces
 {
     public interface IInternalStorage
     {

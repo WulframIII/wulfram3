@@ -1,5 +1,5 @@
-﻿using Assets.InternalApis.Classes;
-using Assets.InternalApis.Interfaces;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
 using Newtonsoft.Json;
 using socket.io;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
-namespace Assets.InternalApis.Implementations
+namespace Assets.Wulfram3.Scripts.InternalApis.Implementations
 {
     public class UserController : IUserController
     {

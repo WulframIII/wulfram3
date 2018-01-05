@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Assets.InternalApis.Classes
+namespace Assets.Wulfram3.Scripts.InternalApis.Classes
 {
 
 

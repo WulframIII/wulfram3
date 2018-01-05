@@ -1,10 +1,9 @@
-﻿using Assets.InternalApis.Classes;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.Wulfram3 {
+namespace Com.Wulfram3
+{
     public class Unit : MonoBehaviour {
 
         public string team;

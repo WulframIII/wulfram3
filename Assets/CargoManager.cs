@@ -1,9 +1,8 @@
-﻿using Assets.InternalApis.Classes;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using UnityEngine;
 
-namespace Com.Wulfram3 {
+namespace Com.Wulfram3
+{
     public class CargoManager : Photon.PunBehaviour {
         public AudioClip pickup;
         public AudioClip dropdown;

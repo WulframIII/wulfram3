@@ -1,13 +1,11 @@
-﻿using Assets.InternalApis.Classes;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using UnityEngine;
 
-namespace Com.Wulfram3 {
+namespace Com.Wulfram3
+{
     public class TargetController : Photon.PunBehaviour {
         //Old Wulfram key bindings
         //bind "targeting" "ctrl-F5" "store_target 0"

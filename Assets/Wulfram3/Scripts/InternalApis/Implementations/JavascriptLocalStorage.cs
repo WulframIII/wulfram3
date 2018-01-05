@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Assets.Plugins.webgljs;
-using Assets.InternalApis.Interfaces;
+﻿using Assets.Plugins.webgljs;
+using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
 
-namespace Assets.InternalApis.Implementations
+namespace Assets.Wulfram3.Scripts.InternalApis.Implementations
 {
     public class JavascriptLocalStorage : IInternalStorage
     {

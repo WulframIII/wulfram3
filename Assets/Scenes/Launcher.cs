@@ -1,17 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
-using System.Collections;
-using System.Text;
-using System.Net;
-using Assets.InternalApis;
-using Assets.InternalApis.Interfaces;
-using Assets.InternalApis.Implementations;
 using PhotonChatUI;
-using UnityEngine.Experimental.UIElements;
-using System;
+using Assets.Wulfram3.Scripts.InternalApis;
+using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
+using Assets.Wulfram3.Scripts.InternalApis.Classes;
 
-namespace Com.Wulfram3 {
+namespace Com.Wulfram3
+{
     public class Launcher : Photon.PunBehaviour {
         #region Public Variables
 
@@ -165,7 +160,7 @@ namespace Com.Wulfram3 {
             progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Checking players....";
         }
 
-        private void LoginCompleted(Assets.InternalApis.Classes.WulframPlayer arg1, string arg2)
+        private void LoginCompleted(WulframPlayer arg1, string arg2)
         {
             progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Connecting to players..";
             DepenencyInjector.Resolve<IUserController>().LoginCompleted -= LoginCompleted;

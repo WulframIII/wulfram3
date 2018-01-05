@@ -1,16 +1,15 @@
-﻿using Assets.InternalApis.Classes;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UnitTarget
+namespace Assets.Wulfram3.Scripts.InternalApis.Classes
 {
+    public class UnitTarget
+    {
+        public GameObject Object { get; set; }
 
-	public GameObject Object { get; set; }
+        public double LastDistance { get; set; }
 
-    public double LastDistance { get; set; }
+        public UnitType ObjectType { get; set; }
 
-    public UnitType ObjectType { get; set; }
-
-    public PunTeams.Team ObjectTeam { get; set; }
+        public PunTeams.Team ObjectTeam { get; set; }
+    }
 }

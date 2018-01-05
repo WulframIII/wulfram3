@@ -1,13 +1,10 @@
-﻿using Assets.InternalApis.Implementations;
-using Assets.InternalApis.Interfaces;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Implementations;
+using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
-namespace Assets.InternalApis
+namespace Assets.Wulfram3.Scripts.InternalApis
 {
     public static class DepenencyInjector
     {
