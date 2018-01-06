@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -144,7 +145,7 @@ namespace Com.Wulfram3 {
                 }
 
                 //Fire Pulse
-                if (Time.time >= timestamp && (Input.GetMouseButtonDown(1)) && this.gameObject.GetComponent<Unit>().unitType == Assets.InternalApis.Classes.UnitType.Tank) {
+                if (Time.time >= timestamp && (Input.GetMouseButtonDown(1)) && this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank) {
                     if (GetComponent<FuelManager>().TakeFuel(fuelPerPulse)) {
                         CmdFirePulseShell();
                         timestamp = Time.time + timeBetweenShots;

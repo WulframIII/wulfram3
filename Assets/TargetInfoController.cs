@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,7 +83,7 @@ namespace Com.Wulfram3 {
                         break;
                 }
 
-                if(target.GetComponent<Unit>().unitType == Assets.InternalApis.Classes.UnitType.Tank || target.GetComponent<Unit>().unitType == Assets.InternalApis.Classes.UnitType.Scout)
+                if(target.GetComponent<Unit>().unitType == UnitType.Tank || target.GetComponent<Unit>().unitType == UnitType.Scout)
                 {
                     user.text = FindObjectOfType<GameManager>().GetColoredPlayerName(target.GetComponent<PhotonView>().owner.NickName, target.GetComponent<PhotonView>().owner.IsMasterClient);
                 }
