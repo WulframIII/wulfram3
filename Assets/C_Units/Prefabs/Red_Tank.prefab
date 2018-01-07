@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1722474050861690}
+  m_IsPrefabParent: 1
+--- !u!1 &1722474050861690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4380910232758262}
+  - component: {fileID: 33991714656290212}
+  - component: {fileID: 23111002321221378}
+  m_Layer: 0
+  m_Name: Red_Tank
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4380910232758262
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722474050861690}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23111002321221378
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722474050861690}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 504044e2a92dfb646a2f1dc1a702da18, type: 2}
+  - {fileID: 2100000, guid: 81e5aa9225dc27749b4294099e87326b, type: 2}
+  - {fileID: 2100000, guid: 2d62d6dd6eff9a0428cfda08a526cd29, type: 2}
+  - {fileID: 2100000, guid: 81967a8b383f24842b27830618ebb35a, type: 2}
+  - {fileID: 2100000, guid: aa7660d55369cd9438d11c543f0ccf6f, type: 2}
+  - {fileID: 2100000, guid: 08da14a54bccafd468079b3012af82f7, type: 2}
+  - {fileID: 2100000, guid: e2897f0472f8c854e9c65615c50ffb16, type: 2}
+  - {fileID: 2100000, guid: ae70bec3dc45bed4fa23f1bef5022140, type: 2}
+  - {fileID: 2100000, guid: a1ffbb75d1d4a394d8ddabc49837e42c, type: 2}
+  - {fileID: 2100000, guid: 8acb2f9af4b189d49b95aa1c2593e8fa, type: 2}
+  - {fileID: 2100000, guid: 0ee262a080753c04687059a73119b1ef, type: 2}
+  - {fileID: 2100000, guid: fa89370c988e2f841b8dd668ba09ebea, type: 2}
+  - {fileID: 2100000, guid: 33bbf545dba42114e9b61175caff5d95, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33991714656290212
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722474050861690}
+  m_Mesh: {fileID: 4300020, guid: 11b7ea09bf2e9fb48b5fd6692a543727, type: 3}

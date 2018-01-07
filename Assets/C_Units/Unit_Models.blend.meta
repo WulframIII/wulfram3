@@ -1,0 +1,925 @@
+fileFormatVersion: 2
+guid: 11b7ea09bf2e9fb48b5fd6692a543727
+timeCreated: 1515245162
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Blue_Darklight
+    100002: Blue_Flak
+    100004: Blue_GunTurret
+    100006: Blue_Launcher
+    100008: Blue_RepairPad
+    100010: Blue_Scout
+    100012: Blue_Tank
+    100014: Blue_Uplink
+    100016: Red__Launcher
+    100018: Red_Darklight
+    100020: Red_Flak
+    100022: Red_GunTurret
+    100024: Red_Powercell
+    100026: Red_Scout
+    100028: Red_Skypump
+    100030: Red_Skypump_001
+    100032: Red_Tank
+    100034: Red_Uplink
+    100036: //RootNode
+    400000: Blue_Darklight
+    400002: Blue_Flak
+    400004: Blue_GunTurret
+    400006: Blue_Launcher
+    400008: Blue_RepairPad
+    400010: Blue_Scout
+    400012: Blue_Tank
+    400014: Blue_Uplink
+    400016: Red__Launcher
+    400018: Red_Darklight
+    400020: Red_Flak
+    400022: Red_GunTurret
+    400024: Red_Powercell
+    400026: Red_Scout
+    400028: Red_Skypump
+    400030: Red_Skypump_001
+    400032: Red_Tank
+    400034: Red_Uplink
+    400036: //RootNode
+    2100000: None__blue_bmp_png
+    2100002: None__sk2dish
+    2100004: None__bluesk1feets_bmp_png
+    2100006: unnamed
+    2100008: None__bluesk1twangers_bmp_png
+    2100010: None__commblue1
+    2100012: None__commblue2
+    2100014: None__commblue3
+    2100016: None__w2blu_top
+    2100018: None__w2blu_topmid
+    2100020: None__w2blu_wingtopback
+    2100022: None__w2blu_bottomfront
+    2100024: None__w2blu_wingsidetop
+    2100026: None__w2blu_wingbottomback
+    2100028: None__w2blu_wingtopmid
+    2100030: None__w2blu_wingbottommid
+    2100032: None__w2blu_backside
+    2100034: None__w2blu_wingtopfront
+    2100036: None__w2blu_bottomback
+    2100038: None__w2blu_front
+    2100040: None__w2blu_exhast
+    2100042: None__w2blu_barrel
+    2100044: None__SC2front
+    2100046: None__SC2turretback
+    2100048: None__SC2wingbtmback
+    2100050: None__SC2btmmid
+    2100052: None__SC2back
+    2100054: None__SC2wingtpback
+    2100056: None__SC2wingtpmiddle
+    2100058: None__SC2wingtpfront
+    2100060: None__SC2wingbtmmid
+    2100062: None__p2rooffrnt
+    2100064: None__p2frontrt
+    2100066: None__ventpannel2
+    2100068: None__p2sqrfront
+    2100070: None__p2sidetwanger
+    2100072: None__p2frontlft
+    2100074: None__p2stacks
+    2100076: None__ramp2
+    2100078: None__ramp1
+    2100080: None__metal
+    2100082: None__metalT2
+    2100084: None__rplanding3
+    2100086: None__rplanding1
+    2100088: None__rplanding4
+    2100090: None__rplanding2
+    2100092: None__ml4
+    2100094: None__ml5
+    2100096: None__ml3
+    2100098: None__ml2
+    2100100: None__ml1
+    2100102: None__ml6
+    2100104: None__ms2
+    2100106: None__Ms1
+    2100108: None__s1bottoms
+    2100110: None__Msentry3
+    2100112: None__ms4
+    2100114: None__ms3
+    2100116: None__ms5
+    2100118: None__s2side
+    2100120: None__s2top
+    2100122: None__various
+    2100124: None__gun
+    2100126: None__sk1dish
+    2100128: None__p2ramp2
+    2100130: None__darkdish
+    2100132: None__commred4
+    2100134: None__commred3
+    2100136: None__commred2
+    2100138: None__commred1
+    2100140: None__w2rt_topblft
+    2100142: None__w2rt_jetsides
+    2100144: None__w2rt_misslepack
+    2100146: None__w2rt_sides
+    2100148: None__w2rt_topbrgt
+    2100150: None__w2rt_topfrt
+    2100152: None__w2rt_backpart
+    2100154: None__w2rt_turrettop
+    2100156: None__w2rt_barrel
+    2100158: None__w2rt_botback
+    2100160: None__w2rt_botpieces
+    2100162: None__w2rt_topback
+    2100164: None__w2rt_topflt
+    2100166: None__red
+    2100168: None__sk1feets
+    2100170: None__sk1twangers
+    2100172: None__SC1wing
+    2100174: None__SC1backbottom
+    2100176: None__SC1barrel
+    2100178: None__SC1jets
+    2100180: None__SC1topback
+    2100182: None__SC1topback2
+    2100184: None__SC1wingbottom
+    2100186: None__SC1frontbottom
+    2100188: None__SC1bottomback
+    2100190: None__SC1front
+    2100192: None__insides
+    2100194: None__top
+    2100196: None__redshock1
+    2100198: None__bottomsides
+    2100200: None__topsides
+    2100202: None__e2posts
+    2100204: None__mlaunch5
+    2100206: None__mlaunch3
+    2100208: None__mlaunch2
+    2100210: None__mlaunch1
+    2100212: None__mlaunch4
+    2100214: None__s1bottomsR
+    2100216: None__Msentry7_fntop
+    2100218: None__Msentry5_bkbttm
+    2100220: None__Msentry4_frntbttm
+    2100222: None__Msentry6_bktop
+    2100224: None__Msentry1
+    2100226: None__Msentry2
+    2100228: None__Msentry3R
+    2100230: None__gun2
+    2100232: None__s1sideR
+    2100234: None__s1legsR
+    2100236: None__back_holesR_bmp_png
+    2100238: None__s1wingsR
+    2100240: None__p2frontrtR
+    2100242: None__ventpannel2R
+    2100244: None__ramp1R
+    2100246: None__p2sidetwangerR
+    2300000: Blue_Darklight
+    2300002: Blue_Flak
+    2300004: Blue_GunTurret
+    2300006: Blue_Launcher
+    2300008: Blue_RepairPad
+    2300010: Blue_Scout
+    2300012: Blue_Tank
+    2300014: Blue_Uplink
+    2300016: Red__Launcher
+    2300018: Red_Darklight
+    2300020: Red_Flak
+    2300022: Red_GunTurret
+    2300024: Red_Powercell
+    2300026: Red_Scout
+    2300028: Red_Skypump
+    2300030: Red_Skypump_001
+    2300032: Red_Tank
+    2300034: Red_Uplink
+    3300000: Blue_Darklight
+    3300002: Blue_Flak
+    3300004: Blue_GunTurret
+    3300006: Blue_Launcher
+    3300008: Blue_RepairPad
+    3300010: Blue_Scout
+    3300012: Blue_Tank
+    3300014: Blue_Uplink
+    3300016: Red__Launcher
+    3300018: Red_Darklight
+    3300020: Red_Flak
+    3300022: Red_GunTurret
+    3300024: Red_Powercell
+    3300026: Red_Scout
+    3300028: Red_Skypump
+    3300030: Red_Skypump_001
+    3300032: Red_Tank
+    3300034: Red_Uplink
+    4300000: Red_Skypump_001
+    4300002: Blue_Uplink
+    4300004: Blue_Tank
+    4300006: Blue_Scout
+    4300008: Blue_RepairPad
+    4300010: Blue_Launcher
+    4300012: Blue_GunTurret
+    4300014: Blue_Flak
+    4300016: Blue_Darklight
+    4300018: Red_Uplink
+    4300020: Red_Tank
+    4300022: Red_Skypump
+    4300024: Red_Scout
+    4300026: Red_Powercell
+    4300028: Red__Launcher
+    4300030: Red_GunTurret
+    4300032: Red_Flak
+    4300034: Red_Darklight
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Ms1
+    second: {fileID: 2100000, guid: cd49dfe22b89005499396c94430f287c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry1
+    second: {fileID: 2100000, guid: 5469c63ba03704542bc45fcfdc230665, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry2
+    second: {fileID: 2100000, guid: df3b478adf1b01b408e74c6a23f73c35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry3
+    second: {fileID: 2100000, guid: 190cd4c889b4eb6469f148c42266be7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry3R
+    second: {fileID: 2100000, guid: 78fe274ca0f975e40b9b0c78b01ecf84, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry4_frntbttm
+    second: {fileID: 2100000, guid: 7e1e461239a6cd1418c2fc168b709b61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry5_bkbttm
+    second: {fileID: 2100000, guid: 45f33c45eab06594dbad98fc0b750681, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry6_bktop
+    second: {fileID: 2100000, guid: 9553c48ddabf877428090fc63cd93a1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__Msentry7_fntop
+    second: {fileID: 2100000, guid: d89760e185cae0648854fc01a8ad5267, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1backbottom
+    second: {fileID: 2100000, guid: 24bad846eb50f324fa65ab943b53febd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1barrel
+    second: {fileID: 2100000, guid: 9720c2ce16df0ea4fb457f0e582f5f3b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1bottomback
+    second: {fileID: 2100000, guid: 04305f4dfb55a404a9bbd90ea4cf7bd3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1front
+    second: {fileID: 2100000, guid: 9fc0a17af4db7424a8c0b85ef55638ac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1frontbottom
+    second: {fileID: 2100000, guid: 884c1a43a6b0390458deba37f4b04350, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1jets
+    second: {fileID: 2100000, guid: 7699abb384d21e84bb235eab85dfbe97, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1topback
+    second: {fileID: 2100000, guid: c3592e023f9b8e842ac1092c115e969d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1topback2
+    second: {fileID: 2100000, guid: 6125065238b521d4aafd5ae209e7b08b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1wing
+    second: {fileID: 2100000, guid: 3d8cadccb4646e243af0cf4d741affcc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC1wingbottom
+    second: {fileID: 2100000, guid: 49480b08dd03bde4cb6c5fe33dadd1d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2back
+    second: {fileID: 2100000, guid: a4ae427f1c0c74e45aa622f5758c2847, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2btmmid
+    second: {fileID: 2100000, guid: 9b78b89ce99a2b742a2d4a77027a694f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2front
+    second: {fileID: 2100000, guid: 4e04fa995527d7f4f88227aca12d0116, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2turretback
+    second: {fileID: 2100000, guid: 978468142b73f8446981905918ce9fe1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2wingbtmback
+    second: {fileID: 2100000, guid: 1a2d4b4cbffdc4145aed26c30337d92a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2wingbtmmid
+    second: {fileID: 2100000, guid: 7d61d859baf3e4d4892fad6c1434b732, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2wingtpback
+    second: {fileID: 2100000, guid: aca10a7d2cda07048b68a73006e458fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2wingtpfront
+    second: {fileID: 2100000, guid: 15935fbb804aff94f8eecc149b9f945c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__SC2wingtpmiddle
+    second: {fileID: 2100000, guid: 5c673f858e1f68f40ad9decf3942e5d7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__back_holesR_bmp_png
+    second: {fileID: 2100000, guid: c5ba255a1a129bf449990c3bae5226a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__blue_bmp_png
+    second: {fileID: 2100000, guid: b38b338ade1a2cd4f810bcea10a1fb42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__bluesk1feets_bmp_png
+    second: {fileID: 2100000, guid: 250efb2f85c34954eb90e901035f3f6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__bluesk1twangers_bmp_png
+    second: {fileID: 2100000, guid: 9b3d4aa4473ce434e8154dd49684fdb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__bottomsides
+    second: {fileID: 2100000, guid: b7d3c8e1077b4014a9cdbb50e8450af0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commblue1
+    second: {fileID: 2100000, guid: 87f3ee3eb8315e54f984cb059421645b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commblue2
+    second: {fileID: 2100000, guid: ab15d4747c8761341aab486c41904f16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commblue3
+    second: {fileID: 2100000, guid: 2e510e8f3b6fa6f4e83bb5003f39c5ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commred1
+    second: {fileID: 2100000, guid: 815b44a122bcf7c438b038260c94edc0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commred2
+    second: {fileID: 2100000, guid: 12b88cdf2ee714a4cadadf420cd4ceb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commred3
+    second: {fileID: 2100000, guid: fd97053f66dd6ca4dbc05c27f940df63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__commred4
+    second: {fileID: 2100000, guid: 3154eeaa9da036944ae4335f40596709, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__darkdish
+    second: {fileID: 2100000, guid: d3a825b9bd6aab74fa2648950f0db997, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__e2posts
+    second: {fileID: 2100000, guid: a1672e8bcc545da4e9dc0056dc167309, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__gun
+    second: {fileID: 2100000, guid: 6dbd447ba96ddc64da1d952228f8fd82, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__gun2
+    second: {fileID: 2100000, guid: 1860a47a1acba6c42a9104b2d264c72f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__insides
+    second: {fileID: 2100000, guid: 22460361f00304b4a95334c82039dca2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__metal
+    second: {fileID: 2100000, guid: 4299f343389cd424087b100ee12b0685, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__metalT2
+    second: {fileID: 2100000, guid: ddfa37557a8bd0c449167cb0ee2172a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml1
+    second: {fileID: 2100000, guid: 65502c1da549acb4e87a0484c305b84d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml2
+    second: {fileID: 2100000, guid: 6b17969b77a41474fbfae9e97a0ace9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml3
+    second: {fileID: 2100000, guid: 7db6711c4938a974ebfa8356ec1c336b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml4
+    second: {fileID: 2100000, guid: 3270858d7c6794a4daa706a6471c017f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml5
+    second: {fileID: 2100000, guid: ebc5298b0d8cfe1499326cb1a37bb542, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ml6
+    second: {fileID: 2100000, guid: a776f57af4914544baac3a0917fb7f17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__mlaunch1
+    second: {fileID: 2100000, guid: 22645b25ad3828844bee7b50d17f106e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__mlaunch2
+    second: {fileID: 2100000, guid: fd1e8e36a96e9564a86196800a3bb746, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__mlaunch3
+    second: {fileID: 2100000, guid: 68411a5ce57d0c84f8bf9b63f9bc58f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__mlaunch4
+    second: {fileID: 2100000, guid: 6709112e5ed1ae342a636783438543d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__mlaunch5
+    second: {fileID: 2100000, guid: 3ddab22f30ff8a248ac3913579c933db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ms2
+    second: {fileID: 2100000, guid: b766c5051eba8ac43a52cd7cdd6c016f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ms3
+    second: {fileID: 2100000, guid: 380a385bf06967140b73c268bf84985b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ms4
+    second: {fileID: 2100000, guid: 4f30a58909dc4994c8977f38921a63ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ms5
+    second: {fileID: 2100000, guid: e5e634a1d6ec74e47be141ea299b3acd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2frontlft
+    second: {fileID: 2100000, guid: 1e87489fddb448a4fb5266681d3624d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2frontrt
+    second: {fileID: 2100000, guid: ebeb30c86296aeb48a77ee45412c7871, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2frontrtR
+    second: {fileID: 2100000, guid: 74800afc50cfb3742b018081cd689482, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2ramp2
+    second: {fileID: 2100000, guid: 78b06508dc3944944a6323d46e86b1b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2rooffrnt
+    second: {fileID: 2100000, guid: 270d543dbd3d0b34e8040db89c4f2eb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2sidetwanger
+    second: {fileID: 2100000, guid: 8724073b1f33e9d4fb0af05d7ddd0322, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2sidetwangerR
+    second: {fileID: 2100000, guid: 28fa75ee9bb3a834cb2ecee49502214d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2sqrfront
+    second: {fileID: 2100000, guid: b853606e4fb69a84e99bc73076caa0f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__p2stacks
+    second: {fileID: 2100000, guid: cf6eb54aeb1baed4e88c3018727c06f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ramp1
+    second: {fileID: 2100000, guid: 43385357f63a4214b86db15c62313383, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ramp1R
+    second: {fileID: 2100000, guid: bd37de563cce7cd4d9da32585d57ea71, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ramp2
+    second: {fileID: 2100000, guid: 24ec53bc39731e04eb92c057af45c560, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__red
+    second: {fileID: 2100000, guid: e2dc1253bf450034aa3d583ca86220eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__redshock1
+    second: {fileID: 2100000, guid: d020dfca41e8bd345ad9f2794fc92c51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__rplanding1
+    second: {fileID: 2100000, guid: 046bc018670de9b40a5491579980bad9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__rplanding2
+    second: {fileID: 2100000, guid: 163f8f380d06ad34ea449d7f2229f954, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__rplanding3
+    second: {fileID: 2100000, guid: 0c1d317aa6147d34f8ac7e9b8791afb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__rplanding4
+    second: {fileID: 2100000, guid: 86dd0fa04f33d204d8bd6b77bb1693b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s1bottoms
+    second: {fileID: 2100000, guid: a89c446b76730ba42801ca7997ec598e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s1bottomsR
+    second: {fileID: 2100000, guid: 0ce8a518a04e9ed40b4cab32dea9d864, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s1legsR
+    second: {fileID: 2100000, guid: 1fa65027294f8de4ca3be299dd300612, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s1sideR
+    second: {fileID: 2100000, guid: a338c2a8944fc6544bc6cf90974dc3b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s1wingsR
+    second: {fileID: 2100000, guid: 81c3232a4504a714aa0ffdd93fc207e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s2side
+    second: {fileID: 2100000, guid: 92ea224cb061c7b4ca80ce03b932dfc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__s2top
+    second: {fileID: 2100000, guid: 89150c6bfbfa41240acbf2ad37eaa247, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__sk1dish
+    second: {fileID: 2100000, guid: 255ae967b6eace0428c9bd4792a6c51b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__sk1feets
+    second: {fileID: 2100000, guid: d35d279b529e0d04baa32849af5e051a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__sk1twangers
+    second: {fileID: 2100000, guid: a2674f651c73e994e97ed3e0e40ec2f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__sk2dish
+    second: {fileID: 2100000, guid: bdfe039dd5dcceb4f8f4dee5713b3769, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__top
+    second: {fileID: 2100000, guid: d30f5a728a216284f801520065b3ffd7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__topsides
+    second: {fileID: 2100000, guid: 86cb436ffddc2e24eaed1b1245008221, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__various
+    second: {fileID: 2100000, guid: 5e8ec441402183f45837337dced1ade3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ventpannel2
+    second: {fileID: 2100000, guid: 3e238d7bf02164a4f8daf3976232e456, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__ventpannel2R
+    second: {fileID: 2100000, guid: 4d32b4e83a95fa544a2bc0a2e230cb7e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_backside
+    second: {fileID: 2100000, guid: 519c3aa0fbe0e71439371cc916e8c330, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_barrel
+    second: {fileID: 2100000, guid: e52df4eee8193c74eb2cc5cf6dd9c473, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_bottomback
+    second: {fileID: 2100000, guid: e246484d880993d4c9d40173f445d75c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_bottomfront
+    second: {fileID: 2100000, guid: 83185565a6f72d24594d259687333de3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_exhast
+    second: {fileID: 2100000, guid: 329abef8cd976ee4ab023e74e58ec1b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_front
+    second: {fileID: 2100000, guid: 920dc4efe7bd05b46a368498e13e36ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_top
+    second: {fileID: 2100000, guid: e70e80d04ac5e5c4a8d579e1c46cc7e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_topmid
+    second: {fileID: 2100000, guid: 0a5eb9b139c5f4d42a0e37ad13ccee4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingbottomback
+    second: {fileID: 2100000, guid: e06d9195b29e7de41baab3a9d52b9330, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingbottommid
+    second: {fileID: 2100000, guid: 3edd6d246e78bad4ca98514ad97cc987, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingsidetop
+    second: {fileID: 2100000, guid: 1bfc0dcbb3a43f6438b8d307ba883e25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingtopback
+    second: {fileID: 2100000, guid: 6cef707a4f5b81d4bb57b2ba065eb096, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingtopfront
+    second: {fileID: 2100000, guid: 95aa840336f36b04fa7ea73e1d9d01e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2blu_wingtopmid
+    second: {fileID: 2100000, guid: 07e74b952bd4ad5438b6d300c4640ec9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_backpart
+    second: {fileID: 2100000, guid: e2897f0472f8c854e9c65615c50ffb16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_barrel
+    second: {fileID: 2100000, guid: a1ffbb75d1d4a394d8ddabc49837e42c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_botback
+    second: {fileID: 2100000, guid: 8acb2f9af4b189d49b95aa1c2593e8fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_botpieces
+    second: {fileID: 2100000, guid: 0ee262a080753c04687059a73119b1ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_jetsides
+    second: {fileID: 2100000, guid: 81e5aa9225dc27749b4294099e87326b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_misslepack
+    second: {fileID: 2100000, guid: 2d62d6dd6eff9a0428cfda08a526cd29, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_sides
+    second: {fileID: 2100000, guid: 81967a8b383f24842b27830618ebb35a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_topback
+    second: {fileID: 2100000, guid: fa89370c988e2f841b8dd668ba09ebea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_topblft
+    second: {fileID: 2100000, guid: 504044e2a92dfb646a2f1dc1a702da18, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_topbrgt
+    second: {fileID: 2100000, guid: aa7660d55369cd9438d11c543f0ccf6f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_topflt
+    second: {fileID: 2100000, guid: 33bbf545dba42114e9b61175caff5d95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_topfrt
+    second: {fileID: 2100000, guid: 08da14a54bccafd468079b3012af82f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__w2rt_turrettop
+    second: {fileID: 2100000, guid: ae70bec3dc45bed4fa23f1bef5022140, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: unnamed
+    second: {fileID: 2100000, guid: c273e4b3abb89f647b10ce038c5a39df, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.3
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 80
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -11,8 +11,7 @@ namespace Com.Wulfram3 {
 
         // Use this for initialization
         void Start() {
-            
-            if (photonView.owner.IsLocal) {
+            if (photonView.owner != null && photonView.owner.IsLocal) {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.velocity = transform.forward * velocity;
                 gameManager = FindObjectOfType<GameManager>();
