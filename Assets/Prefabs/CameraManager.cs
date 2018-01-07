@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Com.Wulfram3 {
     public class CameraManager : Photon.PunBehaviour {
-        public Vector3 thirdPersonPos = new Vector3(0, 1, -2.5f);
-        public Vector3 firstPersonPos = new Vector3(0, 0.33f, -0.3f);
+        private Vector3 thirdPersonPos = new Vector3(0, 1.5f, -3.5f);
+        private Vector3 firstPersonPos = new Vector3(0, 1.2f, -0.5f);//new Vector3(0, 0.33f, -0.3f);
+
+        //public Transform firstPersonT;
+        //public Transform thirdPersonT;
+
         public float transitionTime = 1.0f;
 
         private Camera cam;
@@ -18,6 +22,7 @@ namespace Com.Wulfram3 {
             if (photonView.isMine) {
                 targetPos = firstPersonPos;
                 currentPos = targetPos;
+                Debug.Log(currentPos);
                 cam = Camera.main;
                 cam.transform.SetParent(transform);
                 cam.transform.localPosition = currentPos;
