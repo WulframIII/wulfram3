@@ -28,8 +28,8 @@ namespace Com.Wulfram3 {
         public float maximumX = 360F;
         public float minimumY = -60F;
         public float maximumY = 60F;
-        public int fuelPerPulse = 40;
-        public int fuelPerJump = 30;
+        public int fuelPerPulse = 180;
+        public int fuelPerJump = 200;
 
         public float destroyDelayWhenDead = 5;
         private float timeSinceDead = 0;
@@ -234,12 +234,12 @@ namespace Com.Wulfram3 {
         }
 
         void CmdFirePulseShell() {
-            Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
-            Quaternion rotation = gunEnd.rotation;// transform.rotation;
+            //Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
+            //Quaternion rotation = gunEnd.rotation;// transform.rotation;
             //gameManager.gameObject.GetComponent<PhotonView>().RPC("SpawnPulseShell", PhotonTargets.MasterClient, pos, rotation);
             object[] pd = new object[1];
             pd[0] = transform.GetComponent<Unit>().unitTeam;
-            PhotonNetwork.Instantiate(gameManager.pulseShellPrefab.name, pos, rotation, 0, pd);
+            PhotonNetwork.Instantiate(gameManager.pulseShellPrefab.name, gunEnd.position, gunEnd.rotation, 0, pd);
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.AddForce(-transform.forward * 100f);
         }
