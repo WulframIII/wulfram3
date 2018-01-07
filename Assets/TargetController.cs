@@ -171,7 +171,7 @@ namespace Com.Wulfram3
             //bind "targeting" "tab" "target_cycle nearest frontward major_object"
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                Vector3 pos = transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
+                Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));//transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
                 Quaternion rotation = transform.rotation;
 
                 RaycastHit objectHit;
