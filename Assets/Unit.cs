@@ -6,52 +6,26 @@ namespace Com.Wulfram3
 {
     public class Unit : MonoBehaviour {
 
-        public string team;
-
-        public string name;
 
         public PunTeams.Team unitTeam;
 
         public UnitType unitType;
 
-        
-
         // Use this for initialization
         void Start() {
-            Debug.Log(this.ToString());
-            switch (team.ToLower())
+            if (unitTeam == null)
             {
-                case "blue":
-                    unitTeam = PunTeams.Team.blue;
-                    break;
-                case "red":
-                    unitTeam = PunTeams.Team.red;
-                    break;
-                //default:
-                //    unitTeam = PunTeams.Team.none;
-                //    break;
+                Debug.Log("Unit.cs is missing a team assignment.");
             }
-
-            switch (name.ToLower())
+            if (unitType == null)
             {
-                case "tank":
-                    unitType = UnitType.Tank;
-                    break;
-                case "scout":
-                    unitType = UnitType.Scout;
-                    break;
-                case "repair pad":
-                    unitType = UnitType.RepairPad;
-                    break;
-                //default:
-                //    unitType = UnitType.None;
-                //    break;
+                Debug.Log("Unit.cs is missing a type assignment.");
             }
         }
 
         // Update is called once per frame
         void Update() {
-            Debug.Log(this.ToString());
+            //Debug.Log(this.ToString());
         }
 
         public bool IsUnitFriendly()
@@ -82,7 +56,7 @@ namespace Com.Wulfram3
 
         public override string ToString()
         {
-            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam) + "| |" + this.name + " " + this.team;
+            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam) + "| |" + this.unitType.ToString() + " " + this.unitTeam.ToString();
         }
     }
 }

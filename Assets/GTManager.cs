@@ -131,7 +131,7 @@ namespace Com.Wulfram3
 
                 RaycastHit objectHit;
                 targetOnSight = Physics.Raycast(pos, transform.forward, out objectHit, scanRadius) && ValidTarget(objectHit.collider.transform);
-                if (targetOnSight && objectHit.transform.GetComponent<Unit>().team != this.gameObject.GetComponent<Unit>().team)
+                if (targetOnSight && objectHit.transform.GetComponent<Unit>().unitTeam != this.gameObject.GetComponent<Unit>().unitTeam)
                 {
                     HitPointsManager hitPointsManager = objectHit.transform.GetComponent<HitPointsManager>();
                     if (hitPointsManager != null)
@@ -148,7 +148,7 @@ namespace Com.Wulfram3
         {
             if (t.GetComponent<HitPointsManager>())
             {
-                if (t.GetComponent<Unit>().team != GetComponent<Unit>().team)
+                if (t.GetComponent<Unit>().unitTeam != GetComponent<Unit>().unitTeam)
                 return true;
             }
             return false;
@@ -205,7 +205,7 @@ namespace Com.Wulfram3
                 {
                     foreach (var col in cols)
                     {
-                        if (col.GetComponent<Unit>() && col.GetComponent<Unit>().team != this.transform.GetComponent<Unit>().team && col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
+                        if (col.GetComponent<Unit>() && col.GetComponent<Unit>().unitTeam != this.transform.GetComponent<Unit>().unitTeam && col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
                         {
                             rigidbodies.Add(col.attachedRigidbody);
                         }

@@ -123,7 +123,7 @@ namespace Com.Wulfram3 {
                 bool targetFound = Physics.Raycast(pos, targetDirection, out objectHit, range) && objectHit.transform.GetComponent<Unit>() != null;
                 //check if user is on same team
                 //CHANGED HERE
-                if (targetFound && objectHit.transform.GetComponent<Unit>().team != this.gameObject.GetComponent<Unit>().team) {
+                if (targetFound && objectHit.transform.GetComponent<Unit>().unitTeam != this.gameObject.GetComponent<Unit>().unitTeam) {
                     HitPointsManager hitPointsManager = objectHit.transform.GetComponent<HitPointsManager>();
                     if (hitPointsManager != null) {
                         hitPointsManager.TellServerTakeDamage(bulletDamageinHitpoints);

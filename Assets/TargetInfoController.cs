@@ -59,8 +59,8 @@ namespace Com.Wulfram3 {
                 }
 
                 hitpoints.text = dist + "M " + target.GetComponent<HitPointsManager>().health + "HP";
-                name.text = target.GetComponent<Unit>().name;
-                team.text = target.GetComponent<Unit>().team;
+                name.text = target.GetComponent<Unit>().unitType.ToString();
+                team.text = target.GetComponent<Unit>().unitTeam.ToString();
 
                 var panel = targetInfoPanel.GetComponent<Image>();
                 switch (target.GetComponent<Unit>().unitTeam)
