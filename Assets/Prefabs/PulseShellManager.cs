@@ -5,9 +5,12 @@ using UnityEngine;
 namespace Com.Wulfram3 {
     public class PulseShellManager : Photon.PunBehaviour {
         public float velocity = 30;
-        public int directHitpointsDamage = 40;
+        public int directHitpointsDamage = 200;
 
         private GameManager gameManager;
+        private float lifetime = 100f;
+        private float lifetimer = 0f;
+        private PunTeams.Team team;
 
         // Use this for initialization
         void Start() {
@@ -16,25 +19,55 @@ namespace Com.Wulfram3 {
                 rb.velocity = transform.forward * velocity;
                 gameManager = FindObjectOfType<GameManager>();
             }
+            team = (PunTeams.Team) transform.GetComponent<PhotonView>().instantiationData[0];
         }
 
         // Update is called once per frame
         void Update() {
+            lifetimer += Time.deltaTime;
+            if (lifetimer >= lifetime)
+            {
+                DoEffects(transform.position);
+            }
 
         }
 
-        void OnCollisionEnter(Collision col) {
-            if (photonView.owner.IsLocal) {
-                HitPointsManager hitpoints = col.gameObject.GetComponent<HitPointsManager>();
-                if (hitpoints != null) {
-                    hitpoints.TakeDamage(directHitpointsDamage);
+        public void SetTeam(PunTeams.Team s)
+        {
+            this.team = s;
+        }
+
+        void DoEffects(Vector3 pos)
+        {
+            gameManager.SpawnExplosion(pos);
+            PhotonNetwork.Destroy(gameObject);
+        }
+
+        void DoDamage(Transform target, int amount)
+        {
+            Unit unit = target.GetComponent<Unit>();
+            if (unit != null && unit.unitTeam != team)
+            {
+                HitPointsManager hpm = target.GetComponent<HitPointsManager>();
+                if (hpm != null)
+                {
+                    hpm.TellServerTakeDamage(amount);
                 }
+            }
+        }
 
-                Vector3 pos = col.contacts[0].point;
-                //gameManager.SpawnExplosion(pos);
-                PhotonNetwork.Instantiate(gameManager.explosionPrefab.name, pos, Quaternion.identity, 0);
 
-                PhotonNetwork.Destroy(gameObject);
+        void OnCollisionEnter(Collision col) {
+            if (PhotonNetwork.isMasterClient) {
+                Vector3 hitPosition = col.contacts[0].point;
+                Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, 6f);
+                Unit unit = col.gameObject.GetComponent<Unit>();
+                DoEffects(hitPosition);
+                DoDamage(col.transform, directHitpointsDamage);
+                foreach (Collider c in splashedObjects)
+                {
+                    DoDamage(c.transform, (int) Mathf.Ceil(directHitpointsDamage / Vector3.Distance(hitPosition, c.transform.position)));
+                }
             }
         }
     }

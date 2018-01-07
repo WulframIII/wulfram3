@@ -53,6 +53,7 @@ namespace Com.Wulfram3 {
         private bool requestJump = false;
 
         private HitPointsManager hitpointsManager;
+        public Transform gunEnd;
 
         // Use this for initialization
         void Start() {
@@ -233,10 +234,12 @@ namespace Com.Wulfram3 {
         }
 
         void CmdFirePulseShell() {
-            Vector3 pos = transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
-            Quaternion rotation = transform.rotation;
+            Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
+            Quaternion rotation = gunEnd.rotation;// transform.rotation;
             //gameManager.gameObject.GetComponent<PhotonView>().RPC("SpawnPulseShell", PhotonTargets.MasterClient, pos, rotation);
-            PhotonNetwork.Instantiate(gameManager.pulseShellPrefab.name, pos, rotation, 0);
+            object[] pd = new object[1];
+            pd[0] = transform.GetComponent<Unit>().unitTeam;
+            PhotonNetwork.Instantiate(gameManager.pulseShellPrefab.name, pos, rotation, 0, pd);
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.AddForce(-transform.forward * 100f);
         }
