@@ -119,14 +119,15 @@ namespace Com.Wulfram3
                 if (bluePlayers > redPlayers) {
                     Debug.Log("Spawn red tank");
                     Transform selectedSpawnPoint = spawnPointsRed[0];
-                    GameObject player = PhotonNetwork.Instantiate("RedTank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
+                    GameObject player = PhotonNetwork.Instantiate("Unit_Prefabs/Red/Red_Tank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.red);
                     
                    
                 } else {
                     Debug.Log("Spawn blue tank");
                     Transform selectedSpawnPoint = spawnPointsBlue[0];
-                    GameObject player = PhotonNetwork.Instantiate("PlayerTank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
+                    //GameObject player = PhotonNetwork.Instantiate("PlayerTank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
+                    GameObject player = PhotonNetwork.Instantiate("Unit_Prefabs/Blue/Blue_Tank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
                     
                 }
@@ -141,18 +142,23 @@ namespace Com.Wulfram3
 
 
         [PunRPC]
-        public void SpawnPulseShell(Vector3 pos, Quaternion rotation)
+        public void SpawnPulseShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
         {
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonNetwork.Instantiate(pulseShellPrefab.name, pos, rotation, 0);
+                object[] instanceData = new object[1];
+                instanceData[0] = team;
+                PhotonNetwork.Instantiate(pulseShellPrefab.name, pos, rotation, 0, instanceData);
             }
         }
-        public void SpawnFlakShell(Vector3 pos, Quaternion rotation)
+
+        public void SpawnFlakShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
         {
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonNetwork.Instantiate(flakShellPrefab.name, pos, rotation, 0);
+                object[] instanceData = new object[1];
+                instanceData[0] = team;
+                PhotonNetwork.Instantiate(flakShellPrefab.name, pos, rotation, 0, instanceData);
             }
         }
 

@@ -49,7 +49,7 @@ namespace Com.Wulfram3 {
             if (timeSinceLastFire >= reloadTime && targetOnSight) {
                 //Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
                 //Quaternion rotation = transform.rotation;
-                GetGameManager().SpawnFlakShell(gunEnd.position, gunEnd.rotation);
+                GetGameManager().SpawnFlakShell(gunEnd.position, gunEnd.rotation, team);
                 timeSinceLastFire = 0;
             }
         }
@@ -62,14 +62,7 @@ namespace Com.Wulfram3 {
 
             RaycastHit objectHit;
             //Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
-            Physics.Raycast(gunEnd.position, transform.forward, out objectHit, scanRadius);
-            // Expanded to fire regardless, as long as hit object is enemy, friendlies should block (may want to change that too at some point)
-            if (objectHit.transform.GetComponent<Unit>()!= null && objectHit.transform.GetComponent<Unit>().unitTeam != team)
-            {
-                targetOnSight = true;
-                return;
-            }
-            targetOnSight = false;
+            targetOnSight = Physics.Raycast(gunEnd.position, transform.forward, out objectHit, scanRadius) && ValidTarget(objectHit.transform);
         }
 
         private void TurnTowardsCurrentTarget() {
@@ -86,10 +79,9 @@ namespace Com.Wulfram3 {
                 Transform closestTarget = null;
                 float minDistance = scanRadius + 10f;
                 Collider[] cols = Physics.OverlapSphere(transform.position, scanRadius);
-                List<Rigidbody> rigidbodies = new List<Rigidbody>();
                 foreach (Collider col in cols)
                 {
-                    if (col.transform.GetComponent<Unit>() != null && col.transform.GetComponent<Unit>().unitTeam != this.gameObject.GetComponent<Unit>().unitTeam)
+                    if (ValidTarget(col.transform))
                     {
                         float distance = Vector3.Distance(transform.position, col.transform.position);
                         if (distance < minDistance)
@@ -102,6 +94,16 @@ namespace Com.Wulfram3 {
                 currentTarget = closestTarget;
                 timeSinceLastScan = 0;
             }
+        }
+
+        private bool ValidTarget(Transform t)
+        {
+            if (t.GetComponent<HitPointsManager>())
+            {
+                if (t.GetComponent<Unit>().unitTeam != GetComponent<Unit>().unitTeam)
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -165,17 +165,10 @@ namespace Com.Wulfram3
 
             RaycastHit objectHit;
             targetOnSight = Physics.Raycast(gunEnd.position, gunEnd.forward, out objectHit, scanRadius) && ValidTarget(objectHit.collider.transform);
-            var distance = Vector3.Distance(objectHit.transform.position, transform.position);
-            if (distance >= scanRadius)
-            {
-                targetOnSight = false;
-                currentTarget = null;
-                return;
-            }
             if (!targetOnSight)
             {
                 SetAndSyncShooting(false);
-            }
+            } else 
             {
                 SetAndSyncShooting(true);
             }
@@ -185,9 +178,20 @@ namespace Com.Wulfram3
         {
             if (currentTarget != null)
             {
-                Vector3 lookPos = currentTarget.transform.position - transform.position;
-                Quaternion rotation = Quaternion.LookRotation(lookPos);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
+                var distance = Vector3.Distance(currentTarget.transform.position, transform.position);
+                if (distance >= scanRadius)
+                {
+                    targetOnSight = false;
+                    currentTarget = null;
+                    SetAndSyncShooting(false);
+                    return;
+                }
+                else
+                {
+                    Vector3 lookPos = currentTarget.transform.position - transform.position;
+                    Quaternion rotation = Quaternion.LookRotation(lookPos);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
+                }
             }
         }
 
@@ -200,30 +204,16 @@ namespace Com.Wulfram3
                 Transform closestTarget = null;
                 float minDistance = scanRadius + 1f;
                 Collider[] cols = Physics.OverlapSphere(transform.position, scanRadius);
-                List<Rigidbody> rigidbodies = new List<Rigidbody>();
-                if (cols.Length > 0)
+                foreach (var col in cols)
                 {
-                    foreach (var col in cols)
+                    if (ValidTarget(col.transform))
                     {
-                        if (col.GetComponent<Unit>() && col.GetComponent<Unit>().unitTeam != this.transform.GetComponent<Unit>().unitTeam && col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
+                        float distance = Vector3.Distance(transform.position, col.transform.position);
+                        if (distance < minDistance)
                         {
-                            rigidbodies.Add(col.attachedRigidbody);
+                            minDistance = distance;
+                            closestTarget = col.transform;
                         }
-                    }
-                } else
-                {
-                    currentTarget = null;
-                    return;
-                }
-
-                foreach (Rigidbody rb in rigidbodies)
-                {
-                    Transform target = rb.transform;
-                    float distance = Vector3.Distance(transform.position, target.transform.position);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        closestTarget = target;
                     }
                 }
                 currentTarget = closestTarget;
