@@ -103,28 +103,27 @@ namespace Com.Wulfram3 {
                 SetAndSyncShooting(true);
 
                 lastFireTime = currentTime;
-
-                Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-                //Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 1.0f + transform.up * 0.2f);
+                Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 1.0f + transform.up * 0.2f);
                 Quaternion rotation = gunEnd.rotation; // transform.rotation;
 
 
                 Vector3 targetPoint = rotation * GetRandomPointInCircle();
                 targetPoint += pos + transform.forward * range;
-                //if (debug) {
+                if (debug) {
                     Debug.DrawLine(pos, targetPoint, Color.white, 1, false);
-                //}
+                }
 
                 RaycastHit objectHit;
                 Vector3 targetDirection = (targetPoint - pos).normalized;
-                bool targetFound = Physics.Raycast(pos, targetDirection, out objectHit, range);// && objectHit.transform.GetComponent<Unit>() != null;
+                bool targetFound = Physics.Raycast(rayOrigin, targetDirection, out objectHit, range);// && objectHit.transform.GetComponent<Unit>() != null;
                 //check if user is on same team
                 //CHANGED HERE
                 if (targetFound && ValidTarget(objectHit.transform))
                 {
                     objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage(bulletDamageinHitpoints);
                 }
-                AudioSource.PlayClipAtPoint(autoCannonSound, transform.position);
+                AudioSource.PlayClipAtPoint(autoCannonSound, gunEnd.position);
             }
             else {
                 SetAndSyncShooting(false);
@@ -151,8 +150,16 @@ namespace Com.Wulfram3 {
 
                 //Laser Effect
                 StartCoroutine(ShotEffect());
-                Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                Vector3 rayOrigin;
                 RaycastHit hit;
+                if (photonView.isMine)
+                {
+                    rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                }
+                else
+                {
+                    rayOrigin = gunEnd.position;
+                }
 
                 laserLine.SetPosition(0, gunEnd.position);
 
@@ -170,8 +177,12 @@ namespace Com.Wulfram3 {
                 }
                 laserLine.SetPosition(1, bulletHitPoint);
 
-                //play sound
-                audio.PlayOneShot(shootCannonSound, 1);
+                if (!photonView.isMine)
+                {
+                    //play sound
+
+                    audio.PlayOneShot(shootCannonSound, 1);
+                }
             }    
         }
 

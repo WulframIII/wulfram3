@@ -20,6 +20,15 @@ namespace Com.Wulfram3 {
                 gameManager = FindObjectOfType<GameManager>();
             }
             team = (PunTeams.Team) transform.GetComponent<PhotonView>().instantiationData[0];
+            if (team == PunTeams.Team.blue)
+            {
+                transform.GetComponent<RedPulse>().enabled = false;
+                transform.GetComponent<BluePulse>().enabled = true;
+            } else
+            {
+                transform.GetComponent<RedPulse>().enabled = true;
+                transform.GetComponent<BluePulse>().enabled = false;
+            }
         }
 
         // Update is called once per frame
@@ -30,11 +39,6 @@ namespace Com.Wulfram3 {
                 DoEffects(transform.position);
             }
 
-        }
-
-        public void SetTeam(PunTeams.Team s)
-        {
-            this.team = s;
         }
 
         void DoEffects(Vector3 pos)
@@ -66,7 +70,10 @@ namespace Com.Wulfram3 {
                 DoDamage(col.transform, directHitpointsDamage);
                 foreach (Collider c in splashedObjects)
                 {
-                    DoDamage(c.transform, (int) Mathf.Ceil(directHitpointsDamage / Vector3.Distance(hitPosition, c.transform.position)));
+                    if (c.transform != col.gameObject.transform)
+                    {
+                        DoDamage(c.transform, (int)Mathf.Ceil(directHitpointsDamage / Vector3.Distance(hitPosition, c.transform.position)));
+                    }
                 }
             }
         }
