@@ -17,7 +17,6 @@ namespace Com.Wulfram3 {
 		public Transform gunEnd;
         bool shooting = false;
 		//camera for firing
-		public Camera fpsCam;
         public float simDelayInSeconds = 0.1f;
 
         private float lastSimTime = 0;
@@ -44,15 +43,6 @@ namespace Com.Wulfram3 {
         void Start() {
 			laserLine = GetComponent<LineRenderer> ();
             timeBetweenShots = 1f / bulletsPerSecond;
-
-            if (photonView.isMine)
-            {
-                fpsCam = Camera.main;
-                screenW = fpsCam.pixelWidth;
-                screenH = fpsCam.pixelHeight;
-            }
-
-
         }
 
 		private GameManager GetGameManager() {
@@ -114,39 +104,45 @@ namespace Com.Wulfram3 {
 
                 lastFireTime = currentTime;
 
-                Vector3 pos = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
                 //Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 1.0f + transform.up * 0.2f);
                 Quaternion rotation = gunEnd.rotation; // transform.rotation;
 
 
                 Vector3 targetPoint = rotation * GetRandomPointInCircle();
                 targetPoint += pos + transform.forward * range;
-                if (debug) {
+                //if (debug) {
                     Debug.DrawLine(pos, targetPoint, Color.white, 1, false);
-                }
+                //}
 
                 RaycastHit objectHit;
                 Vector3 targetDirection = (targetPoint - pos).normalized;
                 bool targetFound = Physics.Raycast(pos, targetDirection, out objectHit, range);// && objectHit.transform.GetComponent<Unit>() != null;
                 //check if user is on same team
                 //CHANGED HERE
-                if (targetFound)
+                if (targetFound && ValidTarget(objectHit.transform))
                 {
-                    targetPoint = objectHit.transform.position;
-                    if (objectHit.transform.GetComponent<Unit>() != null && objectHit.transform.GetComponent<Unit>().unitTeam != this.gameObject.GetComponent<Unit>().unitTeam)
-                    {
-                        HitPointsManager hitPointsManager = objectHit.transform.GetComponent<HitPointsManager>();
-                        if (hitPointsManager != null)
-                        {
-                            hitPointsManager.TellServerTakeDamage(bulletDamageinHitpoints);
-                        }
-                    }
-                    AudioSource.PlayClipAtPoint(autoCannonSound, transform.position);
+                    objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage(bulletDamageinHitpoints);
                 }
-
-            } else {
+                AudioSource.PlayClipAtPoint(autoCannonSound, transform.position);
+            }
+            else {
                 SetAndSyncShooting(false);
             }
+        }
+
+        private bool ValidTarget(Transform t)
+        {
+            HitPointsManager hpm = t.GetComponent<HitPointsManager>();
+            if (hpm != null)
+            {
+                Unit u = t.GetComponent<Unit>();
+                if (u != null && u.unitTeam != this.gameObject.GetComponent<Unit>().unitTeam)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void ShowFeedback() {
@@ -155,7 +151,7 @@ namespace Com.Wulfram3 {
 
                 //Laser Effect
                 StartCoroutine(ShotEffect());
-                Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+                Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
                 RaycastHit hit;
 
                 laserLine.SetPosition(0, gunEnd.position);
