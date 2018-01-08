@@ -7,6 +7,9 @@ namespace Com.Wulfram3 {
         public float velocity = 30;
         public int directHitpointsDamage = 200;
 
+        public Transform redPulse;
+        public Transform bluePulse;
+
         private GameManager gameManager;
         private float lifetime = 100f;
         private float lifetimer = 0f;
@@ -22,12 +25,12 @@ namespace Com.Wulfram3 {
             team = (PunTeams.Team) transform.GetComponent<PhotonView>().instantiationData[0];
             if (team == PunTeams.Team.blue)
             {
-                transform.GetComponent<RedPulse>().enabled = false;
-                transform.GetComponent<BluePulse>().enabled = true;
+                redPulse.gameObject.SetActive(false);
+                bluePulse.gameObject.SetActive(true);
             } else
             {
-                transform.GetComponent<RedPulse>().enabled = true;
-                transform.GetComponent<BluePulse>().enabled = false;
+                redPulse.gameObject.SetActive(true);
+                bluePulse.gameObject.SetActive(false);
             }
         }
 
