@@ -28,6 +28,12 @@ namespace Com.Wulfram3 {
         public float maximumX = 360F;
         public float minimumY = -60F;
         public float maximumY = 60F;
+
+        public float maximumHeight = 1.2f;
+
+        public float frThrust = 50f;
+        public float lrThrust = 35f;
+
         public int fuelPerPulse = 180;
         public int fuelPerJump = 200;
 
@@ -211,7 +217,7 @@ namespace Com.Wulfram3 {
                 Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
                 transform.rotation = Quaternion.LookRotation(proj, hit.normal);
                 transform.Translate(hit.point - transform.position);
-                transform.Translate(Vector3.up * 0.15f); //fixme: distance is calculated from center of the tank model, this moves the tank 'right' amount so that tank does not get clipped with the ground
+                //transform.Translate(Vector3.up * 0.15f); //fixme: distance is calculated from center of the tank model, this moves the tank 'right' amount so that tank does not get clipped with the ground
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.isKinematic = true; //do not let physics forces affect this body
                 isLanded = true;
@@ -234,14 +240,11 @@ namespace Com.Wulfram3 {
         }
 
         void CmdFirePulseShell() {
-            //Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 2.0f + transform.up * 0.2f);
-            //Quaternion rotation = gunEnd.rotation;// transform.rotation;
-            //gameManager.gameObject.GetComponent<PhotonView>().RPC("SpawnPulseShell", PhotonTargets.MasterClient, pos, rotation);
-            gameManager.SpawnPulseShell(gunEnd.position, gunEnd.rotation, transform.GetComponent<Unit>().unitTeam);
-
-            //object[] pd = new object[1];
-            //pd[0] = transform.GetComponent<Unit>().unitTeam;
-            //PhotonNetwork.Instantiate(gameManager.pulseShellPrefab.name, gunEnd.position, gunEnd.rotation, 0, pd);
+            object[] args = new object[3];
+            args[0] = gunEnd.position;
+            args[1] = gunEnd.rotation;
+            args[2] = transform.GetComponent<Unit>().unitTeam;
+            gameManager.photonView.RPC("SpawnPulseShell", PhotonTargets.MasterClient, args);
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.AddForce(-transform.forward * 100f);
         }
@@ -264,11 +267,20 @@ namespace Com.Wulfram3 {
                 z = Input.GetAxis("Vertical") * 0.1f;
             }
 
+            RaycastHit sphereHit;
+            Collider myCol = GetComponent<Collider>();
+            if (Physics.SphereCast(transform.position, Mathf.Min(myCol.bounds.size.x, myCol.bounds.size.z), Vector3.down, out sphereHit, maximumHeight)) { 
+                //Debug.Log(sphereHit.distance);
+            }
+
             Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
             RaycastHit hit;
             terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
             if (terrainCollider.Raycast(ray, out hit, height * 2)) {
                 Vector3 direction = Vector3.up; //transform.up
+                //Debug.Log(direction.ToString());
+                //Debug.Log((direction * Mathf.Min(forceMultiplier / (Mathf.Max(hit.distance - height, 0.01f) / 2.0f), 20.0f)).ToString());
+                //Debug.Log("");
                 rb.AddForce(direction * Mathf.Min(forceMultiplier / (Mathf.Max(hit.distance - height, 0.01f) / 2.0f), 20.0f));
 
 
@@ -296,7 +308,7 @@ namespace Com.Wulfram3 {
                 rb.AddForce(transform.up * jumpForce);
                 requestJump = false;
             }
-            rb.AddRelativeForce(new Vector3(x, 0, z) * 50f);
+            rb.AddRelativeForce(new Vector3(x * lrThrust, 0, z * frThrust));
             //rb.AddTorque(new Vector3(0, 0, -x) * 0.7f); //strafe rotation
 
 

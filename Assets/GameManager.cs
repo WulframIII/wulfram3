@@ -141,14 +141,17 @@ namespace Com.Wulfram3
 
 
 
+        //[PunRPC]
+        //public void SpawnPulseShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
         [PunRPC]
-        public void SpawnPulseShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
+        public void SpawnPulseShell(object[] args)
         {
             if (PhotonNetwork.isMasterClient)
             {
+                Debug.Log(args.Length);
                 object[] instanceData = new object[1];
-                instanceData[0] = team;
-                PhotonNetwork.Instantiate(pulseShellPrefab.name, pos, rotation, 0, instanceData);
+                instanceData[0] = (PunTeams.Team) args[2];
+                PhotonNetwork.Instantiate(pulseShellPrefab.name, (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
             }
         }
 

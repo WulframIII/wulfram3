@@ -23,6 +23,11 @@ namespace Com.Wulfram3 {
                 gameManager = FindObjectOfType<GameManager>();
             }
             team = (PunTeams.Team) transform.GetComponent<PhotonView>().instantiationData[0];
+            Unit unit_Component = transform.GetComponent<Unit>();
+            if (unit_Component != null)
+            {
+                unit_Component.unitTeam = team;
+            }
             if (team == PunTeams.Team.blue)
             {
                 redPulse.gameObject.SetActive(false);
