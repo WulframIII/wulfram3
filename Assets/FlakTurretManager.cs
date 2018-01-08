@@ -10,21 +10,21 @@ namespace Com.Wulfram3 {
         public float scanInterval = 3;
         public float scanRadius = 300;
         public float testTargetOnSightInterval = 0.5f;
-
-        public string teamDetect;
-
+        public Transform gunEnd;
 
         private GameManager gameManager;
         private float timeSinceLastScan = 0;
         private Transform currentTarget = null;
         private bool targetOnSight = false;
         private float timeSinceLastFire = 0;
+        private PunTeams.Team team;
 
         // Use this for initialization
         void Start() {
             if (PhotonNetwork.isMasterClient) {
                 gameManager = GetGameManager();
             }
+            team = transform.GetComponent<Unit>().unitTeam;
         }
 
         private GameManager GetGameManager() {
@@ -47,9 +47,9 @@ namespace Com.Wulfram3 {
         private void FireAtTarget() {
             timeSinceLastFire += Time.deltaTime;
             if (timeSinceLastFire >= reloadTime && targetOnSight) {
-                Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
-                Quaternion rotation = transform.rotation;
-                GetGameManager().SpawnFlakShell(pos, rotation);
+                //Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
+                //Quaternion rotation = transform.rotation;
+                GetGameManager().SpawnFlakShell(gunEnd.position, gunEnd.rotation);
                 timeSinceLastFire = 0;
             }
         }
@@ -61,8 +61,15 @@ namespace Com.Wulfram3 {
             }
 
             RaycastHit objectHit;
-            Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
-            targetOnSight = Physics.Raycast(pos, transform.forward, out objectHit, scanRadius) && objectHit.collider.transform.Equals(currentTarget);
+            //Vector3 pos = transform.position + (transform.forward * 3.0f + transform.up * 0.2f);
+            Physics.Raycast(gunEnd.position, transform.forward, out objectHit, scanRadius);
+            // Expanded to fire regardless, as long as hit object is enemy, friendlies should block (may want to change that too at some point)
+            if (objectHit.transform.GetComponent<Unit>()!= null && objectHit.transform.GetComponent<Unit>().unitTeam != team)
+            {
+                targetOnSight = true;
+                return;
+            }
+            targetOnSight = false;
         }
 
         private void TurnTowardsCurrentTarget() {
@@ -78,27 +85,21 @@ namespace Com.Wulfram3 {
             if (timeSinceLastScan >= scanInterval) {
                 Transform closestTarget = null;
                 float minDistance = scanRadius + 10f;
-
-                var cols = Physics.OverlapSphere(transform.position, scanRadius);
-                var rigidbodies = new List<Rigidbody>();
-                foreach (var col in cols) {
-                    if (col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody) && col.tag.Equals("Player") && col.GetComponent<Unit>().unitTeam == this.gameObject.GetComponent<Unit>().unitTeam) {
-                        rigidbodies.Add(col.attachedRigidbody);
+                Collider[] cols = Physics.OverlapSphere(transform.position, scanRadius);
+                List<Rigidbody> rigidbodies = new List<Rigidbody>();
+                foreach (Collider col in cols)
+                {
+                    if (col.transform.GetComponent<Unit>() != null && col.transform.GetComponent<Unit>().unitTeam != this.gameObject.GetComponent<Unit>().unitTeam)
+                    {
+                        float distance = Vector3.Distance(transform.position, col.transform.position);
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestTarget = col.transform;
+                        }
                     }
                 }
-
-                foreach (Rigidbody rb in rigidbodies) {
-                    Transform target = rb.transform;
-
-                    float distance = Vector3.Distance(transform.position, target.transform.position);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestTarget = target;
-                    }
-                }
-
                 currentTarget = closestTarget;
-
                 timeSinceLastScan = 0;
             }
         }
