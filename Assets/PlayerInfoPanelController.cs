@@ -31,20 +31,13 @@ namespace Com.Wulfram3 {
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
                 pos.z = 0;
                 RectTransform rectTransform = GetComponent<RectTransform>();
-                pos.y += 50;
+                pos.y -= 20;
 
                 string playerName = target.GetComponent<PhotonView>().owner.NickName;
                 string hitpoints = target.GetComponent<HitPointsManager>().health + "/" + target.GetComponent<HitPointsManager>().maxHealth;
 
-                
-
-
                 var name = gameManager.GetColoredPlayerName(playerName, target.GetComponent<PhotonView>().owner.IsMasterClient, true, target.GetComponent<Unit>().unitTeam);
                 playerNameText.text = name;
-
-
-
-
 
                 rectTransform.SetPositionAndRotation(pos, rectTransform.rotation);
             } else {

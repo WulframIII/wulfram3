@@ -8,6 +8,7 @@ using UnityEngine.UI;
 namespace Com.Wulfram3 {
     public class TargetInfoController : MonoBehaviour {
 
+
         public GameObject targetInfoPanel;
         public Text hitpoints;
         public Text name;
@@ -32,7 +33,7 @@ namespace Com.Wulfram3 {
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
                 pos.z = 0;
                 RectTransform rectTransform = GetComponent<RectTransform>();
-                pos.y -= 20;
+                pos.y -= 30;
                 //rectTransform.localPosition = new Vector2(0, 100);
                 rectTransform.SetPositionAndRotation(pos, rectTransform.rotation);
 
@@ -91,7 +92,7 @@ namespace Com.Wulfram3 {
                 {
                     user.text = "";
                 }
-
+                user.text = "";
             }
             else {
                 targetInfoPanel.SetActive(false);
@@ -100,6 +101,7 @@ namespace Com.Wulfram3 {
 
         public void TargetChanged(GameObject t) {
             target = t;
+
             if (t == null) {
                 targetInfoPanel.SetActive(false);
             } else {
