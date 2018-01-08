@@ -1,4 +1,6 @@
 ﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using Com.Wulfram3;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +13,15 @@ public class MapModeManager : MonoBehaviour {
 
     public GameObject SpawnModeHUD;
 
-    public KGFMapSystem mapSystem;
+    public KGFMapSystem itsMapSystem;
+
 
 
     private MapType currentMapType;
     // Use this for initialization
     void Start () {
         this.ActivateMapMode(MapType.Mini);
+        itsMapSystem.EventMouseMapIconClicked += OnMapMarkerClicked;
     }
 	
 	// Update is called once per frame
@@ -35,7 +39,7 @@ public class MapModeManager : MonoBehaviour {
         }
     }
 
-    private void ActivateMapMode(MapType map)
+    public void ActivateMapMode(MapType map)
     {
         this.currentMapType = map;
         switch (map)
@@ -56,7 +60,7 @@ public class MapModeManager : MonoBehaviour {
                     SpawnModeHUD.SetActive(false);
                 }
 
-                mapSystem.SetFullscreen(false);
+                this.itsMapSystem.SetFullscreen(false);
                 Cursor.visible = false;
                 break;
             case MapType.Large:
@@ -74,8 +78,7 @@ public class MapModeManager : MonoBehaviour {
                 {
                     SpawnModeHUD.SetActive(false);
                 }
-
-                mapSystem.SetFullscreen(true);
+                this.itsMapSystem.SetFullscreen(true);
                 Cursor.visible = true;
                 break;
             case MapType.Spawn:
@@ -93,6 +96,8 @@ public class MapModeManager : MonoBehaviour {
                 {
                     SpawnModeHUD.SetActive(true);
                 }
+
+                this.itsMapSystem.SetFullscreen(true);
                 Cursor.visible = true;
                 break;
             default:
@@ -101,6 +106,29 @@ public class MapModeManager : MonoBehaviour {
 
         UpdateLockMode();
     }
+
+    void OnMapMarkerClicked(object theSender, EventArgs theArgs)
+	{
+        PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
+        if (this.currentMapType == MapType.Spawn && player.isDead)
+        {
+            // toggle blinking on clicked marker
+            KGFMapSystem.KGFMarkerEventArgs aMarkerArgs = (KGFMapSystem.KGFMarkerEventArgs)theArgs;
+            KGFMapIcon mapIcon = (KGFMapIcon)aMarkerArgs.itsMarker;
+            var foundObject = mapIcon.GetGameObject();
+            var unitInfo = foundObject.GetComponent<Unit>();
+
+            if (unitInfo.unitType == UnitType.RepairPad)
+            {
+                if(unitInfo.IsUnitFriendly())
+                {
+                    ActivateMapMode(MapType.Mini);
+                    RepairPad.Spawn(GetComponent<GameManager>(), player, foundObject.transform.position);
+                }
+            }
+        }
+
+	}
 
     private void UpdateLockMode()
     {
@@ -112,5 +140,13 @@ public class MapModeManager : MonoBehaviour {
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+}
+
+public static class KGFMapSystemExts
+{
+    public static GameObject GetGameObject(this KGFMapIcon mapIcon)
+    {
+        return mapIcon.gameObject;
     }
 }

@@ -28,7 +28,7 @@ public class RepairPad : MonoBehaviour {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            player.photonView.RPC("SetPosAndRotation", PhotonTargets.All, position + new Vector3(0, 5, 0), Quaternion.identity);
+            player.photonView.RPC("SetPosAndRotation", PhotonTargets.All, position + new Vector3(0, 50, 0), Quaternion.identity);
 
             HitPointsManager hitpointsManager = player.GetComponent<HitPointsManager>();
             hitpointsManager.TellServerHealth(hitpointsManager.maxHealth);

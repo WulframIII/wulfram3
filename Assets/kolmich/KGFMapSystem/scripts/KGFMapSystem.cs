@@ -2261,7 +2261,8 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 						                                      itsTerrainBoundsPhoto.min.y - 1);
 						break;
 				}
-				
+
+
 				// render to texture
 				aPhotoData.itsTexture = new Texture2D((int)aTextureSize,(int)aTextureSize,TextureFormat.ARGB32,false);
 				{
@@ -2304,8 +2305,8 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 					aPhotoData.itsPhotoPlane = aPhotoPlane;
 				}
 				itsListOfPhotoData.Add(aPhotoData);
-				
-				i++;
+
+                i++;
 				if (aTerrainBoundsMin.x + (i)*aMeters > aTerrainBoundsMax.x)
 				{
 					i = 0;
@@ -2928,6 +2929,7 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 		
 		if (GetOutputPlaneActive())
 		{
+            LogInfo("GetOutputPlaneActive is true", "info", this);
 			if (itsMeshRendererMinimapPlane != null)
 				itsMeshRendererMinimapPlane.enabled = true;
 			itsCameraOutput.enabled = true;
@@ -2935,12 +2937,14 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 			itsCamera.rect = new Rect(0,0,1,1);
 		}else
 		{
-			if (itsMeshRendererMinimapPlane != null)
+            LogInfo("GetOutputPlaneActive is false", "info", this);
+            if (itsMeshRendererMinimapPlane != null)
 				itsMeshRendererMinimapPlane.enabled = false;
 			itsCameraOutput.enabled = false;
 			itsCamera.targetTexture = null;
-			itsCamera.pixelRect = new Rect(itsTargetRect.x,Screen.height - itsTargetRect.y - itsTargetRect.height,itsTargetRect.width,itsTargetRect.height);
-		}
+			//itsCamera.pixelRect = new Rect(itsTargetRect.x,Screen.height - itsTargetRect.y - itsTargetRect.height,itsTargetRect.width,itsTargetRect.height);
+            itsCamera.pixelRect = new Rect(0, 0, itsTargetRect.width, itsTargetRect.height);
+        }
 	}
 	
 	void UpdateCameraLayer()
@@ -3070,8 +3074,9 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 			itsMapPanningDest = Vector2.zero;
 			return;
 		}
-		
-		if (GetHover())
+
+
+        if (GetHover())
 		{
 			if (Input.GetMouseButtonDown(itsPanningButton))
 			{
@@ -3725,7 +3730,7 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 	/// <returns>bool true if the mouse is hovering over the KGFMapSystem, else false</returns>
 	public bool GetHover()
 	{
-		Vector2 aMousePosition = Input.mousePosition;
+        Vector2 aMousePosition = Input.mousePosition;
 		aMousePosition.y = Screen.height - aMousePosition.y;
 		
 		if(itsTargetRect.Contains(aMousePosition))
@@ -5199,7 +5204,7 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 		
 		itsTargetRect.width = GetWidth();
 		itsTargetRect.height = GetHeight();
-	}
+    }
 
 	/// <summary>
 	/// renders the gui of the minimap
@@ -5285,8 +5290,8 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 						aRect.x = itsTargetRect.xMax-aButtonsShortSide-aButtonPadding;
 					break;
 			}
-			
-			switch(itsDataModuleMinimap.itsAppearanceMap.itsAlignmentVertical)
+
+            switch (itsDataModuleMinimap.itsAppearanceMap.itsAlignmentVertical)
 			{
 				case KGFAlignmentVertical.Top:
 					aRect.y = itsTargetRect.y + aButtonPadding;
@@ -5306,8 +5311,8 @@ public class KGFMapSystem : KGFModule, KGFICustomGUI, KGFIValidator
 			}
 			aRect.width = GetButtonSize();
 			aRect.height = GetButtonSize();
-			
-			itsRectZoomIn = itsRectZoomOut = itsRectStatic = itsRectFullscreen = aRect;
+            
+            itsRectZoomIn = itsRectZoomOut = itsRectStatic = itsRectFullscreen = aRect;
 			if (itsDataModuleMinimap.itsAppearanceMap.itsOrientation == KGFOrientation.Horizontal)
 			{
 				itsRectZoomOut.x = itsRectZoomIn.x+aSpace+GetButtonSize();
