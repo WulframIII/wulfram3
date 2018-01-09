@@ -28,6 +28,15 @@ namespace PhotonChatUI
                 chatUI.Connect(PhotonNetwork.playerName);
                     Debug.Log("Chat Player Connected");
                 ischatConnected = true;
+                var team = PhotonNetwork.player.GetTeam();
+                if(team == PunTeams.Team.blue)
+                {
+                    chatUI.CreatePublicChannel("Azure Alliance");
+                }
+                else
+                {
+                    chatUI.CreatePublicChannel("Crimson Federation");
+                }     
             }
         }
     }

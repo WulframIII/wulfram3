@@ -65,6 +65,7 @@ namespace PhotonChatUI
                     return;
                 }
 
+                
                 Chat.Instance.SubscribeChannel(channel, 10);
 
                 MainDock.Dock(channelUI, focus);

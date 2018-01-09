@@ -38,6 +38,14 @@ namespace Assets.Wulfram3.Scripts.HUD
                     messageBox.DeactivateInputField();
                 }
             }
+            else if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                chatPanel.GetComponent<ChatUI>().MainDock.ActivatePrevious();
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                chatPanel.GetComponent<ChatUI>().MainDock.ActivateNext();
+            }
         }
     }
 }
