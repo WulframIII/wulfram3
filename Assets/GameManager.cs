@@ -148,7 +148,6 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                Debug.Log(args.Length);
                 object[] instanceData = new object[1];
                 instanceData[0] = (PunTeams.Team) args[2];
                 PhotonNetwork.Instantiate(pulseShellPrefab.name, (Vector3) args[0], (Quaternion) args[1], 0, instanceData);

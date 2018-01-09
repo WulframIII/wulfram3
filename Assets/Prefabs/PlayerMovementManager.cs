@@ -29,7 +29,6 @@ namespace Com.Wulfram3 {
         public float minimumY = -60F;
         public float maximumY = 60F;
 
-        public float maximumHeight = 1.2f;
 
         public float frThrust = 50f;
         public float lrThrust = 35f;
@@ -49,7 +48,7 @@ namespace Com.Wulfram3 {
         float lastRotationY = 0F;
         Quaternion originalRotation;
         float jumpForce = 700f;
-        float height = 0.5f; // tank's level above ground
+        float height = 0.8f; // tank's level above ground
 
 
         private bool isLanded = false;
@@ -58,18 +57,27 @@ namespace Com.Wulfram3 {
 
         private bool requestJump = false;
 
+        private Rigidbody myRigidbody;
+
         private HitPointsManager hitpointsManager;
         public Transform gunEnd;
+
+        public float maximumHeight = 3.2f;
+        private float mass = 2.0f;
+        public float riseSpeed = 0.065f;
+        public float lowerSpeed = 0.035f;
 
         // Use this for initialization
         void Start() {
             hitpointsManager = GetComponent<HitPointsManager>();
             gameManager = FindObjectOfType<GameManager>();
+            myRigidbody = GetComponent<Rigidbody>();
             if (!photonView.isMine) {
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.isKinematic = true;
+                myRigidbody.isKinematic = true;
                 return;
             }
+
+            myRigidbody.mass = mass;
 
             terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
 
@@ -88,17 +96,17 @@ namespace Com.Wulfram3 {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        [PunRPC]
         public void Reset() {
             if (photonView.isMine)
             {
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.freezeRotation = false;
+                myRigidbody.isKinematic = false;
+                myRigidbody.freezeRotation = false;
                 isLanded = false;
                 requestLand = false;
                 requestJump = false;
                 timeSinceDead = 0;
+                gameManager.Respawn(this);
+                //gameManager.SpawnExplosion(transform.position);
             }
         }
 
@@ -113,13 +121,24 @@ namespace Com.Wulfram3 {
         // Update is called once per frame
         void Update() {
             isDead = hitpointsManager.health <= 0;
-            if (isDead && photonView.isMine) {
-                GetComponent<Rigidbody>().freezeRotation = false;
+            if (isDead) {
+                if (timeSinceDead == 0)
+                {
+                    myRigidbody.freezeRotation = false;
+                }
                 timeSinceDead += Time.deltaTime;
-                if (timeSinceDead >= destroyDelayWhenDead) {   
-                    //gameManager.SpawnExplosion(transform.position);
-                    photonView.RPC("Reset", PhotonTargets.All);
-                    gameManager.Respawn(this);        
+                if (timeSinceDead >= destroyDelayWhenDead)
+                {
+                    if (photonView.isMine)
+                    {
+                        Reset();
+                    } else
+                    {
+                        foreach(Renderer r in GetComponents<Renderer>())
+                        {
+                            r.enabled = false;
+                        }
+                    }
                 }
             }
 
@@ -127,7 +146,7 @@ namespace Com.Wulfram3 {
                 return;
 
             if (!Cursor.visible) {
-                GetComponent<Rigidbody>().freezeRotation = false;
+                myRigidbody.freezeRotation = false;
                 if (!isLanded) {
                     if (axes == RotationAxes.MouseXAndY) {
                         // Read the mouse input axis
@@ -169,7 +188,7 @@ namespace Com.Wulfram3 {
 
                 if (Input.GetKey(KeyCode.LeftShift)) {
                     // raise level
-                    height = Mathf.Min(height + 0.01f, 1.0f);
+                    height = Mathf.Min(height + riseSpeed, maximumHeight);
                     if (isLanded && height > 0.001) {
                         TakeOff();
                     }
@@ -177,13 +196,13 @@ namespace Com.Wulfram3 {
 
                 if (!isLanded && Input.GetKey(KeyCode.LeftControl)) {
                     // lower level
-                    height = Mathf.Max(height - 0.01f, 0f);
+                    height = Mathf.Max(height - lowerSpeed, 0f);
                     if (height < 0.001) {
                         requestLand = true;
                     }
                 }
             } else {
-                GetComponent<Rigidbody>().freezeRotation = true;
+                myRigidbody.freezeRotation = true;
             }    
 
             if (requestLand) {
@@ -218,8 +237,7 @@ namespace Com.Wulfram3 {
                 transform.rotation = Quaternion.LookRotation(proj, hit.normal);
                 transform.Translate(hit.point - transform.position);
                 //transform.Translate(Vector3.up * 0.15f); //fixme: distance is calculated from center of the tank model, this moves the tank 'right' amount so that tank does not get clipped with the ground
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.isKinematic = true; //do not let physics forces affect this body
+                myRigidbody.isKinematic = true; //do not let physics forces affect this body
                 isLanded = true;
                 requestLand = false;
                 AudioSource.PlayClipAtPoint(landSource, transform.position);
@@ -231,8 +249,7 @@ namespace Com.Wulfram3 {
         }
 
         private void TakeOff() {
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.isKinematic = false; //let physics forces affect this body again
+            myRigidbody.isKinematic = false; //let physics forces affect this body again
             requestLand = false;
             isLanded = false;
             AudioSource.PlayClipAtPoint(takeoffSource, transform.position);
@@ -245,16 +262,12 @@ namespace Com.Wulfram3 {
             args[1] = gunEnd.rotation;
             args[2] = transform.GetComponent<Unit>().unitTeam;
             gameManager.photonView.RPC("SpawnPulseShell", PhotonTargets.MasterClient, args);
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.AddForce(-transform.forward * 100f);
+            myRigidbody.AddForce(-transform.forward * 100f);
         }
 
         public void FixedUpdate() {
            if (!photonView.isMine || isDead)
                return;
-            Rigidbody rb = GetComponent<Rigidbody>();
-
-            float forceMultiplier = 2.0f;
 
             float x = Input.GetAxis("Horizontal") * 0.1f;
             float z = Input.GetAxis("Vertical") * 0.1f;
@@ -267,12 +280,24 @@ namespace Com.Wulfram3 {
                 z = Input.GetAxis("Vertical") * 0.1f;
             }
 
-            RaycastHit sphereHit;
-            Collider myCol = GetComponent<Collider>();
-            if (Physics.SphereCast(transform.position, Mathf.Min(myCol.bounds.size.x, myCol.bounds.size.z), Vector3.down, out sphereHit, maximumHeight)) { 
-                //Debug.Log(sphereHit.distance);
+            Ray ray = new Ray(transform.position, -Vector3.up);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, height))
+            {
+                if (hit.distance < height)
+                {
+                    float ftcGravity = Physics.gravity.y * myRigidbody.mass;
+                    float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
+                    float multi = (height - hit.distance) / height;
+                    float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
+                    myRigidbody.AddForce(new Vector3(0f, -force, 0f));
+                }
             }
 
+
+
+            /*
             Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
             RaycastHit hit;
             terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
@@ -284,40 +309,38 @@ namespace Com.Wulfram3 {
                 rb.AddForce(direction * Mathf.Min(forceMultiplier / (Mathf.Max(hit.distance - height, 0.01f) / 2.0f), 20.0f));
 
 
-                /*transform.rotation = Quaternion.LookRotation(proj, hit.normal);
+                //transform.rotation = Quaternion.LookRotation(proj, hit.normal);
 
-                Quaternion target = Quaternion.FromToRotation(Vector3.up, hit.normal);
-                if (z >= 0.01f)
-                {
-                    Vector3 fwd = transform.forward;
-                    Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(proj, hit.normal), 0.05f);
-                }
+                //Quaternion target = Quaternion.FromToRotation(Vector3.up, hit.normal);
+                //if (z >= 0.01f)
+                //{
+                //    Vector3 fwd = transform.forward;
+                //    Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
+                //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(proj, hit.normal), 0.05f);
+                //}
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(hit.normal), 0.05f);
-                */
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(hit.normal), 0.05f);
                 Debug.DrawLine(transform.position, hit.point);
 
             }
+            */
 
 
 
             //Tank Jump
             if (requestJump) {
                 AudioSource.PlayClipAtPoint(jumpSource, transform.position);
-                rb.AddForce(transform.up * jumpForce);
+                myRigidbody.AddForce(transform.up * jumpForce * myRigidbody.mass);
                 requestJump = false;
             }
-            rb.AddRelativeForce(new Vector3(x * lrThrust, 0, z * frThrust));
-            //rb.AddTorque(new Vector3(0, 0, -x) * 0.7f); //strafe rotation
 
+            if (isLanded && (x > 0f || z > 0f))
+            {
+                TakeOff();
+                height = 1.2f;
+            }
 
-            //RaycastHit hit;
-            //if (Physics.Raycast(transform.position, -transform.up, hit, height)) {
-            //    Rigidbody rb = GetComponent<Rigidbody>();
-            //    rb.velocity = new Vector3();
-            //    rb.AddForce(transform.up * (forceMultiplier / (hit.distance / 2)));
-            //}
+            myRigidbody.AddRelativeForce(new Vector3(x * lrThrust * myRigidbody.mass, 0, z * frThrust * myRigidbody.mass));
         }
 
         public static float ClampAngle(float angle, float min, float max) {
