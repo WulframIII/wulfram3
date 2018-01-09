@@ -9,20 +9,22 @@ namespace Com.Wulfram3
         public string pickedUpCargo = "";
         public UnitType cargoType;
         public PunTeams.Team cargoTeam;
+        public bool hasCargo = false;
+        public Transform dropPosition;
 
         // Use this for initialization
         void Start() {
-
         }
 
         // Update is called once per frame
         void Update() {
-            if (photonView.isMine) {     
+            if (photonView.isMine) {
+                /*
                 if (Input.GetKeyDown("q")) {
                     GetGameManager().PickUpCargo(this);
                     Debug.Log("Picked up cargo: " + pickedUpCargo);
                 }
-
+                */
                 if (Input.GetKeyDown("z")) {
                     GetGameManager().DropCargo(this);
                 }
@@ -35,6 +37,29 @@ namespace Com.Wulfram3
         }
 
         [PunRPC]
+        public void GetCargo(PunTeams.Team t, UnitType u, int viewID, PhotonMessageInfo info)
+        {
+            if (hasCargo)
+            {
+                return;
+            } else
+            {
+                hasCargo = true;
+                cargoType = u;
+                cargoTeam = t;
+                PhotonView.Find(viewID).RPC("PickedUp", PhotonTargets.MasterClient, this.photonView.viewID);
+            }
+        }
+
+        [PunRPC]
+        public void DroppedCargo()
+        {
+            hasCargo = false;
+        }
+
+
+        /*
+        [PunRPC]
         public void SetPickedUpCargo(string cargo) {
             pickedUpCargo = cargo;
             if (photonView.isMine) {
@@ -45,6 +70,7 @@ namespace Com.Wulfram3
                 }
             }
         }
+        */
 
         public GameManager GetGameManager() {
             return FindObjectOfType<GameManager>();

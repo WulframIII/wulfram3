@@ -302,6 +302,40 @@ namespace Com.Wulfram3
             return masterClient + username;
         }
 
+
+        public string PunTeamToTeamString(PunTeams.Team t)
+        {
+            if (t == PunTeams.Team.blue)
+            {
+                return "Blue";
+            } else if (t == PunTeams.Team.red)
+            {
+                return "Red";
+            } else
+            {
+                return "Grey";
+            }
+        }
+
+        public string UnitTypeToPrefabString(UnitType u, PunTeams.Team t)
+        {
+            string tf = PunTeamToTeamString(t);
+            string s = "Unit_Prefabs/" + tf + "/" + tf + "_";
+            switch(u)
+            {
+                case UnitType.Cargo: s += "Cargo";  break;
+                case UnitType.Darklight: s += "Darklight";  break;
+                case UnitType.FlakTurret: s += "FlakTurret";  break;
+                case UnitType.GunTurret: s += "GunTurret";  break;
+                case UnitType.MissleLauncher: s += "Launcher"; break;
+                case UnitType.PowerCell: s += "Powercell";  break;
+                case UnitType.RepairPad: s += "RepairPad";  break;
+                case UnitType.Skypump: s += "Skypump";  break;
+                default: s += "Cargo";  break;
+            }
+            return s;
+        }
+
         public void Respawn(PlayerMovementManager player)
         {
             GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
@@ -325,7 +359,7 @@ namespace Com.Wulfram3
             //}
 
         }
-
+        /*
         [PunRPC]
         public void RequestPickUpCargo(CargoManager cargoManager) {
             if (PhotonNetwork.isMasterClient) {
@@ -340,7 +374,7 @@ namespace Com.Wulfram3
                     PhotonNetwork.Destroy(cargo.gameObject);
                 }
             }
-        }
+        }*/
 
         private Cargo FindCargoInRange(Vector3 position, float scanRadius) {
             Transform closestTarget = null;
@@ -369,20 +403,23 @@ namespace Com.Wulfram3
             return closestTarget.GetComponentInParent<Cargo>();
         }
 
+        /*
         public void PickUpCargo(CargoManager cargoManager) {
             photonView.RPC("RequestPickUpCargo", PhotonTargets.MasterClient, cargoManager);
-        }
+        }*/
 
         [PunRPC]
         public void RequestDropCargo(CargoManager cargoManager) {
-            if (PhotonNetwork.isMasterClient) {
-                string pickedUpCargo = cargoManager.pickedUpCargo;
-                if (pickedUpCargo == "") {
-                    return;
+            if (PhotonNetwork.isMasterClient && cargoManager.hasCargo) {
+                Unit u = cargoManager.transform.GetComponent<Unit>();
+                if (u != null) {
+                    //cargoManager.photonView.RPC("SetPickedUpCargo", PhotonTargets.All, "");
+                    cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
+                    object[] o = new object[2];
+                    o[0] = UnitType.Cargo;
+                    o[1] = u.unitTeam;
+                    PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
                 }
-                cargoManager.photonView.RPC("SetPickedUpCargo", PhotonTargets.All, "");
-                GameObject go = PhotonNetwork.Instantiate(cargoPrefab.name, cargoManager.transform.position, Quaternion.identity, 0);
-                go.GetComponent<Cargo>().photonView.RPC("SetContent", PhotonTargets.All, pickedUpCargo);
             }
         }
 

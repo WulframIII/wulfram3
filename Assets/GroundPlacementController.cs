@@ -109,7 +109,8 @@ public class GroundPlacementController : Photon.PunBehaviour
           
             Destroy(currentPlaceableObject);
             PhotonNetwork.Instantiate(baseUnit, placeObject.transform.position, placeObject.transform.rotation, 0);
-            this.GetComponentInParent<CargoManager>().SetPickedUpCargo("");
+            photonView.RPC("DroppedCargo", PhotonTargets.All);
+            //this.GetComponentInParent<CargoManager>().SetPickedUpCargo("");
         }
     }
 }

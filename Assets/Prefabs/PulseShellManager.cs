@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace Com.Wulfram3 {
     public class PulseShellManager : Photon.PunBehaviour {
-        public float velocity = 30;
+        public float velocity = 30f;
         public int directHitpointsDamage = 200;
+        public float splashRadius = 8f;
 
         public Transform redPulse;
         public Transform bluePulse;
@@ -41,12 +42,14 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void Update() {
-            lifetimer += Time.deltaTime;
-            if (lifetimer >= lifetime)
+            if (PhotonNetwork.isMasterClient)
             {
-                DoEffects(transform.position);
+                lifetimer += Time.deltaTime;
+                if (lifetimer >= lifetime)
+                {
+                    DoEffects(transform.position);
+                }
             }
-
         }
 
         void DoEffects(Vector3 pos)
@@ -58,31 +61,33 @@ namespace Com.Wulfram3 {
         void DoDamage(Transform target, int amount)
         {
             Unit unit = target.GetComponent<Unit>();
-            if (unit != null && unit.unitTeam != team)
+            HitPointsManager hpm = target.GetComponent<HitPointsManager>();
+            if (unit != null && hpm != null && !unit.IsUnitFriendly())
             {
-                HitPointsManager hpm = target.GetComponent<HitPointsManager>();
-                if (hpm != null)
+                hpm.TellServerTakeDamage(amount);
+            }
+        }
+
+        void SplashDamage(Collider[] hitObjects, Vector3 hitPos, Transform originalHit)
+        {
+            foreach (Collider c in hitObjects)
+            {
+                if (c.transform != originalHit)
                 {
-                    hpm.TellServerTakeDamage(amount);
+                    float pcnt = (splashRadius - Vector3.Distance(hitPos, c.transform.position)) / splashRadius;
+                    DoDamage(c.transform, (int)Mathf.Ceil(directHitpointsDamage * pcnt));
                 }
             }
         }
 
-
         void OnCollisionEnter(Collision col) {
             if (PhotonNetwork.isMasterClient) {
                 Vector3 hitPosition = col.contacts[0].point;
-                Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, 6f);
-                Unit unit = col.gameObject.GetComponent<Unit>();
+                Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, splashRadius);
                 DoEffects(hitPosition);
                 DoDamage(col.transform, directHitpointsDamage);
-                foreach (Collider c in splashedObjects)
-                {
-                    if (c.transform != col.gameObject.transform)
-                    {
-                        DoDamage(c.transform, (int)Mathf.Ceil(directHitpointsDamage / Vector3.Distance(hitPosition, c.transform.position)));
-                    }
-                }
+                SplashDamage(splashedObjects, hitPosition, col.transform);
+
             }
         }
     }
