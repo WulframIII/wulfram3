@@ -1,4 +1,5 @@
-﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+﻿using Assets.Wulfram3.Scripts.HUD;
+using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using Com.Wulfram3;
 using System;
 using System.Collections;
@@ -26,6 +27,11 @@ public class MapModeManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (ChatManager.isChatOpen)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             if(this.currentMapType == MapType.Mini)

@@ -237,7 +237,7 @@ namespace PhotonChatUI
                     if (EventSystem.current.currentSelectedGameObject == MessageInputField.gameObject)
                     {
                         PublishMessage();
-                        MessageInputField.ActivateInputField();
+                        MessageInputField.DeactivateInputField();
                     }
                 }
 

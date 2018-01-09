@@ -45,7 +45,7 @@ namespace PhotonChatUI
 
         [Tooltip(
             "By using animator you are able to create fade in and fade out animations for the panel. Otherwise panel will be simply enabled or disabled."
-            )] public bool UseAnimator = false;
+            )] public bool UseAnimator = true;
 
         [Tooltip(
             "Animator's boolean parameter which will be set to true if panel is opened. Insert empty text to disable this feature."
@@ -266,6 +266,7 @@ namespace PhotonChatUI
 
         public void Toggle()
         {
+            Debug.Log("Toggle Chat");
             if (IsOpened)
                 Close();
             else

@@ -1,4 +1,5 @@
-﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+﻿using Assets.Wulfram3.Scripts.HUD;
+using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,11 @@ namespace Com.Wulfram3
             if (!photonView.isMine)
                 return;
 
+
+            if (ChatManager.isChatOpen)
+            {
+                return;
+            }
             // Original code
             ////if (Input.GetKeyDown(KeyCode.T)) {
             ////    Vector3 pos = transform.position + (transform.forward * 2.0f + transform.up * 0.2f);

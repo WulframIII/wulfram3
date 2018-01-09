@@ -339,25 +339,6 @@ namespace Com.Wulfram3
         public void Respawn(PlayerMovementManager player)
         {
             GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
-
-
-            //Vector3 spawnPos = new Vector3(0f, 5f, 0f);
-            //Quaternion spawnRotation = Quaternion.identity;
-
-            //if (FindObjectOfType<RepairPad>() != null)
-            //{
-            //    // TODO: Player will have to hope that all repair pads don't die by the time they click.
-            //    overheadCamera.enabled = true;
-            //    normalCamera.enabled = false;
-            //    Cursor.visible = true;
-            //    Cursor.lockState = CursorLockMode.None;
-
-            //}
-            //else
-            //{
-            //    RepairPad.Spawn(this, player, Vector3.zero);
-            //}
-
         }
         /*
         [PunRPC]
