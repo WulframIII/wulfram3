@@ -96,6 +96,22 @@ public class PunTeams : MonoBehaviour
     {
         UpdateTeamsNow();
     }
+
+    public static PunTeams.Team FindTeamForPlayer(string name)
+    {
+        foreach (var team in PlayersPerTeam)
+        {
+            foreach (var player in team.Value)
+            {
+                if(player.NickName == name)
+                {
+                    return team.Key;
+                }
+            }
+        }
+
+        return Team.none;
+    }
 }
 
 /// <summary>Extension used for PunTeams and PhotonPlayer class. Wraps access to the player's custom property.</summary>

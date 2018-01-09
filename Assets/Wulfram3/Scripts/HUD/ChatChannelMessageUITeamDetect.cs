@@ -1,21 +1,14 @@
-﻿/*
- * Copyright (C) 2015 Exit Games GmbH
- * by The Knights of Unity
- */
-
-using Com.Wulfram3;
+﻿using Com.Wulfram3;
+using PhotonChatUI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace PhotonChatUI
+namespace Assets.Wulfram3.Scripts.HUD
 {
-    /// <summary>
-    /// Base chat message UI. Supports emoticons. Note that emoticons are not case sensitive.
-    /// </summary>
-    public class ChatChannelMessageUI : ChatBehaviourUI, IPointerClickHandler
+    public class ChatChannelMessageUITeamDetect : ChatBehaviourUI, IPointerClickHandler
     {
         /// <summary>
         /// Emoticon.
@@ -87,10 +80,6 @@ namespace PhotonChatUI
         public Text Text;
 
         public string MessageFormat = "{0}: {1}";
-
-        public Color ClientSenderColor = Color.white;
-
-        public Color SenderColor = Color.white;
 
         public Color MessageColor = Color.white;
 
@@ -167,12 +156,12 @@ namespace PhotonChatUI
                 emoticon.RectTransform.anchorMax = new Vector2(0.0f, 0.0f);
                 emoticon.RectTransform.anchorMin = new Vector2(0.0f, 0.0f);
 
-                var min = (Text.cachedTextGeneratorForLayout.characters[emoticon.Index].cursorPos/Text.pixelsPerUnit);
+                var min = (Text.cachedTextGeneratorForLayout.characters[emoticon.Index].cursorPos / Text.pixelsPerUnit);
 
                 float w = 0.0f;
 
                 float y = Text.cachedTextGeneratorForLayout.rectExtents.height -
-                          (Text.cachedTextGeneratorForLayout.lines[0].height/2.0f);
+                          (Text.cachedTextGeneratorForLayout.lines[0].height / 2.0f);
 
                 int l = 0;
 
@@ -221,7 +210,7 @@ namespace PhotonChatUI
 
             string messageText = "<color=" + messageColorHex + ">" + message + "</color>";
 
-            var senderName = FindObjectOfType<GameManager>().GetColoredPlayerName(sender, false, true, PunTeams.FindTeamForPlayer(sender));
+            var senderName = FindObjectOfType<GameManager>().GetColoredPlayerName(sender,false, true, PunTeams.FindTeamForPlayer(sender));
 
             Text.text = ParseEmoticons(hideSender ? messageText : string.Format(MessageFormat, senderName, messageText));
             Text.rectTransform.pivot = Vector2.zero;
@@ -243,3 +232,4 @@ namespace PhotonChatUI
         }
     }
 }
+

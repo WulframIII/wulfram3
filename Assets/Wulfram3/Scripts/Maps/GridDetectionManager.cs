@@ -26,11 +26,11 @@ public class GridDetectionManager : MonoBehaviour {
         var normalizedPos = new Vector2(Mathf.InverseLerp(0.0f, loadedTerrain.terrainData.size.x, terrainLocalPos.x),
                                     Mathf.InverseLerp(0.0f, loadedTerrain.terrainData.size.z, terrainLocalPos.z));
         var terrainNormal = loadedTerrain.terrainData.GetInterpolatedNormal(normalizedPos.x, normalizedPos.y);
-        Debug.Log(terrainNormal + " " + normalizedPos.x + " " + normalizedPos.y);
+        //Debug.Log(terrainNormal + " " + normalizedPos.x + " " + normalizedPos.y);
         this.currentPlayerSector = this.GetSector(normalizedPos);
         if(!string.IsNullOrEmpty(this.currentPlayerSector.Sector) && locationtext != null)
         {
-            Debug.Log(this.currentPlayerSector.Sector);
+            //Debug.Log(this.currentPlayerSector.Sector);
             if (locationtext.text != this.currentPlayerSector.Sector)
             {
                 locationtext.text = this.currentPlayerSector.Sector;
