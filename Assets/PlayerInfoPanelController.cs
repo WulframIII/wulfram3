@@ -26,7 +26,7 @@ namespace Com.Wulfram3 {
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
                 pos.z = 0;
                 RectTransform rectTransform = GetComponent<RectTransform>();
-                pos.y -= 20;
+                pos.y += 50;
 
                 string playerName = target.GetComponent<PhotonView>().owner.NickName;
                 string hitpoints = target.GetComponent<HitPointsManager>().health + "/" + target.GetComponent<HitPointsManager>().maxHealth;
