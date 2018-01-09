@@ -11,11 +11,6 @@ namespace Com.Wulfram3 {
 
         public Text playerNameText;
 
-        
-
-
-        //public Color red = new Color(249F/255F, 32F/255F, 57F/255F);
-        //public Color blue = new Color(31F/255F, 118F/255F, 204F/255F);
 
         // Use this for initialization
         void Start() {
