@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Com.Wulfram3;
@@ -15,22 +16,34 @@ public class GroundPlacementController : Photon.PunBehaviour
 
     public float mouseWheelRotation;
 
-    public GameObject placeObject;
+    public Transform placeObject;
 
     public Material PreviewMaterial;
 
     public GameManager gameManager;
 
-    public string baseUnit;
+    public UnitType deployType;
+    public PunTeams.Team deployTeam;
+
+    private float maxPlaceDistance;
+    private float minPlaceDistance;
+
+
 
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        
+    }
+
+    private void Start()
+    {
+        maxPlaceDistance = Vector3.Distance(transform.position, placeObject.position);
     }
 
     public void Update()
     {
+        Debug.Log("............................................................................");
+        /*
         HandleNewObjectHotkey();
         baseUnit = this.GetComponentInParent<CargoManager>().pickedUpCargo;
         if (currentPlaceableObject != null)
@@ -39,10 +52,12 @@ public class GroundPlacementController : Photon.PunBehaviour
             RotateFromMouseWheel();
             ReleaseIfClicked();
         }
+        */
     }
 
     public void HandleNewObjectHotkey()
     {
+        /*
         if (Input.GetKeyDown(newObjectHotkey) && !(baseUnit == ""))
         {
             if (currentPlaceableObject != null)
@@ -51,31 +66,51 @@ public class GroundPlacementController : Photon.PunBehaviour
             }
             else
             {
-                currentPlaceableObject = PhotonNetwork.Instantiate(baseUnit, placeObject.transform.position, placeObject.transform.rotation, 0);
+                currentPlaceableObject = Instantiate(baseUnit, placeObject.transform.position, placeObject.transform.rotation, 0);
+                MakeDummyObject(currentPlaceableObject);
+                minPlaceDistance = Mathf.Ceil(currentPlaceableObject.GetComponent<Collider>().bounds.size.x, currentPlaceableObject.GetComponent<Collider>().bounds.size.z, 2.0f);
             }
         }
+        */
+    }
+
+    private void MakeDummyObject()
+    {
+        /*
+        ChangeMaterial(PreviewMaterial);
+        GetComponent<Collider>().enabled = false;
+        foreach (MonoBehaviour script in currentPlaceableObject.GetComponents<MonoBehaviour>(true))
+            script.enabled = false;
+        foreach (MonoBehaviour script in currentPlaceableObject.GetComponentsInChildren<MonoBehaviour>(true))
+            script.enabled = false;
+            */
     }
 
     public void MoveCurrentObjectToMouse()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo))
+        /*
+        Vector3 moveTo = Vector3.zero;
+        Vector3 lookAtPosition = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        float lookAtDistance = Vector3.Distance(transform.position, lookAtPosition);
+        if (lookAtDistance <= maxPlaceDistance && lookAtDistance >= minPlaceDistance)
         {
-        currentPlaceableObject.transform.position = placeObject.transform.position;
-            //currentPlaceableObject.transform.position = hitInfo.point;
-  }
+            moveTo = lookAtPosition;
+        } else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                moveTo = hitInfo.transform.position;
+            } else
+            {
+                moveTo = placeObject.position;
+            }
+        }
+        currentPlaceableObject.transform.position = moveTo; */
 
-
-        //foreach (var renderer in currentPlaceableObject.GetComponentsInChildren<MeshRenderer>(true))
-            //renderer.sharedMaterial = PreviewMaterial;
-        ChangeMaterial(PreviewMaterial);
-
-
-        foreach (var script in currentPlaceableObject.GetComponentsInChildren<MonoBehaviour>(true))
-            script.enabled = true;
     }
+    /*
 
     public void RotateFromMouseWheel()
     {
@@ -86,9 +121,7 @@ public class GroundPlacementController : Photon.PunBehaviour
 
     public void ChangeMaterial(Material newMat)
     {
-        Renderer[] children;
-        children = currentPlaceableObject.GetComponentsInChildren<Renderer>();
-        foreach (Renderer rend in children)
+        foreach (Renderer rend in currentPlaceableObject.GetComponentsInChildren<Renderer>())
         {
             var mats = new Material[rend.materials.Length];
             for (var j = 0; j < rend.materials.Length; j++)
@@ -106,6 +139,8 @@ public class GroundPlacementController : Photon.PunBehaviour
             //get baseunit to deploy based on its name in the resources folder (Must match)
             
             Debug.Log(baseUnit);
+
+            gameManager.requestCargoDeployment(currentPlaceableObject.transform.position, currentPlaceableObject.transform.rotation, deployType, deployTeam);
           
             Destroy(currentPlaceableObject);
             PhotonNetwork.Instantiate(baseUnit, placeObject.transform.position, placeObject.transform.rotation, 0);
@@ -113,6 +148,7 @@ public class GroundPlacementController : Photon.PunBehaviour
             //this.GetComponentInParent<CargoManager>().SetPickedUpCargo("");
         }
     }
+    */
 }
 
 

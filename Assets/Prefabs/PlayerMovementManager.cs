@@ -335,8 +335,8 @@ namespace Com.Wulfram3
             if (!photonView.isMine || isDead)
                 return;
 
-            float x = Input.GetAxis("Horizontal") * 0.1f;
-            float z = Input.GetAxis("Vertical") * 0.1f;
+            float x = Input.GetAxis("Strafe") * 0.1f;
+            float z = Input.GetAxis("Drive") * 0.1f;
 
             if (Cursor.visible)
             {
@@ -345,8 +345,8 @@ namespace Com.Wulfram3
             }
             else
             {
-                x = Input.GetAxis("Horizontal") * 0.1f;
-                z = Input.GetAxis("Vertical") * 0.1f;
+                x = Input.GetAxis("Strafe") * 0.1f;
+                z = Input.GetAxis("Drive") * 0.1f;
             }
 
             Ray ray = new Ray(transform.position, -Vector3.up);

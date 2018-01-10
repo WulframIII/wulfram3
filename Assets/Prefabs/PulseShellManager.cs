@@ -72,7 +72,7 @@ namespace Com.Wulfram3 {
         {
             foreach (Collider c in hitObjects)
             {
-                if (c.transform != originalHit)
+                if (!c.transform.Equals(originalHit))
                 {
                     float pcnt = (splashRadius - Vector3.Distance(hitPos, c.transform.position)) / splashRadius;
                     DoDamage(c.transform, (int)Mathf.Ceil(directHitpointsDamage * pcnt));

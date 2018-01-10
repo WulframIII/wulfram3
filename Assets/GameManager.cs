@@ -414,6 +414,16 @@ namespace Com.Wulfram3
             photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, cargoManager);
         }
 
+        [PunRPC]
+        public void RequestDeployCargo()
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+
+            }
+
+        }
+
         #endregion
 
         #region Private Methods
