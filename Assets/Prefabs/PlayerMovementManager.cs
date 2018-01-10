@@ -147,7 +147,7 @@ namespace Com.Wulfram3
             myRigidbody.isKinematic = true;
             GetComponent<Collider>().enabled = false;
             GetComponent<KGFMapIcon>().SetVisibility(false);
-            gameManager.SpawnExplosion(transform.position);
+            //gameManager.SpawnExplosion(transform.position);
             if (photonView.isMine)
             {
                 Reset();
