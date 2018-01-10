@@ -387,6 +387,7 @@ namespace PhotonChatUI
 
         protected void Update()
         {
+            Debug.Log(Chat.Instance.State);
             if (_chatClient.State != ChatState.Uninitialized)
                 _chatClient.Service();
 

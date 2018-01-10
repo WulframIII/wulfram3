@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerCellManager : MonoBehaviour {
 
+    public int maxEnergy;
+    public int currentEnergy;
 	// Use this for initialization
 	void Start () {
 		
