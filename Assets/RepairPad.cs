@@ -1,4 +1,6 @@
-﻿using Com.Wulfram3;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using Assets.Wulfram3.Scripts.Units;
+using Com.Wulfram3;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +36,7 @@ public class RepairPad : MonoBehaviour {
             hitpointsManager.TellServerHealth(hitpointsManager.maxHealth);
 
             player.GetComponent<FuelManager>().ResetFuel();
+            PlayerSpawnManager.status = SpawnStatus.IsAlive;
         }
     }
 }

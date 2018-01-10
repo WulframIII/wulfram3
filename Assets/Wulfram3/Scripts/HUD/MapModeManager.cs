@@ -1,5 +1,6 @@
 ﻿using Assets.Wulfram3.Scripts.HUD;
 using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using Assets.Wulfram3.Scripts.Units;
 using Com.Wulfram3;
 using System;
 using System.Collections;
@@ -128,8 +129,11 @@ public class MapModeManager : MonoBehaviour {
             {
                 if(unitInfo.IsUnitFriendly())
                 {
-                    ActivateMapMode(MapType.Mini);
-                    RepairPad.Spawn(GetComponent<GameManager>(), player, foundObject.transform.position);
+                    if(PlayerSpawnManager.status == SpawnStatus.IsReady)
+                    {
+                        ActivateMapMode(MapType.Mini);
+                        RepairPad.Spawn(GetComponent<GameManager>(), player, foundObject.transform.position);
+                    }
                 }
             }
         }

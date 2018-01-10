@@ -25,5 +25,10 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
         Spawn,
     }
 
-
+    public enum SpawnStatus
+    {
+        IsSpawning,
+        IsReady,
+        IsAlive,
+    }
 }

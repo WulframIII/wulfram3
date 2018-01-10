@@ -171,7 +171,7 @@ namespace Com.Wulfram3 {
                 }
 
                 //Fire Pulse
-                if (Time.time >= timestamp && (Input.GetMouseButtonDown(1)) && this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank) {
+                if (Time.time >= timestamp && (Input.GetMouseButtonDown(1)) && this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank && !isLanded) {
                     if (GetComponent<FuelManager>().TakeFuel(fuelPerPulse)) {
                         CmdFirePulseShell();
                         timestamp = Time.time + timeBetweenShots;
@@ -179,7 +179,7 @@ namespace Com.Wulfram3 {
                 } 
 
                 //Tank Jump
-                if (Time.time >= jumptimestamp && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Keypad0))) {
+                if (!isLanded && Time.time >= jumptimestamp && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Keypad0))) {
                     if (GetComponent<FuelManager>().TakeFuel(fuelPerJump)) {
                         requestJump = true;
                         jumptimestamp = Time.time + timeBetweenJumps;

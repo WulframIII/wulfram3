@@ -1,6 +1,7 @@
 ﻿using Assets.Wulfram3.Scripts.InternalApis;
 using Assets.Wulfram3.Scripts.InternalApis.Classes;
 using Assets.Wulfram3.Scripts.InternalApis.Interfaces;
+using Assets.Wulfram3.Scripts.Units;
 using System.Collections.Generic;
 
 
@@ -134,6 +135,7 @@ namespace Com.Wulfram3
             } else {
                 Debug.Log("Ignoring scene load for " + Application.loadedLevelName);
             }
+            PlayerSpawnManager.status = SpawnStatus.IsAlive;
             normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             overheadCamera = GameObject.FindGameObjectWithTag("OverheadCamera").GetComponent<Camera>();
             overheadCamera.enabled = false; //set disabled so that it does't render in the background
@@ -338,7 +340,11 @@ namespace Com.Wulfram3
 
         public void Respawn(PlayerMovementManager player)
         {
-            GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
+            if(PlayerSpawnManager.status == SpawnStatus.IsAlive)
+            {
+                GetComponent<PlayerSpawnManager>().StartSpawn();
+                GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
+            }
         }
         /*
         [PunRPC]
