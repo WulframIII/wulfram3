@@ -23,7 +23,7 @@ namespace Com.Wulfram3
         public bool hasCargo = false;
         public Transform dropPosition;
 
-        private PunTeams.Team myTeam;
+        public PunTeams.Team myTeam;
 
         private float mouseWheelRotation = 0f;
         private float rotationSpeed = 10f;
@@ -31,31 +31,26 @@ namespace Com.Wulfram3
         private bool triedToDeploy = false;
         private float timeSinceTry = 0f;
 
-        // Use this for initialization
         void Start() {
+            gameManager = FindObjectOfType<GameManager>();
             maxPlaceDistance = Vector3.Distance(transform.position, placeObjectPoint.position);
             myTeam = GetComponent<Unit>().unitTeam;
         }
 
-        private void Awake()
-        {
-            gameManager = FindObjectOfType<GameManager>();
-        }
-
-        // Update is called once per frame
         void Update() {
             if (photonView.isMine) {
-                if (Input.GetAxis("DropCargo") != 0f) {
-                    gameManager.DropCargo(this);
+                if (Input.GetAxisRaw("DropCargo") != 0f) {
+                    gameManager.photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, this);
                 }
 
                 if (hasCargo) {
-                    if (currentPlaceableObject == null)
+                    if (Input.GetAxisRaw("DeployCargo") != 0f) {
+                        ToggleDeployMode();
+                    } else if (currentPlaceableObject != null)
                     {
-                        CheckDeployCargo();
-                    } else
-                    {
-                        UpdatePosition();
+                        currentPlaceableObject.transform.position = GetBestPosition();
+                        if (Input.GetMouseButtonDown(0))
+                            CheckFinalPlacement();
                     }
                     //TODO: show animation of cargo in player HUD
                 }
@@ -63,19 +58,28 @@ namespace Com.Wulfram3
 
         }
 
-        [PunRPC]
-        public void GetCargo(PunTeams.Team t, UnitType u, int viewID, PhotonMessageInfo info)
+        private void ToggleDeployMode()
         {
-            if (hasCargo)
+            if (currentPlaceableObject == null)
             {
-                return;
-            } else
+                StartDeployCargo();
+            }
+            else
             {
-                hasCargo = true;
-                cargoType = u;
-                cargoTeam = t;
-                GetComponent<AudioSource>().PlayOneShot(cargoPickupSound, 1.0f);
-                PhotonView.Find(viewID).RPC("PickedUp", PhotonTargets.MasterClient, this.photonView.viewID);
+                CancelDeployCargo();
+            }
+        }
+
+        [PunRPC]
+        public void GetCargo(PunTeams.Team t, UnitType u, int viewID)
+        {
+            hasCargo = true;
+            cargoType = u;
+            cargoTeam = t;
+            GetComponent<AudioSource>().PlayOneShot(cargoPickupSound, 1.0f);
+            if (PhotonNetwork.isMasterClient)
+            {
+                PhotonNetwork.Destroy(PhotonView.Find(viewID).gameObject);
             }
         }
 
@@ -88,70 +92,45 @@ namespace Com.Wulfram3
             cargoTeam = myTeam;
         }
 
-        public void CheckDeployCargo()
-        {
-            if (Input.GetAxis("DeployCargo") > 0f && hasCargo)
+        public void CancelDeployCargo() {
+            if (currentPlaceableObject != null)
             {
-                if (currentPlaceableObject != null)
-                {
-                    Destroy(currentPlaceableObject);
-                }
-                else
-                {
-                    string prefab = gameManager.UnitTypeToPrefabString(cargoType, myTeam);
-                    Debug.Log("CargoManager.cs == Instantiating Locally. " + prefab);
-                    GameObject newObject = Instantiate((GameObject) Resources.Load(prefab), GetBestPosition(), transform.rotation);
-                    Debug.Log("CargoManager.cs == Instantiation Success.");
-                    currentPlaceableObject = MakeDummyObject(newObject.transform);
-                    minPlaceDistance = Mathf.Max(currentPlaceableObject.GetComponent<Collider>().bounds.size.x, currentPlaceableObject.GetComponent<Collider>().bounds.size.z, 2.0f);
-                }
+                Destroy(currentPlaceableObject.gameObject);
+                currentPlaceableObject = null;
             }
+
         }
 
-        private Transform MakeDummyObject(Transform t)
+        public void StartDeployCargo()
         {
-            ChangeMaterial(ghostObjectMaterial);
-            GetComponent<Collider>().enabled = false;
-            foreach (MonoBehaviour script in currentPlaceableObject.GetComponents<MonoBehaviour>())
-                script.enabled = false;
-            foreach (MonoBehaviour script in currentPlaceableObject.GetComponentsInChildren<MonoBehaviour>())
-                script.enabled = false;
-            return t;
+            if (Input.GetAxis("DeployCargo") > 0f && hasCargo && currentPlaceableObject == null)
+            {
+                string prefab = gameManager.UnitTypeToPrefabString(cargoType, myTeam);
+                GameObject newObject = Instantiate(Resources.Load(prefab), GetBestPosition(), transform.rotation) as GameObject;
+                newObject.GetComponent<Rigidbody>().isKinematic = true;
+                newObject.GetComponent<Collider>().enabled = false;
+                foreach (var script in newObject.GetComponents<MonoBehaviour>())
+                    script.enabled = false;
+                foreach (var script in newObject.GetComponentsInChildren<MonoBehaviour>())
+                    script.enabled = false;
+                currentPlaceableObject = newObject.transform;
+                ChangeMaterial(ghostObjectMaterial);
+                minPlaceDistance = Mathf.Max(currentPlaceableObject.GetComponent<Collider>().bounds.size.x, currentPlaceableObject.GetComponent<Collider>().bounds.size.z, 2.0f);
+                maxPlaceDistance += minPlaceDistance;
+            }
         }
 
         private Vector3 GetBestPosition()
         {
-            Vector3 moveTo = Vector3.zero;
-            Vector3 lookAtPosition = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-            float lookAtDistance = Vector3.Distance(transform.position, lookAtPosition);
-            if (lookAtDistance <= maxPlaceDistance && lookAtDistance >= minPlaceDistance)
-            {
-                return lookAtPosition;
-            }
-            else
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo))
-                {
-                    return hitInfo.transform.position;
-                }
-                else
-                {
-                    return placeObjectPoint.position;
-                }
-            }
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, maxPlaceDistance))
+                return new Vector3(hit.point.x, hit.point.y + (minPlaceDistance * 0.5f), hit.point.z);
+            return new Vector3(placeObjectPoint.position.x, placeObjectPoint.position.y + (minPlaceDistance * 0.85f), placeObjectPoint.position.z);
         }
 
-        public void UpdatePosition()
-        {
-            currentPlaceableObject.transform.position = GetBestPosition();
-
-        }
 
         public void RotateFromMouseWheel()
         {
-            //Debug.Log(Input.mouseScrollDelta);
             mouseWheelRotation += Input.mouseScrollDelta.y;
             currentPlaceableObject.transform.Rotate(Vector3.up, mouseWheelRotation * rotationSpeed);
         }
@@ -172,34 +151,26 @@ namespace Com.Wulfram3
         [PunRPC]
         public void DeployedCargo()
         {
-            Destroy(currentPlaceableObject);
-            currentPlaceableObject = null;
+            if (currentPlaceableObject != null)
+            {
+                Destroy(currentPlaceableObject.gameObject);
+                currentPlaceableObject = null;
+            }
             hasCargo = false;
             cargoType = UnitType.None;
             cargoTeam = myTeam;
 
         }
 
-        public void ReleaseIfClicked()
+        public void CheckFinalPlacement()
         {
             if (Input.GetMouseButtonDown(0) && currentPlaceableObject != null)
             {
-                //get baseunit to deploy based on its name in the resources folder (Must match)
-
-                Debug.Log("Attempting to deploy: " + cargoType.ToString());
-
-                object[] args = new object[4];
+                object[] args = new object[3];
                 args[0] = currentPlaceableObject.transform.position;
                 args[1] = currentPlaceableObject.transform.rotation;
-                args[2] = cargoType;
-                args[3] = myTeam;
-                photonView.RPC("requestDeployCargo", PhotonTargets.MasterClient, args);
-                //gameManager.requestCargoDeployment(currentPlaceableObject.transform.position, currentPlaceableObject.transform.rotation, cargoType, myTeam);
-
-
-                //PhotonNetwork.Instantiate(baseUnit, placeObject.transform.position, placeObject.transform.rotation, 0);
-                //photonView.RPC("DroppedCargo", PhotonTargets.All);
-                //this.GetComponentInParent<CargoManager>().SetPickedUpCargo("");
+                args[2] = this;
+                gameManager.photonView.RPC("RequestDeployCargo", PhotonTargets.MasterClient, args);
             }
         }
     }

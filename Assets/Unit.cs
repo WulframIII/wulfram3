@@ -28,6 +28,51 @@ namespace Com.Wulfram3
             //Debug.Log(this.ToString());
         }
 
+        public string GetTypeString()
+        {
+            switch(unitType)
+            {
+                case UnitType.Cargo:
+                    return "Cargo Box";
+                case UnitType.Darklight:
+                    return "Darklight";
+                case UnitType.FlakTurret:
+                    return "Flak Turret";
+                case UnitType.GunTurret:
+                    return "Gun Turret";
+                case UnitType.MissleLauncher:
+                    return "Missile Launcher";
+                case UnitType.PowerCell:
+                    return "Powercell";
+                case UnitType.RefuelPad:
+                    return "Refuel Pad";
+                case UnitType.RepairPad:
+                    return "Repair Pad";
+                case UnitType.Scout:
+                    return "Scout";
+                case UnitType.Skypump:
+                    return "Skypump";
+                case UnitType.Tank:
+                    return "Tank";
+                case UnitType.Unlink:
+                    return "Uplink";
+                case UnitType.None:
+                    return "UnitType.None";
+                default: return "UnitType.ERROR";
+            }
+        }
+
+        public string GetTeamString()
+        {
+            if (unitTeam == null)
+                return "unitTeam.ERROR";
+            if (unitTeam == PunTeams.Team.blue)
+                return "Blue";
+            if (unitTeam == PunTeams.Team.red)
+                return "Red";
+            return "Grey";
+        }
+
         public bool IsUnitFriendly()
         {
             if (PlayerMovementManager.LocalPlayerInstance.GetComponent<Unit>().unitTeam == this.unitTeam)

@@ -346,6 +346,7 @@ namespace Com.Wulfram3
                 GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
             }
         }
+
         /*
         [PunRPC]
         public void RequestPickUpCargo(CargoManager cargoManager) {
@@ -400,25 +401,30 @@ namespace Com.Wulfram3
             if (PhotonNetwork.isMasterClient && cargoManager.hasCargo) {
                 Unit u = cargoManager.transform.GetComponent<Unit>();
                 if (u != null) {
-                    //cargoManager.photonView.RPC("SetPickedUpCargo", PhotonTargets.All, "");
-                    cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
                     object[] o = new object[2];
                     o[0] = UnitType.Cargo;
                     o[1] = u.unitTeam;
                     PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
+                    cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
                 }
             }
         }
 
-        public void DropCargo(CargoManager cargoManager) {
-            photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, cargoManager);
-        }
-
         [PunRPC]
-        public void RequestDeployCargo()
+        public void RequestDeployCargo(object[] args)
         {
             if (PhotonNetwork.isMasterClient)
             {
+                Vector3 desiredPosition = (Vector3)args[0];
+                Quaternion desiredRotation = (Quaternion) args[1];
+                CargoManager cargoManager = (CargoManager)args[2];
+                UnitType cargoType = cargoManager.cargoType;
+                PunTeams.Team cargoTeam = cargoManager.cargoTeam;
+                object[] o = new object[2];
+                o[0] = cargoType;
+                o[1] = cargoTeam;
+                PhotonNetwork.Instantiate(UnitTypeToPrefabString(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
+                cargoManager.photonView.RPC("DeployedCargo", PhotonTargets.All, null);
 
             }
 
