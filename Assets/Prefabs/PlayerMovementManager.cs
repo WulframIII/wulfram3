@@ -15,13 +15,17 @@ namespace Com.Wulfram3
         public AudioClip landSource;
         public AudioClip takeoffSource;
 
-        private TerrainCollider terrainCollider;
         private GameManager gameManager;
 
+        [Tooltip("In Seconds")]
         public float timeBetweenShots = 3.0f;
+        [Tooltip("In Seconds")]
         public float timeBetweenJumps = 3.0f;
-        public float timestamp;
-        public float jumptimestamp;
+
+        private float timestamp;
+        private float jumptimestamp;
+        private float landRequestTime;
+
         public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
         public RotationAxes axes = RotationAxes.MouseXAndY;
         public float sensitivityX = 1.5F;
@@ -32,46 +36,47 @@ namespace Com.Wulfram3
         public float maximumY = 60F;
 
 
-        public float frThrust = 50f;
-        public float lrThrust = 35f;
+        public float frThrust = 5f;
+        public float lrThrust = 3f;
+
+        private float takeOffBumpForce = 20f;
 
         public int fuelPerPulse = 180;
         public int fuelPerJump = 200;
 
-        public float destroyDelayWhenDead = 5;
+        private float destroyDelayWhenDead = 3;
         private float timeSinceDead = 0;
+
 
         [HideInInspector]
         public bool isDead = false;
+        [HideInInspector]
         public bool isSpawning = false;
 
-        float rotationX = 0F;
-        float rotationY = 0F;
-        float lastRotationX = 0F;
-        float lastRotationY = 0F;
-        Quaternion originalRotation;
-        float jumpForce = 700f;
-        float height = 1.8f; // tank's level above ground
-
-
+        private float rotationX = 0F;
+        private float rotationY = 0F;
+        private float lastRotationX = 0F;
+        private float lastRotationY = 0F;
+        private Quaternion originalRotation;
+        private float jumpForce = 700f;
+        private float height = 1.8f;          // tank's level above ground
         private bool isLanded = false;
+        private bool isGrounded = false;
         private bool requestLand = false;
+        private bool requestJump = false;
         private float maxDistanceToLand = 0.6f; //max distance between ground and tank that allows to land
 
-        private bool requestJump = false;
-
         private Rigidbody myRigidbody;
-
         private HitPointsManager hitpointsManager;
 
         public Transform myMesh;
         public Transform gunEnd;
 
         public float maximumHeight = 4.0f;
-        private float mass = 2.0f;
-        public float riseSpeed = 0.065f;
-        public float lowerSpeed = 0.035f;
+        public float riseSpeed = 0.055f;
+        public float lowerSpeed = 0.025f;
 
+        //private float mass = 2.0f;
         // Use this for initialization
         void Start()
         {
@@ -84,8 +89,7 @@ namespace Com.Wulfram3
                 return;
             }
 
-            myRigidbody.mass = mass;
-            terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
+            //myRigidbody.mass = mass;
             originalRotation = transform.localRotation;
         }
 
@@ -108,11 +112,11 @@ namespace Com.Wulfram3
             {
                 myRigidbody.freezeRotation = false;
                 isLanded = false;
+                isGrounded = false;
                 requestLand = false;
                 requestJump = false;
                 timeSinceDead = 0;
                 isSpawning = true;
-                //Camera.main.enabled = false;
                 gameManager.Respawn(this);
             }
         }
@@ -133,7 +137,6 @@ namespace Com.Wulfram3
             {
                 isSpawning = false;
                 myRigidbody.isKinematic = false;
-                //Camera.main.enabled = true;
                 myMesh.gameObject.SetActive(true);
                 GetComponent<Collider>().enabled = true;
                 GetComponent<KGFMapIcon>().SetVisibility(true);
@@ -184,10 +187,11 @@ namespace Com.Wulfram3
             if (!Cursor.visible)
             {
                 myRigidbody.freezeRotation = false;
-                if (!isLanded)
+                if (!isGrounded)
                 {
                     if (axes == RotationAxes.MouseXAndY)
                     {
+                        if (isLanded) { isLanded = false; }
                         // Read the mouse input axis
                         rotationX += Input.GetAxis("Mouse X") * sensitivityX;
                         rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
@@ -199,6 +203,7 @@ namespace Com.Wulfram3
                     }
                     else if (axes == RotationAxes.MouseX)
                     {
+                        if (isLanded) { isLanded = false; }
                         rotationX += Input.GetAxis("Mouse X") * sensitivityX;
                         rotationX = ClampAngle(rotationX, minimumX, maximumX);
                         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -206,6 +211,7 @@ namespace Com.Wulfram3
                     }
                     else
                     {
+                        if (isLanded) { isLanded = false; }
                         rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
                         rotationY = ClampAngle(rotationY, minimumY, maximumY);
                         Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
@@ -214,7 +220,7 @@ namespace Com.Wulfram3
                 }
 
                 //Fire Pulse
-                if (!isLanded && Time.time >= timestamp && (Input.GetMouseButtonDown(1)) && this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank)
+                if (this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= timestamp && Input.GetAxisRaw("Fire2") != 0)
                 {
                     if (GetComponent<FuelManager>().TakeFuel(fuelPerPulse))
                     {
@@ -223,99 +229,85 @@ namespace Com.Wulfram3
                     }
                 }
 
-                //Tank Jump
-                if (!isLanded && Time.time >= jumptimestamp && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Keypad0)))
+                // Altitude control, before jump to allow cancel of landing attempts by jumping
+                if (Input.GetAxisRaw("ChangeAltitude") > 0)
+                {
+                    height = Mathf.Min(height + riseSpeed, maximumHeight);
+                }
+                else if (Input.GetAxisRaw("ChangeAltitude") < 0 && !isLanded && !isGrounded)
+                {
+                    height = Mathf.Max(height - lowerSpeed, 0f);
+                }
+                if (height > 0.001 && (isLanded || isGrounded))
+                {
+                    TakeOff();
+                } else if (height <= 0.001 && !isLanded)
+                {
+                    isLanded = true;
+                }
+
+                // Tank Jump
+                if (Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
                 {
                     if (GetComponent<FuelManager>().TakeFuel(fuelPerJump))
                     {
+                        if (isLanded || isGrounded)
+                        {
+                            TakeOff();
+                        }
                         requestJump = true;
                         jumptimestamp = Time.time + timeBetweenJumps;
                     }
                 }
 
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (isLanded)
                 {
-                    // raise level
-                    height = Mathf.Min(height + riseSpeed, maximumHeight);
-                    if (isLanded && height > 0.001)
+                    CheckIsGrounded();
+                    if (isGrounded)
                     {
-                        TakeOff();
+                        Land();
                     }
                 }
 
-                if (!isLanded && Input.GetKey(KeyCode.LeftControl))
-                {
-                    // lower level
-                    height = Mathf.Max(height - lowerSpeed, 0f);
-                    if (height < 0.001)
-                    {
-                        requestLand = true;
-                    }
-                }
             }
             else
             {
                 myRigidbody.freezeRotation = true;
             }
 
-            if (requestLand)
-            {
-                if (CanLand())
-                {
-                    Debug.Log("CanLand true");
-                    Land();
-                }
-                else
-                {
-                    Debug.Log("CanLand false");
-                }
-            }
 
         }
 
-        private bool CanLand()
-        {
-            if (height > maxDistanceToLand)
-            {
-                return false;
-            }
 
-            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
-            RaycastHit hit;
-            terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
-            return terrainCollider.Raycast(ray, out hit, 2.0f) && hit.distance <= maxDistanceToLand;
+        private void CheckIsGrounded()
+        {
+            isGrounded = Physics.Raycast(new Ray(transform.position, Vector3.down), maxDistanceToLand);
         }
 
         private void Land()
         {
-            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+            Ray ray = new Ray(transform.position, Vector3.down);
             RaycastHit hit;
-            terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
-            if (terrainCollider.Raycast(ray, out hit, 2.0f))
+            if (Physics.Raycast(ray, out hit))
             {
                 Vector3 fwd = transform.forward;
                 Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
                 transform.rotation = Quaternion.LookRotation(proj, hit.normal);
                 transform.Translate(hit.point - transform.position);
-                //transform.Translate(Vector3.up * 0.15f); //fixme: distance is calculated from center of the tank model, this moves the tank 'right' amount so that tank does not get clipped with the ground
+                transform.Translate(Vector3.up * 0.15f);
                 myRigidbody.isKinematic = true; //do not let physics forces affect this body
-                isLanded = true;
-                requestLand = false;
                 AudioSource.PlayClipAtPoint(landSource, transform.position);
                 GetComponent<AudioSource>().Stop();
-            }
-            else
-            {
-                //cannot land
-                isLanded = false;
             }
         }
 
         private void TakeOff()
         {
             myRigidbody.isKinematic = false; //let physics forces affect this body again
-            requestLand = false;
             isLanded = false;
+            isGrounded = false;
+            height = 1.8f;
+            myRigidbody.AddForce(transform.up * (takeOffBumpForce * myRigidbody.mass));
             AudioSource.PlayClipAtPoint(takeoffSource, transform.position);
             GetComponent<AudioSource>().Play();
         }
@@ -335,66 +327,40 @@ namespace Com.Wulfram3
             if (!photonView.isMine || isDead)
                 return;
 
-            float x = Input.GetAxis("Strafe") * 0.1f;
-            float z = Input.GetAxis("Drive") * 0.1f;
+            float x = Input.GetAxis("Strafe");
+            float z = Input.GetAxis("Drive");
 
             if (Cursor.visible)
             {
                 x = 0;
                 z = 0;
             }
-            else
-            {
-                x = Input.GetAxis("Strafe") * 0.1f;
-                z = Input.GetAxis("Drive") * 0.1f;
-            }
 
-            Ray ray = new Ray(transform.position, -Vector3.up);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, height))
+            if (!isLanded && !isGrounded)
             {
-                if (hit.distance < height)
+                /*
+                 *  Start Hover Code
+                 *  - This could likely be moved to a separate script for use on other things
+                 *  - Provides mass relative upward force needed to maintain {height}
+                 *  - TODO: Could handle high velocities a little better
+                 */
+                Ray ray = new Ray(transform.position, -Vector3.up);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, height))
                 {
-                    float ftcGravity = Physics.gravity.y * myRigidbody.mass;
-                    float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
-                    float multi = (height - hit.distance) / height;
-                    float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
-                    myRigidbody.AddForce(new Vector3(0f, -force, 0f));
+                    if (hit.distance < height)
+                    {
+                        float ftcGravity = Physics.gravity.y * myRigidbody.mass;
+                        float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
+                        float multi = (height - hit.distance) / height;
+                        float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
+                        myRigidbody.AddForce(new Vector3(0f, -force, 0f));
+                    }
                 }
+                // End Hover Code
             }
-
-
-
-            /*
-            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
-            RaycastHit hit;
-            terrainCollider = GameObject.FindObjectOfType<TerrainCollider>();
-            if (terrainCollider.Raycast(ray, out hit, height * 2)) {
-                Vector3 direction = Vector3.up; //transform.up
-                //Debug.Log(direction.ToString());
-                //Debug.Log((direction * Mathf.Min(forceMultiplier / (Mathf.Max(hit.distance - height, 0.01f) / 2.0f), 20.0f)).ToString());
-                //Debug.Log("");
-                rb.AddForce(direction * Mathf.Min(forceMultiplier / (Mathf.Max(hit.distance - height, 0.01f) / 2.0f), 20.0f));
-
-
-                //transform.rotation = Quaternion.LookRotation(proj, hit.normal);
-
-                //Quaternion target = Quaternion.FromToRotation(Vector3.up, hit.normal);
-                //if (z >= 0.01f)
-                //{
-                //    Vector3 fwd = transform.forward;
-                //    Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
-                //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(proj, hit.normal), 0.05f);
-                //}
-
-                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(hit.normal), 0.05f);
-                Debug.DrawLine(transform.position, hit.point);
-
-            }
-            */
-
-
 
             //Tank Jump
             if (requestJump)
@@ -407,7 +373,6 @@ namespace Com.Wulfram3
             if (isLanded && (x > 0f || z > 0f))
             {
                 TakeOff();
-                height = 1.2f;
             }
 
             myRigidbody.AddRelativeForce(new Vector3(x * lrThrust * myRigidbody.mass, 0, z * frThrust * myRigidbody.mass));

@@ -12,6 +12,8 @@ namespace Com.Wulfram3 {
         public int health;
         private GameManager gameManager;
 
+        private int lastUpdateHealth = 0;
+
         [PunRPC]
         public void TakeDamage(int amount) {
             if (PhotonNetwork.isMasterClient) {
@@ -59,7 +61,16 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void Update() {
-
+            /*
+             * TODO: Implement onDemand Update
+            if (PhotonNetwork.isMasterClient && health != lastUpdateHealth)
+            {
+                lastUpdateHealth = health;
+                object[] o = new object[1];
+                o[0] = health;
+                photonView.RPC("UpdateHealth", PhotonTargets.All, o);
+            }
+            */
         }
     }
 }

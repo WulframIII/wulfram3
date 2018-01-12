@@ -12,17 +12,9 @@ namespace Com.Wulfram3
 {
     public class GameManager : Photon.PunBehaviour
     {
-        public GameObject pulseShellPrefab;
-
-        public GameObject flakShellPrefab;
-
-        public GameObject explosionPrefab;
-
         public GameObject hullBar;
 
         public GameObject fuelBar;
-
-        public GameObject cargoPrefab;
 
         public Material redcolor;
         public Material bluecolor;
@@ -31,8 +23,6 @@ namespace Com.Wulfram3
         public GameObject playerInfoPanelPrefab;
         public Transform[] spawnPointsBlue;
         public Transform[] spawnPointsRed;
-     
-
 
         [HideInInspector]
         public Camera normalCamera;
@@ -100,7 +90,7 @@ namespace Com.Wulfram3
 
         public void Start()
         {
-            Debug.Log("We are Instantiating LocalPlayer from " + Application.loadedLevelName);
+            Debug.Log("GameManager.cs Start() " + Application.loadedLevelName);
 
             if (PlayerMovementManager.LocalPlayerInstance == null) {
                 Debug.Log("We are Instantiating LocalPlayer from " + Application.loadedLevelName);
@@ -117,16 +107,14 @@ namespace Com.Wulfram3
                 Debug.Log("Number of Blue players: " + bluePlayers);
                 GameObject player;
                 if (bluePlayers > redPlayers) {
-                    Debug.Log("Spawn red tank");
-                    Transform selectedSpawnPoint = spawnPointsRed[0];
-                    player = PhotonNetwork.Instantiate("Unit_Prefabs/Red/Red_Tank", selectedSpawnPoint.position + new Vector3(-100,-100,-100), selectedSpawnPoint.rotation, 0);
+                    Debug.Log("Assigned to red team. Awaiting first spawn.");
+                    player = PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Tank, PunTeams.Team.red), new Vector3(0,-100,0), Quaternion.identity, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.red);
                     
                    
                 } else {
-                    Debug.Log("Spawn blue tank");
-                    Transform selectedSpawnPoint = spawnPointsBlue[0];
-                    player = PhotonNetwork.Instantiate("Unit_Prefabs/Blue/Blue_Tank", selectedSpawnPoint.position + new Vector3(-100, -100, -100), selectedSpawnPoint.rotation, 0);
+                    Debug.Log("Assigned to blue team. Awaiting first spawn.");
+                    player = PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Tank, PunTeams.Team.blue), new Vector3(0, -100, 0), Quaternion.identity, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.blue);   
                 }
             } else {
@@ -140,19 +128,19 @@ namespace Com.Wulfram3
 
         private void Update()
         {
+           
             if(isFirstSpawn)
             {
                 PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
-                player.PrepareForRespawn();
-                this.Respawn(null);
-                isFirstSpawn = false;
+                if (player != null)
+                {
+                    player.PrepareForRespawn();
+                    this.Respawn(null);
+                    isFirstSpawn = false;
+                }
             }
         }
 
-
-
-        //[PunRPC]
-        //public void SpawnPulseShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
         [PunRPC]
         public void SpawnPulseShell(object[] args)
         {
@@ -160,7 +148,7 @@ namespace Com.Wulfram3
             {
                 object[] instanceData = new object[1];
                 instanceData[0] = (PunTeams.Team) args[2];
-                PhotonNetwork.Instantiate(pulseShellPrefab.name, (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
+                PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/PulseShell", (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
             }
         }
 
@@ -170,7 +158,7 @@ namespace Com.Wulfram3
             {
                 object[] instanceData = new object[1];
                 instanceData[0] = team;
-                PhotonNetwork.Instantiate(flakShellPrefab.name, pos, rotation, 0, instanceData);
+                PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/FlakShell", pos, rotation, 0, instanceData);
             }
         }
 
@@ -178,7 +166,7 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonNetwork.Instantiate(explosionPrefab.name, pos, Quaternion.identity, 0);
+                PhotonNetwork.Instantiate("Unit_Prefabs/Effects/Explosion_01", pos, Quaternion.identity, 0);
             }
         }
 
@@ -341,7 +329,13 @@ namespace Com.Wulfram3
                 case UnitType.PowerCell: s += "Powercell";  break;
                 case UnitType.RepairPad: s += "RepairPad";  break;
                 case UnitType.Skypump: s += "Skypump";  break;
-                default: s += "Cargo";  break;
+                case UnitType.Tank: s += "Tank"; break;
+                case UnitType.Scout: s += "Scout"; break;
+                case UnitType.Unlink: s += "Uplink"; break;
+                default:
+                    Debug.Log("UnitTypeToPrefabString(" + u.ToString() + ", " + t.ToString() + ") ERROR: Unknown UnitType. Defaulting to cargobox!");
+                    s += "Cargo";
+                    break;
             }
             return s;
         }

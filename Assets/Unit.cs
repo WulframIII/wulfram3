@@ -11,6 +11,8 @@ namespace Com.Wulfram3
 
         public UnitType unitType;
 
+        public int hitPointRegenerationSpeed = 1;
+
         // Use this for initialization
         void Start() {
             if (unitTeam == null)
