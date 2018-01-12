@@ -43,7 +43,7 @@ namespace Com.Wulfram3
 
         [HideInInspector]
         public bool isDead = false;
-        private bool isSpawning = false;
+        public bool isSpawning = false;
 
         float rotationX = 0F;
         float rotationY = 0F;
@@ -112,7 +112,7 @@ namespace Com.Wulfram3
                 requestJump = false;
                 timeSinceDead = 0;
                 isSpawning = true;
-                Camera.main.enabled = false;
+                //Camera.main.enabled = false;
                 gameManager.Respawn(this);
             }
         }
@@ -133,7 +133,7 @@ namespace Com.Wulfram3
             {
                 isSpawning = false;
                 myRigidbody.isKinematic = false;
-                Camera.main.enabled = true;
+                //Camera.main.enabled = true;
                 myMesh.gameObject.SetActive(true);
                 GetComponent<Collider>().enabled = true;
                 GetComponent<KGFMapIcon>().SetVisibility(true);
@@ -141,7 +141,7 @@ namespace Com.Wulfram3
 
         }
 
-        void PrepareForRespawn()
+        public void PrepareForRespawn()
         {
             myMesh.gameObject.SetActive(false);
             myRigidbody.isKinematic = true;
@@ -155,7 +155,7 @@ namespace Com.Wulfram3
 
         }
 
-        void CheckIsDead()
+        public void CheckIsDead()
         {
             isDead = hitpointsManager.health <= 0;
             if (isDead && !isSpawning)

@@ -37,11 +37,9 @@ namespace Com.Wulfram3
         [HideInInspector]
         public Camera normalCamera;
 
-        //[HideInInspector]
-        public Camera overheadCamera;
-
         private TargetInfoController targetChangeListener;
 
+        private bool isFirstSpawn = true;
 
         #region Photon Messages
 
@@ -117,28 +115,38 @@ namespace Com.Wulfram3
 
                 Debug.Log("Number of Red players: " + redPlayers);
                 Debug.Log("Number of Blue players: " + bluePlayers);
+                GameObject player;
                 if (bluePlayers > redPlayers) {
                     Debug.Log("Spawn red tank");
                     Transform selectedSpawnPoint = spawnPointsRed[0];
-                    GameObject player = PhotonNetwork.Instantiate("Unit_Prefabs/Red/Red_Tank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
+                    player = PhotonNetwork.Instantiate("Unit_Prefabs/Red/Red_Tank", selectedSpawnPoint.position + new Vector3(-100,-100,-100), selectedSpawnPoint.rotation, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.red);
                     
                    
                 } else {
                     Debug.Log("Spawn blue tank");
                     Transform selectedSpawnPoint = spawnPointsBlue[0];
-                    //GameObject player = PhotonNetwork.Instantiate("PlayerTank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
-                    GameObject player = PhotonNetwork.Instantiate("Unit_Prefabs/Blue/Blue_Tank", selectedSpawnPoint.position, selectedSpawnPoint.rotation, 0);
-                    PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
-                    
+                    player = PhotonNetwork.Instantiate("Unit_Prefabs/Blue/Blue_Tank", selectedSpawnPoint.position + new Vector3(-100, -100, -100), selectedSpawnPoint.rotation, 0);
+                    PhotonNetwork.player.SetTeam(PunTeams.Team.blue);   
                 }
             } else {
                 Debug.Log("Ignoring scene load for " + Application.loadedLevelName);
             }
+
+            
             PlayerSpawnManager.status = SpawnStatus.IsAlive;
-            normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-            overheadCamera = GameObject.FindGameObjectWithTag("OverheadCamera").GetComponent<Camera>();
-            overheadCamera.enabled = false; //set disabled so that it does't render in the background
+            normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();          
+        }
+
+        private void Update()
+        {
+            if(isFirstSpawn)
+            {
+                PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
+                player.PrepareForRespawn();
+                this.Respawn(null);
+                isFirstSpawn = false;
+            }
         }
 
 
@@ -342,6 +350,7 @@ namespace Com.Wulfram3
         {
             if(PlayerSpawnManager.status == SpawnStatus.IsAlive)
             {
+                
                 GetComponent<PlayerSpawnManager>().StartSpawn();
                 GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
             }

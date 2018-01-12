@@ -15,28 +15,28 @@ public class RepairPad : MonoBehaviour {
 	}
 
 
-    void OnMouseDown()
-    {
-        PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
-        Spawn(gameManager, player, gameObject.transform.position);
-    }
+    //void OnMouseDown()
+    //{
+    //    PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
+    //    Spawn(gameManager, player, gameObject.transform.position);
+    //}
 
-    public static void Spawn(GameManager gameManager, PlayerMovementManager player, Vector3 position)
-    {
-        if (player.isDead)
-        {
-            gameManager.normalCamera.enabled = true;
-            gameManager.overheadCamera.enabled = false;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+    ////public static void Spawn(GameManager gameManager, PlayerMovementManager player, Vector3 position)
+    ////{
+    ////    if (player.isDead)
+    ////    {
+    ////        gameManager.normalCamera.enabled = true;
+    ////        gameManager.overheadCamera.enabled = false;
+    ////        Cursor.visible = false;
+    ////        Cursor.lockState = CursorLockMode.Locked;
 
-            player.photonView.RPC("SetPosAndRotation", PhotonTargets.All, position + new Vector3(0, 50, 0), Quaternion.identity);
+    ////        player.photonView.RPC("SetPosAndRotation", PhotonTargets.All, position + new Vector3(0, 50, 0), Quaternion.identity);
 
-            HitPointsManager hitpointsManager = player.GetComponent<HitPointsManager>();
-            hitpointsManager.TellServerHealth(hitpointsManager.maxHealth);
+    ////        HitPointsManager hitpointsManager = player.GetComponent<HitPointsManager>();
+    ////        hitpointsManager.TellServerHealth(hitpointsManager.maxHealth);
 
-            player.GetComponent<FuelManager>().ResetFuel();
-            PlayerSpawnManager.status = SpawnStatus.IsAlive;
-        }
-    }
+    ////        player.GetComponent<FuelManager>().ResetFuel();
+    ////        PlayerSpawnManager.status = SpawnStatus.IsAlive;
+    ////    }
+    ////}
 }

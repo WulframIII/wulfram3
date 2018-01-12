@@ -22,7 +22,7 @@ public class MapModeManager : MonoBehaviour {
     private MapType currentMapType;
     // Use this for initialization
     void Start () {
-        this.ActivateMapMode(MapType.Mini);
+        //this.ActivateMapMode(MapType.Mini);
         itsMapSystem.EventMouseMapIconClicked += OnMapMarkerClicked;
     }
 	
@@ -117,9 +117,8 @@ public class MapModeManager : MonoBehaviour {
     void OnMapMarkerClicked(object theSender, EventArgs theArgs)
 	{
         PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
-        if (this.currentMapType == MapType.Spawn && player.isDead)
+        if (this.currentMapType == MapType.Spawn)
         {
-            // toggle blinking on clicked marker
             KGFMapSystem.KGFMarkerEventArgs aMarkerArgs = (KGFMapSystem.KGFMarkerEventArgs)theArgs;
             KGFMapIcon mapIcon = (KGFMapIcon)aMarkerArgs.itsMarker;
             var foundObject = mapIcon.GetGameObject();
@@ -132,7 +131,7 @@ public class MapModeManager : MonoBehaviour {
                     if(PlayerSpawnManager.status == SpawnStatus.IsReady)
                     {
                         ActivateMapMode(MapType.Mini);
-                        RepairPad.Spawn(GetComponent<GameManager>(), player, foundObject.transform.position);
+                        PlayerSpawnManager.SpawnPlayer(foundObject.transform.position);
                     }
                 }
             }

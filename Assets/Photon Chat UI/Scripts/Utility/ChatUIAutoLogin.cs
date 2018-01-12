@@ -20,7 +20,8 @@ namespace PhotonChatUI
 
         void Update()
         {
-            if(Chat.Instance.State == ExitGames.Client.Photon.Chat.ChatState.Disconnected)
+            Debug.Log(Chat.Instance.State);
+            if (Chat.Instance.State == ExitGames.Client.Photon.Chat.ChatState.Disconnected)
             {
                 ischatConnected = false;
             }
