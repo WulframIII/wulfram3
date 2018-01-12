@@ -12,7 +12,7 @@ namespace Com.Wulfram3 {
         public Transform bluePulse;
 
         private GameManager gameManager;
-        private float lifetime = 100f;
+        private float lifetime = 12f;
         private float lifetimer = 0f;
         private PunTeams.Team team;
 
@@ -62,8 +62,9 @@ namespace Com.Wulfram3 {
         {
             Unit unit = target.GetComponent<Unit>();
             HitPointsManager hpm = target.GetComponent<HitPointsManager>();
-            if (unit != null && hpm != null && !unit.IsUnitFriendly())
+            if (unit != null && hpm != null && unit.unitTeam != team)
             {
+                Debug.Log("SplashDamage");
                 hpm.TellServerTakeDamage(amount);
             }
         }
@@ -85,8 +86,8 @@ namespace Com.Wulfram3 {
                 Vector3 hitPosition = col.contacts[0].point;
                 Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, splashRadius);
                 DoEffects(hitPosition);
-                DoDamage(col.transform, directHitpointsDamage);
-                SplashDamage(splashedObjects, hitPosition, col.transform);
+                //DoDamage(col.transform, directHitpointsDamage);
+                //SplashDamage(splashedObjects, hitPosition, col.transform);
 
             }
         }

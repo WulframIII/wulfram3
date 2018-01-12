@@ -24,14 +24,7 @@ namespace Com.Wulfram3 {
         public void UpdateHealth(int amount) {
             int newHealth = Mathf.Clamp(amount, 0, maxHealth);
             health = newHealth;
-            GetGameManager().UnitsHealthUpdated(this);
-        }
-
-        private GameManager GetGameManager() {
-            if (gameManager == null) {
-                gameManager = FindObjectOfType<GameManager>();
-            }
-            return gameManager;
+            gameManager.UnitsHealthUpdated(this);
         }
 
         public void SetHealth(int newHealth) {
@@ -58,7 +51,7 @@ namespace Com.Wulfram3 {
 
         // Use this for initialization
         void Start() {
-            gameManager = GetGameManager();
+            gameManager = FindObjectOfType<GameManager>();
             if (PhotonNetwork.isMasterClient) {
                 SetHealth(initialHealth);
             }
