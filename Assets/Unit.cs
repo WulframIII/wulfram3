@@ -6,9 +6,7 @@ namespace Com.Wulfram3
 {
     public class Unit : MonoBehaviour {
 
-
         public PunTeams.Team unitTeam;
-
         public UnitType unitType;
 
         public int hitPointRegenerationSpeed = 1;
@@ -30,6 +28,46 @@ namespace Com.Wulfram3
             //Debug.Log(this.ToString());
         }
 
+
+        public static string GetPrefabName(UnitType u, PunTeams.Team t)
+        {
+            string tf = PunTeamToTeamString(t);
+            string s = "Unit_Prefabs/" + tf + "/" + tf + "_";
+            switch (u)
+            {
+                case UnitType.Cargo: s += "Cargo"; break;
+                case UnitType.Darklight: s += "Darklight"; break;
+                case UnitType.FlakTurret: s += "FlakTurret"; break;
+                case UnitType.GunTurret: s += "GunTurret"; break;
+                case UnitType.MissleLauncher: s += "Launcher"; break;
+                case UnitType.PowerCell: s += "Powercell"; break;
+                case UnitType.RepairPad: s += "RepairPad"; break;
+                case UnitType.Skypump: s += "Skypump"; break;
+                case UnitType.Tank: s += "Tank"; break;
+                case UnitType.Scout: s += "Scout"; break;
+                case UnitType.Uplink: s += "Uplink"; break;
+                default:
+                    Debug.Log("UnitTypeToPrefabString(" + u.ToString() + ", " + t.ToString() + ") ERROR: Unknown UnitType. Defaulting to cargobox!");
+                    s += "Cargo";
+                    break;
+            }
+            return s;
+        }
+
+        public static string PunTeamToTeamString(PunTeams.Team t)
+        {
+            if (t == PunTeams.Team.blue)
+            {
+                return "Blue";
+            }
+            else if (t == PunTeams.Team.red)
+            {
+                return "Red";
+            }
+            return "Grey";
+        }
+
+        /*
         public string GetTypeString()
         {
             switch(unitType)
@@ -56,7 +94,7 @@ namespace Com.Wulfram3
                     return "Skypump";
                 case UnitType.Tank:
                     return "Tank";
-                case UnitType.Unlink:
+                case UnitType.Uplink:
                     return "Uplink";
                 case UnitType.None:
                     return "UnitType.None";
@@ -74,6 +112,7 @@ namespace Com.Wulfram3
                 return "Red";
             return "Grey";
         }
+        */
 
         public bool IsUnitFriendly()
         {

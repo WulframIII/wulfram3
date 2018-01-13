@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace Com.Wulfram3 {
     public class AutoCannon : Photon.PunBehaviour {
-        public AudioClip autoCannonSound;
-		public AudioClip shootCannonSound;
+        public AudioClip shootSound;
+        public AudioClip hitSound;
+        public AudioClip missSound;
 		public AudioSource audio;
         public int bulletDamageinHitpoints = 1;
         public float bulletsPerSecond = 10;
@@ -123,7 +124,7 @@ namespace Com.Wulfram3 {
                 {
                     objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage(bulletDamageinHitpoints);
                 }
-                AudioSource.PlayClipAtPoint(autoCannonSound, gunEnd.position);
+                AudioSource.PlayClipAtPoint(shootSound, gunEnd.position, 0.1f);
             }
             else {
                 SetAndSyncShooting(false);
@@ -172,8 +173,11 @@ namespace Com.Wulfram3 {
                 Vector3 targetDirection = (targetPoint - pos).normalized;
                 if (Physics.Raycast(rayOrigin, targetDirection, out hit, range)) {
                     bulletHitPoint = hit.point;
-                } else {
+                    AudioSource.PlayClipAtPoint(hitSound, hit.point);
+                }
+                else {
                     bulletHitPoint = targetPoint;
+                    AudioSource.PlayClipAtPoint(missSound, targetPoint);
                 }
                 laserLine.SetPosition(1, bulletHitPoint);
 
@@ -181,7 +185,7 @@ namespace Com.Wulfram3 {
                 {
                     //play sound
 
-                    audio.PlayOneShot(shootCannonSound, 1);
+                    audio.PlayOneShot(shootSound, 1);
                 }
             }    
         }

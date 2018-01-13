@@ -293,7 +293,7 @@ namespace Com.Wulfram3
             //bind "targeting" "l" "target_cycle nearest friendly uplink"
             if (Input.GetKeyDown(KeyCode.L))
             {
-                this.SetThisAsPlayerCurrentTarget(this.GetTarget(UnitType.Unlink, true));
+                this.SetThisAsPlayerCurrentTarget(this.GetTarget(UnitType.Uplink, true));
                 Debug.Log("target_cycle nearest friendly uplink");
             }
         }

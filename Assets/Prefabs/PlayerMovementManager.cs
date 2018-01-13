@@ -36,8 +36,9 @@ namespace Com.Wulfram3
         public float maximumY = 60F;
 
 
-        public float frThrust = 5f;
-        public float lrThrust = 3f;
+        public float baseThrust = 3f;
+        private float strafeThrust = 1f;
+        public float thrustMultiplier = 0.5f;
 
         private float takeOffBumpForce = 20f;
 
@@ -59,7 +60,6 @@ namespace Com.Wulfram3
         private float lastRotationY = 0F;
         private Quaternion originalRotation;
         private float jumpForce = 700f;
-        private float height = 1.8f;          // tank's level above ground
         private bool isLanded = false;
         private bool isGrounded = false;
         private bool requestLand = false;
@@ -72,12 +72,11 @@ namespace Com.Wulfram3
         public Transform myMesh;
         public Transform gunEnd;
 
+        public float currentHeight = 1.0f;          // tank's current level above ground
         public float maximumHeight = 4.0f;
         public float riseSpeed = 0.055f;
         public float lowerSpeed = 0.025f;
 
-        //private float mass = 2.0f;
-        // Use this for initialization
         void Start()
         {
             hitpointsManager = GetComponent<HitPointsManager>();
@@ -88,8 +87,7 @@ namespace Com.Wulfram3
                 myRigidbody.isKinematic = true;
                 return;
             }
-
-            //myRigidbody.mass = mass;
+            strafeThrust = 0.6f * baseThrust;
             originalRotation = transform.localRotation;
         }
 
@@ -111,12 +109,14 @@ namespace Com.Wulfram3
             if (photonView.isMine)
             {
                 myRigidbody.freezeRotation = false;
+                
                 isLanded = false;
                 isGrounded = false;
                 requestLand = false;
                 requestJump = false;
                 timeSinceDead = 0;
                 isSpawning = true;
+                GetComponent<AudioSource>().Stop();
                 gameManager.Respawn(this);
             }
         }
@@ -138,6 +138,7 @@ namespace Com.Wulfram3
                 isSpawning = false;
                 myRigidbody.isKinematic = false;
                 myMesh.gameObject.SetActive(true);
+                GetComponent<AudioSource>().Play();
                 GetComponent<Collider>().enabled = true;
                 GetComponent<KGFMapIcon>().SetVisibility(true);
             }
@@ -232,16 +233,16 @@ namespace Com.Wulfram3
                 // Altitude control, before jump to allow cancel of landing attempts by jumping
                 if (Input.GetAxisRaw("ChangeAltitude") > 0)
                 {
-                    height = Mathf.Min(height + riseSpeed, maximumHeight);
+                    currentHeight = Mathf.Min(currentHeight + riseSpeed, maximumHeight);
                 }
                 else if (Input.GetAxisRaw("ChangeAltitude") < 0 && !isLanded && !isGrounded)
                 {
-                    height = Mathf.Max(height - lowerSpeed, 0f);
+                    currentHeight = Mathf.Max(currentHeight - lowerSpeed, 0f);
                 }
-                if (height > 0.001 && (isLanded || isGrounded))
+                if (currentHeight > 0.001 && (isLanded || isGrounded))
                 {
                     TakeOff();
-                } else if (height <= 0.001 && !isLanded)
+                } else if (currentHeight <= 0.001 && !isLanded)
                 {
                     isLanded = true;
                 }
@@ -262,10 +263,10 @@ namespace Com.Wulfram3
 
                 if (isLanded)
                 {
-                    CheckIsGrounded();
-                    if (isGrounded)
+                    RaycastHit hit;
+                    if (!isGrounded && Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, maxDistanceToLand))
                     {
-                        Land();
+                        Land(hit);
                     }
                 }
 
@@ -278,27 +279,17 @@ namespace Com.Wulfram3
 
         }
 
-
-        private void CheckIsGrounded()
+        private void Land(RaycastHit hit)
         {
-            isGrounded = Physics.Raycast(new Ray(transform.position, Vector3.down), maxDistanceToLand);
-        }
-
-        private void Land()
-        {
-            Ray ray = new Ray(transform.position, Vector3.down);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 fwd = transform.forward;
-                Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
-                transform.rotation = Quaternion.LookRotation(proj, hit.normal);
-                transform.Translate(hit.point - transform.position);
-                transform.Translate(Vector3.up * 0.15f);
-                myRigidbody.isKinematic = true; //do not let physics forces affect this body
-                AudioSource.PlayClipAtPoint(landSource, transform.position);
-                GetComponent<AudioSource>().Stop();
-            }
+            isGrounded = true;
+            Vector3 fwd = transform.forward;
+            Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
+            transform.rotation = Quaternion.LookRotation(proj, hit.normal);
+            transform.Translate(hit.point - transform.position);
+            transform.Translate(Vector3.up * 0.15f);
+            myRigidbody.isKinematic = true; //do not let physics forces affect this body
+            AudioSource.PlayClipAtPoint(landSource, transform.position);
+            GetComponent<AudioSource>().Stop();
         }
 
         private void TakeOff()
@@ -306,7 +297,7 @@ namespace Com.Wulfram3
             myRigidbody.isKinematic = false; //let physics forces affect this body again
             isLanded = false;
             isGrounded = false;
-            height = 1.8f;
+            currentHeight = 1.0f;
             myRigidbody.AddForce(transform.up * (takeOffBumpForce * myRigidbody.mass));
             AudioSource.PlayClipAtPoint(takeoffSource, transform.position);
             GetComponent<AudioSource>().Play();
@@ -348,13 +339,13 @@ namespace Com.Wulfram3
                 Ray ray = new Ray(transform.position, -Vector3.up);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, height))
+                if (Physics.Raycast(ray, out hit, currentHeight))
                 {
-                    if (hit.distance < height)
+                    if (hit.distance < currentHeight)
                     {
                         float ftcGravity = Physics.gravity.y * myRigidbody.mass;
                         float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
-                        float multi = (height - hit.distance) / height;
+                        float multi = (currentHeight - hit.distance) / currentHeight;
                         float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
                         myRigidbody.AddForce(new Vector3(0f, -force, 0f));
                     }
@@ -370,12 +361,12 @@ namespace Com.Wulfram3
                 requestJump = false;
             }
 
-            if (isLanded && (x > 0f || z > 0f))
+            if (isLanded && (x != 0f || z != 0f))
             {
                 TakeOff();
             }
 
-            myRigidbody.AddRelativeForce(new Vector3(x * lrThrust * myRigidbody.mass, 0, z * frThrust * myRigidbody.mass));
+            myRigidbody.AddRelativeForce(new Vector3((x * strafeThrust * myRigidbody.mass) * thrustMultiplier, 0, (z * baseThrust * myRigidbody.mass) * thrustMultiplier));
         }
 
         public static float ClampAngle(float angle, float min, float max)

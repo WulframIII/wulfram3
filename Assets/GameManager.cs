@@ -108,13 +108,13 @@ namespace Com.Wulfram3
                 GameObject player;
                 if (bluePlayers > redPlayers) {
                     Debug.Log("Assigned to red team. Awaiting first spawn.");
-                    player = PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Tank, PunTeams.Team.red), new Vector3(0,-100,0), Quaternion.identity, 0);
+                    player = PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Tank, PunTeams.Team.red), new Vector3(0,-100,0), Quaternion.identity, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.red);
                     
                    
                 } else {
                     Debug.Log("Assigned to blue team. Awaiting first spawn.");
-                    player = PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Tank, PunTeams.Team.blue), new Vector3(0, -100, 0), Quaternion.identity, 0);
+                    player = PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Tank, PunTeams.Team.blue), new Vector3(0, -100, 0), Quaternion.identity, 0);
                     PhotonNetwork.player.SetTeam(PunTeams.Team.blue);   
                 }
             } else {
@@ -166,7 +166,7 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonNetwork.Instantiate("Unit_Prefabs/Effects/Explosion_01", pos, Quaternion.identity, 0);
+                PhotonNetwork.Instantiate("Effects/Explosion_01", pos, Quaternion.identity, 0);
             }
         }
 
@@ -300,7 +300,11 @@ namespace Com.Wulfram3
             return masterClient + username;
         }
 
-
+        /*
+         * 
+         * MOVED: To Unit.cs
+         * 
+         * 
         public string PunTeamToTeamString(PunTeams.Team t)
         {
             if (t == PunTeams.Team.blue)
@@ -331,7 +335,7 @@ namespace Com.Wulfram3
                 case UnitType.Skypump: s += "Skypump";  break;
                 case UnitType.Tank: s += "Tank"; break;
                 case UnitType.Scout: s += "Scout"; break;
-                case UnitType.Unlink: s += "Uplink"; break;
+                case UnitType.Uplink: s += "Uplink"; break;
                 default:
                     Debug.Log("UnitTypeToPrefabString(" + u.ToString() + ", " + t.ToString() + ") ERROR: Unknown UnitType. Defaulting to cargobox!");
                     s += "Cargo";
@@ -339,6 +343,7 @@ namespace Com.Wulfram3
             }
             return s;
         }
+        */
 
         public void Respawn(PlayerMovementManager player)
         {
@@ -407,7 +412,7 @@ namespace Com.Wulfram3
                     object[] o = new object[2];
                     o[0] = UnitType.Cargo;
                     o[1] = u.unitTeam;
-                    PhotonNetwork.Instantiate(UnitTypeToPrefabString(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
+                    PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
                     cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
                 }
             }
@@ -418,6 +423,7 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
+                Debug.Log("MasterClient got Deploy Request.");
                 Vector3 desiredPosition = (Vector3)args[0];
                 Quaternion desiredRotation = (Quaternion) args[1];
                 CargoManager cargoManager = (CargoManager)args[2];
@@ -426,7 +432,8 @@ namespace Com.Wulfram3
                 object[] o = new object[2];
                 o[0] = cargoType;
                 o[1] = cargoTeam;
-                PhotonNetwork.Instantiate(UnitTypeToPrefabString(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
+                Debug.Log("Instantiating object. " + cargoType.ToString() + " " + cargoTeam);
+                PhotonNetwork.Instantiate(Unit.GetPrefabName(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
                 cargoManager.photonView.RPC("DeployedCargo", PhotonTargets.All, null);
 
             }

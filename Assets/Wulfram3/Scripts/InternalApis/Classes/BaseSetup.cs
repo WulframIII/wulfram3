@@ -63,7 +63,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
                             return "";
                         case UnitType.Darklight:
                             return "";
-                        case UnitType.Unlink:
+                        case UnitType.Uplink:
                             return "";
                         default:
                             return "";
@@ -95,7 +95,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
                             return "";
                         case UnitType.Darklight:
                             return "";
-                        case UnitType.Unlink:
+                        case UnitType.Uplink:
                             return "";
                         default:
                             return "";
@@ -127,7 +127,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
                             return "";
                         case UnitType.Darklight:
                             return "";
-                        case UnitType.Unlink:
+                        case UnitType.Uplink:
                             return "";
                         default:
                             return "";

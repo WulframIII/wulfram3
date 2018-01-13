@@ -5,17 +5,20 @@ namespace Com.Wulfram3
 {
     public class CargoManager : Photon.PunBehaviour {
 
-
-        private Transform currentPlaceableObject;
-
-        public Transform placeObjectPoint;
-
-        public Material ghostObjectMaterial;
-
         private GameManager gameManager;
-
+        private Transform currentPlaceableObject;
         private float maxPlaceDistance;
         private float minPlaceDistance;
+
+        private float mouseWheelRotation = 0f;
+        private float rotationSpeed = 10f;
+
+        private float dropDelay = 0f;
+        private float deployDelay = 0f;
+
+        public Transform placeObjectPoint;
+        public Material ghostObjectMaterial;
+
         public AudioClip cargoPickupSound;
         public AudioClip cargoDropSound;
         public UnitType cargoType;
@@ -25,11 +28,6 @@ namespace Com.Wulfram3
 
         public PunTeams.Team myTeam;
 
-        private float mouseWheelRotation = 0f;
-        private float rotationSpeed = 10f;
-
-        private bool triedToDeploy = false;
-        private float timeSinceTry = 0f;
 
         void Start() {
             gameManager = FindObjectOfType<GameManager>();
@@ -39,12 +37,14 @@ namespace Com.Wulfram3
 
         void Update() {
             if (photonView.isMine) {
-                if (Input.GetAxisRaw("DropCargo") != 0f) {
+                if (Input.GetAxisRaw("DropCargo") != 0f && Time.time > dropDelay) {
+                    dropDelay = Time.time + 0.2f;
                     gameManager.photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, this);
                 }
 
                 if (hasCargo) {
-                    if (Input.GetAxisRaw("DeployCargo") != 0f) {
+                    if (Input.GetAxisRaw("DeployCargo") != 0f && Time.time > deployDelay) {
+                        deployDelay = Time.time + 0.2f;
                         ToggleDeployMode();
                     } else if (currentPlaceableObject != null)
                     {
@@ -105,7 +105,7 @@ namespace Com.Wulfram3
         {
             if (Input.GetAxis("DeployCargo") > 0f && hasCargo && currentPlaceableObject == null)
             {
-                string prefab = gameManager.UnitTypeToPrefabString(cargoType, myTeam);
+                string prefab = Unit.GetPrefabName(cargoType, myTeam);
                 GameObject newObject = Instantiate(Resources.Load(prefab), GetBestPosition(), transform.rotation) as GameObject;
                 newObject.GetComponent<Rigidbody>().isKinematic = true;
                 newObject.GetComponent<Collider>().enabled = false;

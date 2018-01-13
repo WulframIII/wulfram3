@@ -15,7 +15,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
         MissleLauncher, 
         Skypump, 
         Darklight,
-        Unlink,
+        Uplink,
     }
 
     public enum MapType
