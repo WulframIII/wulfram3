@@ -410,8 +410,8 @@ namespace Com.Wulfram3
                 Unit u = cargoManager.transform.GetComponent<Unit>();
                 if (u != null) {
                     object[] o = new object[2];
-                    o[0] = UnitType.Cargo;
-                    o[1] = u.unitTeam;
+                    o[0] = cargoManager.cargoType;
+                    o[1] = cargoManager.cargoTeam;
                     PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
                     cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
                 }
@@ -432,7 +432,6 @@ namespace Com.Wulfram3
                 object[] o = new object[2];
                 o[0] = cargoType;
                 o[1] = cargoTeam;
-                Debug.Log("Instantiating object. " + cargoType.ToString() + " " + cargoTeam);
                 PhotonNetwork.Instantiate(Unit.GetPrefabName(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
                 cargoManager.photonView.RPC("DeployedCargo", PhotonTargets.All, null);
 
