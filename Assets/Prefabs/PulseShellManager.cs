@@ -64,7 +64,6 @@ namespace Com.Wulfram3 {
             HitPointsManager hpm = target.GetComponent<HitPointsManager>();
             if (unit != null && hpm != null && unit.unitTeam != team)
             {
-                Debug.Log("SplashDamage");
                 hpm.TellServerTakeDamage(amount);
             }
         }
@@ -86,8 +85,8 @@ namespace Com.Wulfram3 {
                 Vector3 hitPosition = col.contacts[0].point;
                 Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, splashRadius);
                 DoEffects(hitPosition);
-                //DoDamage(col.transform, directHitpointsDamage);
-                //SplashDamage(splashedObjects, hitPosition, col.transform);
+                DoDamage(col.transform, directHitpointsDamage);
+                SplashDamage(splashedObjects, hitPosition, col.transform);
 
             }
         }
