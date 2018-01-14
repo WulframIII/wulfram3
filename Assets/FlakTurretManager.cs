@@ -118,17 +118,14 @@ namespace Com.Wulfram3 {
             float diff = Vector3.Distance(hit.transform.position, currentIntercept);
             if (diff < (SplashProjectileController.FlakSplashRadius-2) && diff > -(SplashProjectileController.FlakSplashRadius-2))
             {
-                Debug.Log("Close Enough To Fire");
                 targetOnSight = true;
                 return;
             }
             if (hit.transform && ValidTarget(hit.transform))
             {
-                Debug.Log("Is a Target. Fire.");
                 targetOnSight = true;
                 return;
             }
-            Debug.Log("Target Reset");
             ResetTarget();
         }
 
