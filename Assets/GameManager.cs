@@ -426,7 +426,6 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                Debug.Log("MasterClient got Deploy Request.");
                 Vector3 desiredPosition = (Vector3)args[0];
                 Quaternion desiredRotation = (Quaternion) args[1];
                 CargoManager cargoManager = (CargoManager)args[2];

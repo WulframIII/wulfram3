@@ -5,20 +5,20 @@ using UnityEngine;
 namespace Com.Wulfram3 {
     public class FlakTurretManager : Photon.PunBehaviour {
 
-        private List<GameObject> targetList = new List<GameObject>();
+        // Settings
+        public Transform gunEnd;  // Needs to be set in inspector, empty transform, where projectiles spawn
+        private float rangeMax = 75f; // Targets beyond this range will be discarded (Note: FlakTurret prefabs also employ a sphere trigger to track targetList)
+        private float rangeMin = 6f;  // Targets below this range will be ignored
+        private float fireDelay = 3f; // Delay between each three round burst
+        private float shellDelay = 0.4f; // Delay between shells
+        private float turnSpeed = 90; // This value should be high to make sure turrets can intercept fast moving targets
+        private int shellCount = 3; // Shells per burst
 
-        private int shellCount = 3;
+        // Internal vars
+        private List<GameObject> targetList = new List<GameObject>();
         private int shellCountCurrent = 0;
         private int shellVelocity = 0;
-        private float rangeMax = 75f;
-        private float rangeMin = 6f;
-        private float fireDelay = 3f;
-        private float shellDelay = 0.4f;
         private float fireStamp;
-
-        private float turnSpeed = 90;
-        public Transform gunEnd;
-
         private GameManager gameManager;
         private Transform currentTarget = null;
         private Vector3 currentIntercept = new Vector3(99999f, 99999f, 99999f);
@@ -40,7 +40,7 @@ namespace Com.Wulfram3 {
         void Update() {
             if (currentTarget == null)
                 FindTarget();
-            // Needs to be separate in case target is found above
+            // In case target is found above
             if (currentTarget != null)
             {
                 TurnTowardsCurrentTarget();
@@ -69,15 +69,17 @@ namespace Com.Wulfram3 {
         private void FindTarget() {
             if (currentTarget != null)
             {
+                // May as well range check any existing target here
                 float distanceToTarget = Vector3.Distance(gunEnd.position, currentIntercept);
                 if (distanceToTarget > rangeMax || distanceToTarget < rangeMin)
                 {
-                    ResetTarget();
+                    ResetTarget(); // Current target out of range, clear stored info
                 } else
                 {
-                    return;
+                    return; // Current target in range, turn/fire without checking for others
                 }
             }
+            // Clean target list, find new nearest target
             Transform closestTarget = null;
             float minDistance       = rangeMax;
             for (int i = targetList.Count-1; i>=0; i--) {
@@ -110,38 +112,44 @@ namespace Com.Wulfram3 {
         {
             RaycastHit hit;
             Physics.Raycast(gunEnd.position, gunEnd.transform.forward, out hit);
-            if (hit.transform == null)
+            if (hit.transform == null) // Air, good to fire
             {
                 targetOnSight = true;
                 return;
             }
             float diff = Vector3.Distance(hit.transform.position, currentIntercept);
-            if (diff < (SplashProjectileController.FlakSplashRadius-2) && diff > -(SplashProjectileController.FlakSplashRadius-2))
+            if (diff < (SplashProjectileController.FlakSplashRadius-2) && diff > -(SplashProjectileController.FlakSplashRadius-2)) // Close enough, fire
             {
                 targetOnSight = true;
                 return;
             }
-            if (hit.transform && ValidTarget(hit.transform))
+            if (hit.transform && ValidTarget(hit.transform)) // It might not be our target, but it is a valid target, fire
             {
                 targetOnSight = true;
                 return;
             }
-            ResetTarget();
+            if (shellCountCurrent == 0)
+                ResetTarget(); // Drop target, sets targetOnSight to false
         }
 
         private void FireAtTarget()
         {
+            // If we have a target and see intercept point, or have already started firing a salvo
             if ((currentTarget != null && targetOnSight) || shellCountCurrent > 0)
             {
-                if (Time.time > fireStamp)
+                if (Time.time > fireStamp) // And have "reloaded"
                 {
-                    if (shellCountCurrent < shellCount)
+                    if (interceptTime <= 0.01f)
+                    {
+                        interceptTime = 12f;
+                    }
+                    if (shellCountCurrent < shellCount) // And have ammo
                     {
                         gameManager.SpawnFlakShell(gunEnd.position, gunEnd.rotation, team, interceptTime);
                         shellCountCurrent += 1;
                         fireStamp = Time.time + shellDelay;
                     }
-                    else if (shellCountCurrent == shellCount)
+                    else if (shellCountCurrent == shellCount) // End of salvo, reset
                     {
                         fireStamp = Time.time + fireDelay;
                         shellCountCurrent = 0;
@@ -153,6 +161,8 @@ namespace Com.Wulfram3 {
 
         private bool ValidTarget(Transform t)
         {
+            // Check for both units and projectiles, further checks will probably be needed for other projectiles
+            // Does not affect target priority
             Unit u = t.GetComponent<Unit>();
             if (u != null && u.unitTeam != team)
             {
@@ -168,10 +178,10 @@ namespace Com.Wulfram3 {
 
         Vector3 getInterceptPoint(Vector3 turretPos, Vector3 turretVel, float pSpeed, Vector3 targetPos, Vector3 targetVel)
         {
-            Vector3 targetRPos = targetPos - turretPos;
-            Vector3 targetRVel = targetVel - turretVel;
-            interceptTime = getInterceptTime(pSpeed, targetRPos, targetRVel);
-            return targetPos + targetRVel * interceptTime;
+            Vector3 targetRPos = targetPos - turretPos; // Relative position
+            Vector3 targetRVel = targetVel - turretVel; // Relative velocity
+            interceptTime = getInterceptTime(pSpeed, targetRPos, targetRVel); // Find best intercept time / path
+            return targetPos + targetRVel * interceptTime; // Current position + Velocity * Time = Predicted future position
         }
 
         float getInterceptTime(float pSpeed, Vector3 targetRPos, Vector3 targetRVel)

@@ -5,25 +5,32 @@ using UnityEngine;
 
 namespace Com.Wulfram3 {
     public class SplashProjectileController : Photon.PunBehaviour {
-        private int velocity     = 30;
-        private int directDamage = 100;
-        private int splashRadius = 6;
+        /* This script facilitates control of our direct fire splash damage projectiles
+         * 
+         * Static variables are used in Start() to initialize each projectile with the proper
+         * information and mesh     */
 
         public static int PulseVelocity = 30;
-        public static int FlakVelocity = 80;
+        public static int FlakVelocity = 60; // To intercept, flak must be faster than pulse
 
         public static int PulseDirectDamage = 200;
-        public static int FlakDirectDamage = 60;
+        public static int FlakDirectDamage = 70;
 
         public static int PulseSplashRadius = 12;
         public static int FlakSplashRadius = 7;
 
+        public float lifetime = 12f; // This is used by pulse shells to control self detonation. Flak turret pass a "fuse" time when creating shells
+
+        // Each projectile mesh should be a child transform of the main projectile and linked to these vars in the inspector.
         public Transform redPulse;
         public Transform bluePulse;
         public Transform flakShell;
 
+        // These vars are used internally by the script, overwritten in Start() as needed.
+        private int velocity = 30;
+        private int directDamage = 100;
+        private int splashRadius = 6;
         private GameManager gameManager;
-        public float lifetime = 12f;
         private float lifetimer = 0f;
         [HideInInspector]
         public PunTeams.Team team;
@@ -38,7 +45,8 @@ namespace Com.Wulfram3 {
                 velocity = FlakVelocity;
                 directDamage = FlakDirectDamage;
                 splashRadius = FlakSplashRadius;
-                lifetime = (float) instanceData[2];
+                lifetime = (float) instanceData[2]; // This value is determined by the turret
+                // These lines turn the meshes on and off
                 redPulse.gameObject.SetActive(false);
                 bluePulse.gameObject.SetActive(false);
                 flakShell.gameObject.SetActive(true);
@@ -71,7 +79,7 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void Update() {
-            if (PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.isMasterClient) // Force masterclient control of time based detonation
             {
                 lifetimer += Time.deltaTime;
                 if (lifetimer >= lifetime)
@@ -83,12 +91,14 @@ namespace Com.Wulfram3 {
 
         void DoEffects(Vector3 pos)
         {
+            // We should not get here unless we are masterclient (See Update(), OnCollisionEnter())
             gameManager.SpawnExplosion(pos);
             PhotonNetwork.Destroy(gameObject);
         }
 
         void DoDamage(Transform target, int amount)
         {
+            // We should not get here unless we are masterclient (See OnCollisionEnter())
             Unit unit = target.GetComponent<Unit>();
             HitPointsManager hpm = target.GetComponent<HitPointsManager>();
             if (unit != null && hpm != null && unit.unitTeam != team)
@@ -99,9 +109,10 @@ namespace Com.Wulfram3 {
 
         void SplashDamage(Collider[] hitObjects, Vector3 hitPos, Transform originalHit)
         {
+            // We should not get here unless we are masterclient (See OnCollisionEnter())
             foreach (Collider c in hitObjects)
             {
-                if (!c.transform.Equals(originalHit))
+                if (!c.transform.Equals(originalHit)) // Ignore the object hit directly, it has already been damaged
                 {
                     float pcnt = (splashRadius - Vector3.Distance(hitPos, c.transform.position)) / splashRadius;
                     DoDamage(c.transform, (int)Mathf.Ceil(directDamage * pcnt));
@@ -110,7 +121,7 @@ namespace Com.Wulfram3 {
         }
 
         void OnCollisionEnter(Collision col) {
-            if (PhotonNetwork.isMasterClient) {
+            if (PhotonNetwork.isMasterClient) { // Force masterclient handling of damage and effects
                 Vector3 hitPosition = col.contacts[0].point;
                 Collider[] splashedObjects = Physics.OverlapSphere(hitPosition, splashRadius);
                 DoEffects(hitPosition);
