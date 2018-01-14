@@ -81,6 +81,7 @@ namespace Com.Wulfram3
         private Quaternion originalRotation;
         private Rigidbody myRigidbody;
         private HitPointsManager hitpointsManager;
+        private Transform onRepairPad;
 
         void Start()
         {
@@ -292,8 +293,16 @@ namespace Com.Wulfram3
 
         private void Land(RaycastHit hit)
         {
-            isGrounded = true;
-            myRigidbody.freezeRotation = true;
+            if (hit.transform != null)
+            {
+                Unit u = hit.transform.GetComponent<Unit>();
+                if (u != null && u.unitType == UnitType.RepairPad)
+                {
+                    Physics.IgnoreCollision(hit.transform.GetComponent<Collider>(), GetComponent<Collider>(), true);
+                    onRepairPad = hit.transform;
+                    Debug.Log("Landed on Repair Pad.");
+                }
+            }
             /*
              *  TODO: Make this into an "animation" (Lerp)
             Vector3 fwd = transform.forward;
@@ -302,13 +311,21 @@ namespace Com.Wulfram3
             */
             transform.Translate(hit.point - CenteredLowestPoint());
             transform.Translate(Vector3.up * 0.15f); // prevent collision overlap TODO: smoothly move into position
+            myRigidbody.freezeRotation = true;
             myRigidbody.isKinematic = true; //do not let physics forces affect this body
+            isGrounded = true;
             AudioSource.PlayClipAtPoint(landSource, transform.position);
             GetComponent<AudioSource>().Stop();
         }
 
         private void TakeOff()
         {
+            if (onRepairPad != null)
+            {
+                Debug.Log("Took Off from Repair Pad.");
+                Physics.IgnoreCollision(onRepairPad.GetComponent<Collider>(), GetComponent<Collider>(), false);
+                onRepairPad = null;
+            }
             myRigidbody.isKinematic = false; //let physics forces affect this body again
             myRigidbody.freezeRotation = false;
             isLanded = false;
