@@ -146,19 +146,22 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                object[] instanceData = new object[1];
+                object[] instanceData = new object[2];
                 instanceData[0] = (PunTeams.Team) args[2];
+                instanceData[1] = UnitType.Tank;
                 PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/PulseShell", (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
             }
         }
 
-        public void SpawnFlakShell(Vector3 pos, Quaternion rotation, PunTeams.Team team)
+        public void SpawnFlakShell(Vector3 pos, Quaternion rotation, PunTeams.Team team, float fuse)
         {
             if (PhotonNetwork.isMasterClient)
             {
-                object[] instanceData = new object[1];
+                object[] instanceData = new object[3];
                 instanceData[0] = team;
-                PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/FlakShell", pos, rotation, 0, instanceData);
+                instanceData[1] = UnitType.FlakTurret;
+                instanceData[2] = fuse;
+                GameObject shell = PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/PulseShell", pos, rotation, 0, instanceData);
             }
         }
 

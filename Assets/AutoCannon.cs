@@ -10,7 +10,7 @@ namespace Com.Wulfram3 {
 		public AudioSource audio;
         public int bulletDamageinHitpoints = 1;
         public float bulletsPerSecond = 10;
-        public float range = 40;
+        public float range = 80;
         public float deviationConeRadius = 1;
         public int fuelPerBullet = 1;
 		private GameManager gameManager;
