@@ -47,8 +47,9 @@ namespace Com.Wulfram3
                         deployDelay = Time.time + 0.2f;
                         ToggleDeployMode();
                     }
-                    if (currentPlaceableObject != null)
+                    if (currentPlaceableObject != null && Time.time > deployDelay)
                     {
+                        deployDelay = Time.time + 0.2f;
                         currentPlaceableObject.transform.position = GetBestPosition();
                         RotateFromMouseWheel();
                         if (Input.GetMouseButtonDown(0))
@@ -75,7 +76,6 @@ namespace Com.Wulfram3
         [PunRPC]
         public void GetCargo(PunTeams.Team t, UnitType u, int viewID)
         {
-            Debug.Log("Got Cargo. " + t + " " + u + " " + viewID);
             hasCargo = true;
             cargoType = u;
             cargoTeam = t;
@@ -89,7 +89,6 @@ namespace Com.Wulfram3
         [PunRPC]
         public void DroppedCargo()
         {
-            Debug.Log("Dropped Cargo");
             GetComponent<AudioSource>().PlayOneShot(cargoDropSound, 1.0f);
             hasCargo = false;
             cargoType = UnitType.None;
@@ -99,7 +98,6 @@ namespace Com.Wulfram3
         public void CancelDeployCargo() {
             if (currentPlaceableObject != null)
             {
-                Debug.Log("Cancelled Deployment");
                 Destroy(currentPlaceableObject.gameObject);
                 currentPlaceableObject = null;
             }
@@ -110,7 +108,6 @@ namespace Com.Wulfram3
         {
             if (Input.GetAxis("DeployCargo") > 0f && hasCargo && currentPlaceableObject == null)
             {
-                Debug.Log("Starting Deployment");
                 string prefab = Unit.GetPrefabName(cargoType, myTeam);
                 GameObject newObject = Instantiate(Resources.Load(prefab), GetBestPosition(), transform.rotation) as GameObject;
                 newObject.GetComponent<Rigidbody>().isKinematic = true;

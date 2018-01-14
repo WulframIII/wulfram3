@@ -39,7 +39,7 @@ namespace Com.Wulfram3
                 case UnitType.Darklight: s += "Darklight"; break;
                 case UnitType.FlakTurret: s += "FlakTurret"; break;
                 case UnitType.GunTurret: s += "GunTurret"; break;
-                case UnitType.MissleLauncher: s += "Launcher"; break;
+                case UnitType.MissleLauncher: s += "MissileLauncher"; break;
                 case UnitType.PowerCell: s += "Powercell"; break;
                 case UnitType.RepairPad: s += "RepairPad"; break;
                 case UnitType.Skypump: s += "Skypump"; break;

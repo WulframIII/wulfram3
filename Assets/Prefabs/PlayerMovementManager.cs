@@ -310,7 +310,7 @@ namespace Com.Wulfram3
             transform.rotation = Quaternion.LookRotation(proj, hit.normal);
             */
             transform.Translate(hit.point - CenteredLowestPoint());
-            transform.Translate(Vector3.up * 0.15f); // prevent collision overlap TODO: smoothly move into position
+            //transform.Translate(Vector3.up * 0.03f); // prevent collision overlap TODO: smoothly move into position
             myRigidbody.freezeRotation = true;
             myRigidbody.isKinematic = true; //do not let physics forces affect this body
             isGrounded = true;
