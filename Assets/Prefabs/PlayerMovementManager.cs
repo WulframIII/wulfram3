@@ -154,7 +154,8 @@ namespace Com.Wulfram3
         public void PrepareForRespawn()
         {
             myMesh.gameObject.SetActive(false);
-            myRigidbody.isKinematic = true;
+            if (myRigidbody != null)
+                myRigidbody.isKinematic = true;
             GetComponent<Collider>().enabled = false;
             GetComponent<KGFMapIcon>().SetVisibility(false);
             //gameManager.SpawnExplosion(transform.position);

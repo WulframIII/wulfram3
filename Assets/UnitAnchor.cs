@@ -94,15 +94,9 @@ namespace Com.Wulfram3 {
                 }
             }
             distanceFromAnchor = Vector3.Distance(transform.position, anchorPosition);
-            if (myUnit.unitType == UnitType.GunTurret && myUnit.unitTeam == PunTeams.Team.blue)
-            {
-                //Debug.Log("Current Position: " + transform.position);
-                //Debug.Log("Anchor  Position: " + anchorPosition);
-                //Debug.Log("Distance From Anchor: " + distanceFromAnchor);
-
-            }
-            float newX = Mathf.SmoothDamp(transform.position.x, anchorPosition.x, ref xVelocitySmoothing, distanceFromAnchor / anchorStrength);
-            float newZ = Mathf.SmoothDamp(transform.position.z, anchorPosition.z, ref zVelocitySmoothing, distanceFromAnchor / anchorStrength);
+            //Debug.Log(transform.name + " " + distanceFromAnchor);
+            float newX = Mathf.SmoothDamp(transform.position.x, anchorPosition.x, ref xVelocitySmoothing, anchorStrength);
+            float newZ = Mathf.SmoothDamp(transform.position.z, anchorPosition.z, ref zVelocitySmoothing, anchorStrength);
             transform.position = new Vector3(newX, transform.position.y, newZ);
 
         }
