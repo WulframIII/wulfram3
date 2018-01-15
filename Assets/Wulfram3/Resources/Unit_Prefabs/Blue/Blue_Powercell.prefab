@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 114484794739179982}
   - component: {fileID: 114000518286467520}
   - component: {fileID: 114322079636845708}
+  - component: {fileID: 114274829614439682}
   m_Layer: 0
   m_Name: Blue_Powercell
   m_TagString: Untagged
@@ -274,6 +275,17 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114274829614439682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1411409852393788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa02b760a7e9fb647b5a682ab3a7436d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114322079636845708
 MonoBehaviour:
   m_ObjectHideFlags: 1

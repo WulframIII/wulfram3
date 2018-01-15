@@ -22,7 +22,7 @@ namespace Com.Wulfram3 {
             if (photonView.isMine) {
                 targetPos = firstPersonPos;
                 currentPos = targetPos;
-                Debug.Log(currentPos);
+                //Debug.Log(currentPos);
                 cam = Camera.main;
                 cam.transform.SetParent(transform);
                 cam.transform.localPosition = currentPos;

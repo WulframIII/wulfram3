@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114455219746451338}
   - component: {fileID: 114709570165848432}
   - component: {fileID: 114595835502763240}
+  - component: {fileID: 114651640252980472}
   m_Layer: 0
   m_Name: Blue_Darklight
   m_TagString: Untagged
@@ -286,6 +287,17 @@ MonoBehaviour:
     itsBlinking: 0
     itsDepth: 0
     itsRepresentation: {fileID: 0}
+--- !u!114 &114651640252980472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322310275738086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa02b760a7e9fb647b5a682ab3a7436d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114709570165848432
 MonoBehaviour:
   m_ObjectHideFlags: 1

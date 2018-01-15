@@ -13,6 +13,7 @@ namespace Com.Wulfram3 {
         private Rigidbody myRigidbody;
         private Unit myUnit;
         private bool isAnchored = false;
+        private bool heightAttained = false;
         private float diffX;
         private float diffZ;
         private float xVelocitySmoothing = 0.0f;
@@ -35,17 +36,15 @@ namespace Com.Wulfram3 {
             myUnit = GetComponent<Unit>();
             if (myUnit != null)
             {
+                unitHeight = 0.05f;
+                anchorStrength = 0.05f;
                 if (myUnit.unitType == UnitType.FlakTurret) {
                     unitHeight = 6f;
                     anchorStrength = .1f;
                 }
                 if (myUnit.unitType == UnitType.GunTurret) {
                     unitHeight = 4f;
-                    anchorStrength = 1f;
-                }
-                if (myUnit.unitType == UnitType.MissleLauncher) {
-                    unitHeight = 0.05f;
-                    anchorStrength = .05f;
+                    anchorStrength = 2f;
                 }
             }
 
@@ -62,12 +61,14 @@ namespace Com.Wulfram3 {
 
         private void SetToNormal()
         {
-            /*
-            Vector3 fwd = transform.forward;
-            Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
-            transform.rotation = Quaternion.LookRotation(proj, hit.normal);
-            transform.Translate(hit.point - CenteredLowestPoint());
-            */
+            RaycastHit hit;
+            if (Physics.Raycast(new Ray(transform.position, Vector3.down), out hit))
+            {
+                Vector3 fwd = transform.forward;
+                Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
+                transform.rotation = Quaternion.LookRotation(proj, hit.normal);
+                transform.Translate(hit.point - CenteredLowestPoint());
+            }
         }
 
 
@@ -77,30 +78,48 @@ namespace Com.Wulfram3 {
         {
             if (unitHeight > 0.05f)
             {
-                Ray ray = new Ray(CenteredLowestPoint(), -Vector3.up);
-                Ray checkRay = new Ray(transform.position, -Vector3.up); // This double check helps make sure the unit doesn't get stuck in the ground
-                RaycastHit hit;
-                RaycastHit groundCheck;
-                if (Physics.Raycast(ray, out hit, unitHeight) || (Physics.Raycast(checkRay, out groundCheck, unitHeight) && groundCheck.distance != 0 && hit.distance == 0))
+                if (!heightAttained)
                 {
-                    if (hit.distance < unitHeight)
+                    Ray ray = new Ray(CenteredLowestPoint(), -Vector3.up);
+                    Ray checkRay = new Ray(transform.position, -Vector3.up); // This double check helps make sure the unit doesn't get stuck in the ground
+                    RaycastHit hit;
+                    RaycastHit groundCheck;
+                    if (Physics.Raycast(ray, out hit, unitHeight) || (Physics.Raycast(checkRay, out groundCheck, unitHeight) && groundCheck.distance != 0 && hit.distance == 0))
                     {
-                        float ftcGravity = Physics.gravity.y * myRigidbody.mass;
-                        float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
-                        float multi = (unitHeight - hit.distance) / unitHeight;
-                        float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
-                        myRigidbody.AddForce(new Vector3(0f, -force, 0f));
+                        float d = hit.distance;
+                        if (d < unitHeight)
+                        {
+                            float ftcGravity = Physics.gravity.y * myRigidbody.mass;
+                            float ftcVelocity = myRigidbody.velocity.y * myRigidbody.mass;
+                            float multi = (unitHeight - d) / unitHeight;
+                            float force = (ftcGravity + ftcVelocity) * (multi * myRigidbody.mass);
+                            myRigidbody.AddForce(new Vector3(0f, -force, 0f));
+                        }
+                        if (Mathf.Abs(unitHeight - d) < 0.25f)
+                        {
+                            myRigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+                            heightAttained = true;
+                        }
                     }
                 }
+                float distanceFromAnchorX = transform.position.x - anchorPosition.x;
+                float distanceFromAnchorZ = transform.position.z - anchorPosition.z;
+                if (distanceFromAnchorX + distanceFromAnchorZ != 0f)
+                {
+                    float newX = Mathf.SmoothDamp(transform.position.x, anchorPosition.x, ref xVelocitySmoothing, anchorStrength);
+                    float newZ = Mathf.SmoothDamp(transform.position.z, anchorPosition.z, ref zVelocitySmoothing, anchorStrength);
+                    transform.position = new Vector3(newX, transform.position.y, newZ);
+                }
             }
-            distanceFromAnchor = Vector3.Distance(transform.position, anchorPosition);
-            //Debug.Log(transform.name + " " + distanceFromAnchor);
-            float newX = Mathf.SmoothDamp(transform.position.x, anchorPosition.x, ref xVelocitySmoothing, anchorStrength);
-            float newZ = Mathf.SmoothDamp(transform.position.z, anchorPosition.z, ref zVelocitySmoothing, anchorStrength);
-            transform.position = new Vector3(newX, transform.position.y, newZ);
-
+            else if (unitHeight <= 0.05f && !isAnchored)
+            {
+                if (myRigidbody.velocity.y == 0)
+                {
+                    SetToNormal();
+                    isAnchored = true;
+                    myRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                }
+            }
         }
-
-
     }
 }

@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114707874531502074}
   - component: {fileID: 114030639380942160}
   - component: {fileID: 114743675938077850}
+  - component: {fileID: 114891847560880276}
   m_Layer: 0
   m_Name: Red_Skypump
   m_TagString: Untagged
@@ -297,6 +298,17 @@ MonoBehaviour:
   unitTeam: 1
   unitType: 10
   hitPointRegenerationSpeed: 1
+--- !u!114 &114891847560880276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1680976046716926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa02b760a7e9fb647b5a682ab3a7436d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114911426922450984
 MonoBehaviour:
   m_ObjectHideFlags: 1

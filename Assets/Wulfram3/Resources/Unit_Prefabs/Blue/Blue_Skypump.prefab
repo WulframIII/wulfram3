@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114038892685458714}
   - component: {fileID: 114336097434021786}
   - component: {fileID: 114522290771496388}
+  - component: {fileID: 114093033276945372}
   m_Layer: 0
   m_Name: Blue_Skypump
   m_TagString: Untagged
@@ -217,6 +218,17 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114093033276945372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1004258127198914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa02b760a7e9fb647b5a682ab3a7436d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114153821679880608
 MonoBehaviour:
   m_ObjectHideFlags: 1
