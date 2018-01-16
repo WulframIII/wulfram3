@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Wulfram3.Scripts.Units;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +22,13 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void LateUpdate() {
-            if (target != null && target.GetComponentInChildren<MeshRenderer>().isVisible && Camera.main != null) {
-                playerNameText.gameObject.SetActive(true);
+            var isMeshVisable = target.GetComponentInChildren<MeshRenderer>().isVisible;
+            var isMapIconVisable = target.GetComponent<KGFMapIcon>().GetIsVisible();
+
+
+
+            if (target != null && isMeshVisable && isMapIconVisable) {
+                playerNameText.gameObject.SetActive(false);
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
                 pos.z = 0;
                 RectTransform rectTransform = GetComponent<RectTransform>();

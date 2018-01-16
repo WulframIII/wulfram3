@@ -31,9 +31,9 @@ namespace Com.Wulfram3 {
             if (target != null  && Camera.main != null) {
                 targetInfoPanel.SetActive(true);
                 pos = Camera.main.WorldToScreenPoint(target.transform.position);
-                pos.z = 10;
+                pos.z = 0;
                 RectTransform rectTransform = GetComponent<RectTransform>();
-                pos.y -= 30;
+                pos.y -= 20;
                 //rectTransform.localPosition = new Vector2(0, 100);
                 rectTransform.SetPositionAndRotation(pos, rectTransform.rotation);
 
@@ -92,7 +92,7 @@ namespace Com.Wulfram3 {
                 {
                     user.text = "";
                 }
-                user.text = "";
+                
             }
             else {
                 targetInfoPanel.SetActive(false);
