@@ -79,8 +79,8 @@ GameObject:
   - component: {fileID: 114903031419954408}
   - component: {fileID: 114997177768989122}
   - component: {fileID: 65351598153965978}
-  - component: {fileID: 136651356830158632}
   - component: {fileID: 114395215530488426}
+  - component: {fileID: 65680854470151000}
   m_Layer: 0
   m_Name: Red_RepairPad
   m_TagString: Untagged
@@ -283,6 +283,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 0.3, z: 6}
   m_Center: {x: 0, y: 0.15, z: 0}
+--- !u!65 &65680854470151000
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251590621061418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7, y: 0.75, z: 1}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!114 &114048330860065310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -627,19 +639,6 @@ MonoBehaviour:
     itsBlinking: 0
     itsDepth: 0
     itsRepresentation: {fileID: 0}
---- !u!136 &136651356830158632
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1251590621061418}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.45
-  m_Height: 2
-  m_Direction: 0
-  m_Center: {x: 0, y: 0.76, z: 0}
 --- !u!222 &222089636466614202
 CanvasRenderer:
   m_ObjectHideFlags: 1
