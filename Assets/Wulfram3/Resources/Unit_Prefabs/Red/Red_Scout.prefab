@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 120915042783933012}
   - component: {fileID: 114827047216347230}
   - component: {fileID: 114552202092692640}
+  - component: {fileID: 114193097623871770}
   m_Layer: 8
   m_Name: Red_Scout
   m_TagString: Player
@@ -117,22 +118,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1839418139603176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4958807940643120}
-  - component: {fileID: 114597187794431894}
-  m_Layer: 0
-  m_Name: KGFMapIcon_player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4027112254131238
 Transform:
   m_ObjectHideFlags: 1
@@ -140,12 +125,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1311960525721248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -151.3712, y: 128.61868, z: 300.07672}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693970051691996}
   - {fileID: 4218497653783558}
-  - {fileID: 4958807940643120}
   - {fileID: 4423198223423950}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -174,7 +158,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4027112254131238}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4693970051691996
 Transform:
@@ -202,19 +186,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4693970051691996}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4958807940643120
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839418139603176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4027112254131238}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!15 &15874964660006222
 EllipsoidParticleEmitter:
@@ -569,7 +540,7 @@ MonoBehaviour:
   bulletsPerSecond: 6
   range: 50
   deviationConeRadius: 1
-  fuelPerBullet: 4
+  fuelPerBullet: 1
   gunEnd: {fileID: 4218497653783558}
   simDelayInSeconds: 0.1
   laserLine: {fileID: 120915042783933012}
@@ -597,6 +568,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe60b439fbe6564489b162c18a4af8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114193097623871770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1311960525721248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02254739a0001f849982520e1f08344c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itsDataMapIcon:
+    itsCategory: Red_Units
+    itsTextureIcon: {fileID: 2800000, guid: e04683c90b6dbf5489ca52a6e8ca72c9, type: 3}
+    itsTextureArrow: {fileID: 0}
+    itsRotate: 0
+    itsColor: {r: 1, g: 1, b: 1, a: 1}
+    itsIsVisible: 1
+    itsUseArrow: 0
+    itsRevealFogOfWar: 0
+    itsShowToolTip: 1
+    itsToolTip: Red Scout
+    itsIconScale: 1
+    itsBlinking: 0
+    itsDepth: 0
+    itsRepresentation: {fileID: 0}
 --- !u!114 &114197083321533692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -782,35 +779,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e0cdabcce6d374fb2852bd16157531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelRegenerationPerSecond: 2
+  fuelRegenerationPerSecond: 3
   maxFuel: 200
   fuel: 0
---- !u!114 &114597187794431894
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839418139603176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02254739a0001f849982520e1f08344c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itsDataMapIcon:
-    itsCategory: player
-    itsTextureIcon: {fileID: 2800000, guid: 7ab5e0add049a3442bbb6dd4baf60d31, type: 3}
-    itsTextureArrow: {fileID: 0}
-    itsRotate: 1
-    itsColor: {r: 1, g: 1, b: 1, a: 1}
-    itsIsVisible: 1
-    itsUseArrow: 1
-    itsRevealFogOfWar: 0
-    itsShowToolTip: 1
-    itsToolTip: 
-    itsIconScale: 0.1
-    itsBlinking: 0
-    itsDepth: 0
-    itsRepresentation: {fileID: 0}
 --- !u!114 &114660593373761404
 MonoBehaviour:
   m_ObjectHideFlags: 1

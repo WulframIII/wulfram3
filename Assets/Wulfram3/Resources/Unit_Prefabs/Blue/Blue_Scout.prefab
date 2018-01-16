@@ -512,7 +512,7 @@ MonoBehaviour:
   bulletsPerSecond: 6
   range: 50
   deviationConeRadius: 1
-  fuelPerBullet: 4
+  fuelPerBullet: 1
   gunEnd: {fileID: 4194931982462756}
   simDelayInSeconds: 0.1
   laserLine: {fileID: 120009877810057228}
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itsDataMapIcon:
     itsCategory: Blue_Vehicles
-    itsTextureIcon: {fileID: 2800000, guid: 7ab5e0add049a3442bbb6dd4baf60d31, type: 3}
+    itsTextureIcon: {fileID: 2800000, guid: 3ed5553cc0a30af4ab1c543c293decc6, type: 3}
     itsTextureArrow: {fileID: 0}
     itsRotate: 1
     itsColor: {r: 0, g: 0, b: 1, a: 1}

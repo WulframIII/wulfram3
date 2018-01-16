@@ -195,14 +195,19 @@ namespace Com.Wulfram3
             if (!Cursor.visible)
             {
                 myRigidbody.freezeRotation = false;
+                float mx = Input.GetAxis("Mouse X");
+                float my = Input.GetAxis("Mouse Y");
+                if ((isGrounded || isLanded) && mx + my > 0)
+                {
+                    TakeOff();
+                }
                 if (!isGrounded)
                 {
                     if (axes == RotationAxes.MouseXAndY)
                     {
-                        if (isLanded) { isLanded = false; }
                         // Read the mouse input axis
-                        rotationX += Input.GetAxis("Mouse X") * sensitivityX;
-                        rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+                        rotationX += mx * sensitivityX;
+                        rotationY += my * sensitivityY;
                         rotationX = ClampAngle(rotationX, minimumX, maximumX);
                         rotationY = ClampAngle(rotationY, minimumY, maximumY);
                         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -211,22 +216,19 @@ namespace Com.Wulfram3
                     }
                     else if (axes == RotationAxes.MouseX)
                     {
-                        if (isLanded) { isLanded = false; }
-                        rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+                        rotationX += mx * sensitivityX;
                         rotationX = ClampAngle(rotationX, minimumX, maximumX);
                         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
                         transform.localRotation = originalRotation * xQuaternion;
                     }
                     else
                     {
-                        if (isLanded) { isLanded = false; }
-                        rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+                        rotationY += my * sensitivityY;
                         rotationY = ClampAngle(rotationY, minimumY, maximumY);
                         Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
                         transform.localRotation = originalRotation * yQuaternion;
                     }
                 }
-
                 inputX = Input.GetAxis("Strafe");
                 inputZ = Input.GetAxis("Drive");
                 boosting = Input.GetKeyDown(KeyCode.LeftShift);
@@ -271,8 +273,10 @@ namespace Com.Wulfram3
                     }
                 }
 
-                if (isLanded && inputX == 0 && inputZ == 0)
+                if (isLanded)
                 {
+                    inputX = 0;
+                    inputZ = 0;
                     RaycastHit hit;
                     if (!isGrounded && Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, GetComponent<Collider>().bounds.extents.z * 1.15f))
                         Land(hit);
@@ -362,6 +366,7 @@ namespace Com.Wulfram3
                  *  - TODO: Could handle high velocities a little better
                  */
                 //Ray ray = new Ray(transform.position, -Vector3.up);
+                //Debug.Log(rotationX + " " + rotationY);
                 Ray ray = new Ray(CenteredLowestPoint(), -Vector3.up);
                 Ray checkRay = new Ray(transform.position, -Vector3.up); // This double check helps make sure the tank doesn't get stuck in the ground
                 RaycastHit hit;

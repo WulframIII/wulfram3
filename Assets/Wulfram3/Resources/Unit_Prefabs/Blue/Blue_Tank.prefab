@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e0cdabcce6d374fb2852bd16157531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelRegenerationPerSecond: 4
+  fuelRegenerationPerSecond: 6
   maxFuel: 500
   fuel: 500
 --- !u!114 &114653122790086002
@@ -678,10 +678,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itsDataMapIcon:
     itsCategory: Blue_Vehicles
-    itsTextureIcon: {fileID: 2800000, guid: 7ab5e0add049a3442bbb6dd4baf60d31, type: 3}
+    itsTextureIcon: {fileID: 2800000, guid: 3ed5553cc0a30af4ab1c543c293decc6, type: 3}
     itsTextureArrow: {fileID: 0}
     itsRotate: 1
-    itsColor: {r: 0, g: 0, b: 1, a: 1}
+    itsColor: {r: 0.20392159, g: 0.59607846, b: 0.9960785, a: 1}
     itsIsVisible: 1
     itsUseArrow: 0
     itsRevealFogOfWar: 0
@@ -710,7 +710,7 @@ MonoBehaviour:
   bulletsPerSecond: 8
   range: 65
   deviationConeRadius: 1
-  fuelPerBullet: 4
+  fuelPerBullet: 1
   gunEnd: {fileID: 4011267892925864}
   simDelayInSeconds: 0.1
   laserLine: {fileID: 120742007851187392}
