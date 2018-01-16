@@ -15,7 +15,7 @@ namespace Com.Wulfram3
         public Transform gunEnd;
 
         [Tooltip("Main Thrust Power")]
-        private float baseThrust = 5f;
+        private float baseThrust = 4f;
         [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
         public float strafePercent = 0.6f;
         [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
@@ -29,7 +29,7 @@ namespace Com.Wulfram3
         public float pulseShellFiringImpulse = 8f;
 
         public float maxVelocityX = 3f;
-        public float maxVelocityZ = 5f;
+        public float maxVelocityZ = 4f;
         public float boostMultiplier = 1.125f;
 
         [Tooltip("User Controlled, Also Starting Height")]
@@ -114,7 +114,8 @@ namespace Com.Wulfram3
         {
             if (photonView.isMine)
             {
-                myRigidbody.freezeRotation = false;
+                if (myRigidbody != null)
+                    myRigidbody.freezeRotation = false;
                 
                 isLanded = false;
                 isGrounded = false;
@@ -130,23 +131,23 @@ namespace Com.Wulfram3
         [PunRPC]
         public void SetPosAndRotation(Vector3 pos, Quaternion rot)
         {
+            CheckRespawn();
             if (!photonView.isMine)
                 return;
-            CheckRespawn();
             transform.position = pos;
             transform.rotation = rot;
         }
 
         void CheckRespawn()
         {
+            myMesh.gameObject.SetActive(true);
+            GetComponent<AudioSource>().Play();
+            GetComponent<Collider>().enabled = true;
+            GetComponent<KGFMapIcon>().SetVisibility(true);
             if (isSpawning)
             {
                 isSpawning = false;
                 myRigidbody.isKinematic = false;
-                myMesh.gameObject.SetActive(true);
-                GetComponent<AudioSource>().Play();
-                GetComponent<Collider>().enabled = true;
-                GetComponent<KGFMapIcon>().SetVisibility(true);
             }
 
         }

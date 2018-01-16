@@ -9,7 +9,7 @@ namespace Com.Wulfram3 {
         public Transform gunEnd;  // Needs to be set in inspector, empty transform, where projectiles spawn
         private float rangeMax = 75f; // Targets beyond this range will be discarded (Note: FlakTurret prefabs also employ a sphere trigger to track targetList)
         private float rangeMin = 6f;  // Targets below this range will be ignored
-        private float fireDelay = 3f; // Delay between each three round burst
+        private float fireDelay = 2.2f; // Delay between each three round burst
         private float shellDelay = 0.4f; // Delay between shells
         private float turnSpeed = 90; // This value should be high to make sure turrets can intercept fast moving targets
         private int shellCount = 3; // Shells per burst

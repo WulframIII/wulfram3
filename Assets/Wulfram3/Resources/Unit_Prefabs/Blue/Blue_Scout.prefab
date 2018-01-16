@@ -738,7 +738,7 @@ MonoBehaviour:
   jumpSource: {fileID: 8300000, guid: 820211a4788f1fd40855df02517e52f6, type: 3}
   landSource: {fileID: 8300000, guid: 35682798191d9a94ca9ec4c46954a84c, type: 3}
   takeoffSource: {fileID: 8300000, guid: 12a3f660b4dadc54bad69f0b1d3293bb, type: 3}
-  myMesh: {fileID: 0}
+  myMesh: {fileID: 4506877027605806}
   gunEnd: {fileID: 4194931982462756}
   strafePercent: 0.6
   thrustMultiplier: 1
