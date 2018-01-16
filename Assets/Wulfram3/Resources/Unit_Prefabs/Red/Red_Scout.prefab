@@ -583,8 +583,8 @@ MonoBehaviour:
     itsCategory: Red_Units
     itsTextureIcon: {fileID: 2800000, guid: e04683c90b6dbf5489ca52a6e8ca72c9, type: 3}
     itsTextureArrow: {fileID: 0}
-    itsRotate: 0
-    itsColor: {r: 1, g: 1, b: 1, a: 1}
+    itsRotate: 1
+    itsColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
     itsIsVisible: 1
     itsUseArrow: 0
     itsRevealFogOfWar: 0
@@ -592,7 +592,7 @@ MonoBehaviour:
     itsToolTip: Red Scout
     itsIconScale: 1
     itsBlinking: 0
-    itsDepth: 0
+    itsDepth: 3
     itsRepresentation: {fileID: 0}
 --- !u!114 &114197083321533692
 MonoBehaviour:

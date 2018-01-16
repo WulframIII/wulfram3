@@ -707,7 +707,7 @@ MonoBehaviour:
     itsToolTip: Red Tank
     itsIconScale: 1
     itsBlinking: 0
-    itsDepth: 0
+    itsDepth: 3
     itsRepresentation: {fileID: 0}
 --- !u!114 &114713693055111370
 MonoBehaviour:
