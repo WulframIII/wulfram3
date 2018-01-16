@@ -63,7 +63,7 @@ namespace Com.Wulfram3 {
                     redPulse.gameObject.SetActive(false);
                     bluePulse.gameObject.SetActive(true);
                 }
-                else
+                else if (team == PunTeams.Team.red)
                 {
                     redPulse.gameObject.SetActive(true);
                     bluePulse.gameObject.SetActive(false);
@@ -89,6 +89,18 @@ namespace Com.Wulfram3 {
             }
         }
 
+        private void FixedUpdate()
+        {
+            if (PhotonNetwork.isMasterClient) // Force masterclient control of velocity base detonation
+            {
+                Rigidbody rb = GetComponent<Rigidbody>();
+                if (rb.velocity != transform.forward * velocity)
+                {
+                    SplashDetonation();
+                }
+            }
+        }
+
         void DoEffects(Vector3 pos)
         {
             // We should not get here unless we are masterclient (See Update(), OnCollisionEnter())
@@ -105,6 +117,15 @@ namespace Com.Wulfram3 {
             {
                 hpm.TellServerTakeDamage(amount);
             }
+        }
+
+        void SplashDetonation()
+        {
+            /*
+             * Desired Effect When Hit Here
+             * 
+             */
+            DoEffects(transform.position);
         }
 
         void SplashDamage(Collider[] hitObjects, Vector3 hitPos, Transform originalHit)
