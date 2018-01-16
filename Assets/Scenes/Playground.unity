@@ -7984,11 +7984,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22443856, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000004357242
+      value: -0.00001594539
       objectReference: {fileID: 0}
     - target: {fileID: 22447778, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22412608, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -8004,7 +8004,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22447778, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00004731737
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 22456794, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.y

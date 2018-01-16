@@ -129,9 +129,9 @@ public class MapModeManager : MonoBehaviour {
                 if(unitInfo.IsUnitFriendly())
                 {
                     if(PlayerSpawnManager.status == SpawnStatus.IsReady)
-                    {
-                        ActivateMapMode(MapType.Mini);
+                    {     
                         PlayerSpawnManager.SpawnPlayer(foundObject.transform.position);
+                        ActivateMapMode(MapType.Mini);
                     }
                 }
             }
