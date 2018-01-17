@@ -41,7 +41,7 @@ namespace Com.Wulfram3
                     if (currentPlaceableObject != null)
                         CancelDeployCargo();
                     dropDelay = Time.time + 0.2f;
-                    gameManager.photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, this);
+                    gameManager.photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, photonView.viewID);
                 }
 
                 if (hasCargo) {
@@ -170,10 +170,12 @@ namespace Com.Wulfram3
         {
             if (Input.GetMouseButtonDown(0) && currentPlaceableObject != null)
             {
-                object[] args = new object[3];
+                object[] args = new object[5];
                 args[0] = currentPlaceableObject.transform.position;
                 args[1] = currentPlaceableObject.transform.rotation;
-                args[2] = this;
+                args[2] = this.cargoType;
+                args[3] = this.cargoTeam;
+                args[4] = this.photonView.viewID;
                 gameManager.photonView.RPC("RequestDeployCargo", PhotonTargets.MasterClient, args);
             }
         }

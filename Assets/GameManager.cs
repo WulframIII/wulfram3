@@ -408,15 +408,27 @@ namespace Com.Wulfram3
         }*/
 
         [PunRPC]
-        public void RequestDropCargo(CargoManager cargoManager) {
-            if (PhotonNetwork.isMasterClient && cargoManager.hasCargo) {
-                Unit u = cargoManager.transform.GetComponent<Unit>();
-                if (u != null) {
-                    object[] o = new object[2];
-                    o[0] = cargoManager.cargoType;
-                    o[1] = cargoManager.cargoTeam;
-                    PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
-                    cargoManager.photonView.RPC("DroppedCargo", PhotonTargets.All, null);
+        public void RequestDropCargo(int senderID) {
+            if (PhotonNetwork.isMasterClient)
+            {
+                PhotonView pv = PhotonView.Find(senderID);
+                if (pv == null)
+                {
+                    Debug.Log("GameManager.cs --- RPC --- RequestDropCargo() Failed to find Photon View with ID: " + senderID);
+                    return;
+                }
+                CargoManager cargoManager = pv.transform.GetComponent<CargoManager>();
+                if (cargoManager != null && cargoManager.hasCargo)
+                {
+                    Unit u = cargoManager.transform.GetComponent<Unit>();
+                    if (u != null)
+                    {
+                        object[] o = new object[2];
+                        o[0] = cargoManager.cargoType;
+                        o[1] = cargoManager.cargoTeam;
+                        PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
+                        pv.RPC("DroppedCargo", PhotonTargets.All, null);
+                    }
                 }
             }
         }
@@ -428,14 +440,13 @@ namespace Com.Wulfram3
             {
                 Vector3 desiredPosition = (Vector3)args[0];
                 Quaternion desiredRotation = (Quaternion) args[1];
-                CargoManager cargoManager = (CargoManager)args[2];
-                UnitType cargoType = cargoManager.cargoType;
-                PunTeams.Team cargoTeam = cargoManager.cargoTeam;
+                UnitType cargoType = (UnitType)args[2];
+                PunTeams.Team cargoTeam = (PunTeams.Team) args[3];
                 object[] o = new object[2];
                 o[0] = cargoType;
                 o[1] = cargoTeam;
                 PhotonNetwork.Instantiate(Unit.GetPrefabName(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
-                cargoManager.photonView.RPC("DeployedCargo", PhotonTargets.All, null);
+                PhotonView.Find((int) args[4]).RPC("DeployedCargo", PhotonTargets.All, null);
 
             }
 

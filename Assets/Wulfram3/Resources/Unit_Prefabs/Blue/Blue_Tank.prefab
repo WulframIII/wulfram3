@@ -682,7 +682,7 @@ MonoBehaviour:
     itsTextureArrow: {fileID: 0}
     itsRotate: 1
     itsColor: {r: 0.63529414, g: 0.63529414, b: 0.63529414, a: 1}
-    itsIsVisible: 0
+    itsIsVisible: 1
     itsUseArrow: 0
     itsRevealFogOfWar: 0
     itsShowToolTip: 1

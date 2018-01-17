@@ -52,7 +52,7 @@ namespace Com.Wulfram3 {
         }
 
         // Use this for initialization
-        void Start() {
+        void Awake() {
             gameManager = FindObjectOfType<GameManager>();
             if (PhotonNetwork.isMasterClient) {
                 SetHealth(initialHealth);

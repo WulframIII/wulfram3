@@ -10,7 +10,7 @@ namespace Com.Wulfram3
         public Transform gunEnd;
         public int bulletDamageinHitpoints = 1;
         public float scanInterval = 2;
-        public float scanRadius = 10;
+        public float scanRadius = 8;
         public float testTargetOnSightInterval = 0.5f;
         public float turnSpeed = 10;
         public float bulletsPerSecond = 4;
@@ -201,6 +201,7 @@ namespace Com.Wulfram3
             timeSinceLastScan += Time.deltaTime;
             if (timeSinceLastScan >= scanInterval)
             {
+                currentTarget = null;
                 Transform closestTarget = null;
                 float minDistance = scanRadius + 1f;
                 Collider[] cols = Physics.OverlapSphere(transform.position, scanRadius);
