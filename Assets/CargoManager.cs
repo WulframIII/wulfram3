@@ -38,6 +38,8 @@ namespace Com.Wulfram3
         void Update() {
             if (photonView.isMine) {
                 if (Input.GetAxisRaw("DropCargo") != 0f && Time.time > dropDelay) {
+                    if (currentPlaceableObject != null)
+                        CancelDeployCargo();
                     dropDelay = Time.time + 0.2f;
                     gameManager.photonView.RPC("RequestDropCargo", PhotonTargets.MasterClient, this);
                 }
@@ -47,9 +49,8 @@ namespace Com.Wulfram3
                         deployDelay = Time.time + 0.2f;
                         ToggleDeployMode();
                     }
-                    if (currentPlaceableObject != null && Time.time > deployDelay)
+                    if (currentPlaceableObject != null)
                     {
-                        deployDelay = Time.time + 0.2f;
                         currentPlaceableObject.transform.position = GetBestPosition();
                         RotateFromMouseWheel();
                         if (Input.GetMouseButtonDown(0))
