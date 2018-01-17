@@ -8,7 +8,7 @@ namespace Com.Wulfram3 {
         public float fuelRegenerationPerSecond = 1f;
         public float landedRegenerationBoost = 5f;
         public int maxFuel = 100;
-        public int boost = 1;
+        public float boost = 1f;
         public int fuel;
         private float fuleRegenerationCollected = 0;
 
