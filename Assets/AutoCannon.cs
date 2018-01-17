@@ -35,8 +35,7 @@ namespace Com.Wulfram3 {
         private float timeBetweenShots;
         private float lastFireTime;
 
-        private int screenW;
-        private int screenH;
+        private Vector3 screenCenter;
         private Transform targetPosition;
 
 
@@ -44,6 +43,10 @@ namespace Com.Wulfram3 {
         void Start() {
 			laserLine = GetComponent<LineRenderer> ();
             timeBetweenShots = 1f / bulletsPerSecond;
+            if (photonView.isMine)
+            {
+                screenCenter = new Vector3(Screen.width/2, Screen.height/2, 0.0f);
+            }
         }
 
 		private GameManager GetGameManager() {
@@ -88,7 +91,7 @@ namespace Com.Wulfram3 {
 
         private void CheckAndFire() {
             if (Input.GetMouseButton(0)) {
-
+                deviationConeRadius = 1f;
                 float currentTime = Time.time;
                 if (lastFireTime + timeBetweenShots > currentTime ) {
                     return;
@@ -122,13 +125,43 @@ namespace Com.Wulfram3 {
                 //CHANGED HERE
                 if (targetFound && ValidTarget(objectHit.transform))
                 {
-                    objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage(bulletDamageinHitpoints);
+                    Vector3 tPos = Camera.main.WorldToScreenPoint(objectHit.transform.GetComponent<Collider>().bounds.center);
+                    Vector3 cPos = new Vector3(tPos.x, tPos.y, 0.0f);
+                    float distanceFromCenter = Vector3.Distance(screenCenter, cPos);
+                    deviationConeRadius = Mathf.Clamp(distanceFromCenter / Object2dRect(objectHit.transform.gameObject).size.magnitude, 0, 1);
+                    float damageMultiplier = 1.1f - deviationConeRadius;
+                    objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage((int) Mathf.Ceil(bulletDamageinHitpoints * damageMultiplier));
                 }
                 AudioSource.PlayClipAtPoint(shootSound, gunEnd.position, 0.1f);
             }
             else {
                 SetAndSyncShooting(false);
             }
+        }
+
+        public static Rect Object2dRect(GameObject go)
+        {
+            Vector3 cen = go.GetComponent<Collider>().bounds.center;
+            Vector3 ext = go.GetComponent<Collider>().bounds.extents;
+            Vector2[] extentPoints = new Vector2[8]
+            {
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y-ext.y, cen.z-ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y-ext.y, cen.z-ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y-ext.y, cen.z+ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y-ext.y, cen.z+ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y+ext.y, cen.z-ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y+ext.y, cen.z-ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y+ext.y, cen.z+ext.z)),
+             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y+ext.y, cen.z+ext.z))
+            };
+            Vector2 min = extentPoints[0];
+            Vector2 max = extentPoints[0];
+            foreach (Vector2 v in extentPoints)
+            {
+                min = Vector2.Min(min, v);
+                max = Vector2.Max(max, v);
+            }
+            return new Rect(min.x, min.y, max.x - min.x, max.y - min.y);
         }
 
         private bool ValidTarget(Transform t)

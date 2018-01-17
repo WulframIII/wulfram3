@@ -669,6 +669,7 @@ MonoBehaviour:
   maximumY: 60
   isDead: 0
   isSpawning: 0
+  onRepairPad: {fileID: 0}
 --- !u!114 &114592851044559998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -680,8 +681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e0cdabcce6d374fb2852bd16157531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelRegenerationPerSecond: 6
+  fuelRegenerationPerSecond: 2
+  landedRegenerationBoost: 5
   maxFuel: 500
+  boost: 1
   fuel: 500
 --- !u!114 &114671736644832210
 MonoBehaviour:
@@ -771,7 +774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b7002416f4dea499e681393d998d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPerSecond: 0.5
+  healthPerSecond: 0.7
+  playerLandedBoost: 2.65
+  repairPadBoost: 75
 --- !u!114 &114910310337350942
 MonoBehaviour:
   m_ObjectHideFlags: 1

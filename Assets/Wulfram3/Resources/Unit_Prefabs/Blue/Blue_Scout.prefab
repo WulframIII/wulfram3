@@ -93,6 +93,8 @@ GameObject:
   - component: {fileID: 114039368455842868}
   - component: {fileID: 120009877810057228}
   - component: {fileID: 114596045229447764}
+  - component: {fileID: 114357646662675358}
+  - component: {fileID: 114731711858064040}
   m_Layer: 0
   m_Name: Blue_Scout
   m_TagString: BlueScout
@@ -670,6 +672,22 @@ MonoBehaviour:
   simDelayInSeconds: 0.1
   laserLine: {fileID: 120510102000796016}
   debug: 1
+--- !u!114 &114357646662675358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652132941029144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e0cdabcce6d374fb2852bd16157531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelRegenerationPerSecond: 2
+  landedRegenerationBoost: 5
+  maxFuel: 500
+  boost: 1
+  fuel: 500
 --- !u!114 &114375137658336526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -766,6 +784,7 @@ MonoBehaviour:
   maximumY: 60
   isDead: 0
   isSpawning: 0
+  onRepairPad: {fileID: 0}
 --- !u!114 &114533530315884322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -915,6 +934,20 @@ MonoBehaviour:
   unitTeam: 2
   unitType: 2
   hitPointRegenerationSpeed: 1
+--- !u!114 &114731711858064040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652132941029144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b7002416f4dea499e681393d998d2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPerSecond: 0.9
+  playerLandedBoost: 2.65
+  repairPadBoost: 75
 --- !u!114 &114740387249911256
 MonoBehaviour:
   m_ObjectHideFlags: 1
