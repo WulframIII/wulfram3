@@ -28,8 +28,8 @@ namespace Com.Wulfram3
         public float timeBetweenShots = 3f;
         public float pulseShellFiringImpulse = 8f;
 
-        public float maxVelocityX = 3f;
-        public float maxVelocityZ = 4f;
+        public float maxVelocityX = 1.5f;
+        public float maxVelocityZ = 2f;
         public float boostMultiplier = 1.125f;
 
         [Tooltip("User Controlled, Also Starting Height")]
@@ -397,17 +397,13 @@ namespace Com.Wulfram3
             // Propulsion
             if (isLanded && (inputX != 0f || inputZ != 0f))
                 TakeOff();
-            if (myRigidbody.velocity.x > maxVelocityX)
-                inputX = 0;
-            if (myRigidbody.velocity.z > maxVelocityZ)
-                inputZ = 0;
+            boost = 1f;
             if (boosting)
-            {
                 boost = 1.125f;
-            } else
-            {
-                boost = 1f;
-            }
+            if (myRigidbody.velocity.x > maxVelocityX * boost)
+                inputX = 0;
+            if (myRigidbody.velocity.z > maxVelocityZ * boost)
+                inputZ = 0;
             Vector3 td = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
             myRigidbody.AddForce(Camera.main.transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier * boost);
             myRigidbody.AddForce(td * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier * boost);

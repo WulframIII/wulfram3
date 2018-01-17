@@ -29,6 +29,10 @@ public class selfDestruct : Photon.PunBehaviour
             {
                 fired = true;
                 photonView.RPC("playParticles", PhotonTargets.All); // Activates the effects on this tank for all players
+            } else if (fired && Input.GetKeyDown(KeyCode.V))
+            {
+                fired = false;
+                photonView.RPC("playParticles", PhotonTargets.All); // Activates the effects on this tank for all players
             }
         }
     }
@@ -52,6 +56,7 @@ public class selfDestruct : Photon.PunBehaviour
                 i++;
             }
             myHPM.TellServerTakeDamage(maximumDamage); // This kills us
+            GetComponent<Rigidbody>().AddExplosionForce(12, transform.position, sphereRadius, 2, ForceMode.Impulse);
             selfDestructObject.SetActive(false); // These final two lines make sure we don't fire again at respawn
             fired = false;
         }
@@ -63,6 +68,9 @@ public class selfDestruct : Photon.PunBehaviour
         if (selfDestructObject.transform && !(selfDestructObject.GetComponentInChildren<ParticleSystem>().isPlaying))
         {
             selfDestructObject.SetActive(true);
+        } else if (selfDestructObject.transform && selfDestructObject.GetComponentInChildren<ParticleSystem>().isPlaying)
+        {
+            selfDestructObject.SetActive(false);
         }
     }
 }
