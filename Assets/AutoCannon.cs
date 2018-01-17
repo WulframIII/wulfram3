@@ -173,7 +173,13 @@ namespace Com.Wulfram3 {
                 Vector3 targetDirection = (targetPoint - pos).normalized;
                 if (Physics.Raycast(rayOrigin, targetDirection, out hit, range)) {
                     bulletHitPoint = hit.point;
-                    AudioSource.PlayClipAtPoint(hitSound, hit.point);
+                    if (hit.transform && ValidTarget(hit.transform))
+                    {
+                        AudioSource.PlayClipAtPoint(hitSound, hit.point);
+                    } else
+                    {
+                        AudioSource.PlayClipAtPoint(missSound, targetPoint);
+                    }
                 }
                 else {
                     bulletHitPoint = targetPoint;
