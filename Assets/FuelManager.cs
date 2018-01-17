@@ -6,8 +6,9 @@ namespace Com.Wulfram3 {
     public class FuelManager : Photon.PunBehaviour {
 
         public float fuelRegenerationPerSecond = 1f;
+        public float landedRegenerationBoost = 5f;
         public int maxFuel = 100;
-
+        public int boost = 1;
         public int fuel;
         private float fuleRegenerationCollected = 0;
 
@@ -19,12 +20,16 @@ namespace Com.Wulfram3 {
         // Update is called once per frame
         void Update() {
             if (photonView.isMine) {
-                float fuel = fuelRegenerationPerSecond * Time.deltaTime;
+                PlayerMovementManager playerMovementManager = GetComponent<PlayerMovementManager>();
+                if (playerMovementManager != null && playerMovementManager.GetIsGrounded())
+                    boost = landedRegenerationBoost;
+                else
+                    boost = 1;
+                float fuel = fuelRegenerationPerSecond * boost * Time.deltaTime;
                 fuleRegenerationCollected += fuel;
                 if (fuleRegenerationCollected >= 1f) {
                     fuleRegenerationCollected--;
-                    PlayerMovementManager playerMovementmanager = GetComponent<PlayerMovementManager>();
-                    if (playerMovementmanager == null || !playerMovementmanager.isDead) {
+                    if (playerMovementManager == null || !playerMovementManager.isDead) {
                         TakeFuel(-1);
                     }
                 }
@@ -38,6 +43,7 @@ namespace Com.Wulfram3 {
         private GameManager GetGameManager() {
             return FindObjectOfType<GameManager>();
         }
+
 
         public bool CanTakeFuel(int amount) {
             int newFuel = fuel - amount;

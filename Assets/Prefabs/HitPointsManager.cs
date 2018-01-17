@@ -8,11 +8,37 @@ namespace Com.Wulfram3 {
         public int initialHealth = 100;
         public int maxHealth = 100;
 
+
         [HideInInspector]
         public int health;
         private GameManager gameManager;
 
-        private int lastUpdateHealth = 0;
+        //private int lastUpdateHealth = 0;
+
+        // Use this for initialization
+        void Awake()
+        {
+            gameManager = FindObjectOfType<GameManager>();
+            if (PhotonNetwork.isMasterClient)
+            {
+                SetHealth(initialHealth);
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            /*
+             * TODO: Implement onDemand Update
+            if (PhotonNetwork.isMasterClient && health != lastUpdateHealth)
+            {
+                lastUpdateHealth = health;
+                object[] o = new object[1];
+                o[0] = health;
+                photonView.RPC("UpdateHealth", PhotonTargets.All, o);
+            }
+            */
+        }
 
         [PunRPC]
         public void TakeDamage(int amount) {
@@ -51,26 +77,5 @@ namespace Com.Wulfram3 {
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, amount);
         }
 
-        // Use this for initialization
-        void Awake() {
-            gameManager = FindObjectOfType<GameManager>();
-            if (PhotonNetwork.isMasterClient) {
-                SetHealth(initialHealth);
-            }
-        }
-
-        // Update is called once per frame
-        void Update() {
-            /*
-             * TODO: Implement onDemand Update
-            if (PhotonNetwork.isMasterClient && health != lastUpdateHealth)
-            {
-                lastUpdateHealth = health;
-                object[] o = new object[1];
-                o[0] = health;
-                photonView.RPC("UpdateHealth", PhotonTargets.All, o);
-            }
-            */
-        }
     }
 }

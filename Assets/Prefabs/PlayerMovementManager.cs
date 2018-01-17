@@ -81,13 +81,11 @@ namespace Com.Wulfram3
         private Quaternion originalRotation;
         private Rigidbody myRigidbody;
         private HitPointsManager hitpointsManager;
-        private Transform onRepairPad;
+        [HideInInspector]
+        public Transform onRepairPad;
 
         void Start()
         {
-            hitpointsManager = GetComponent<HitPointsManager>();
-            gameManager = FindObjectOfType<GameManager>();
-            myRigidbody = GetComponent<Rigidbody>();
             if (!photonView.isMine)
             {
                 myRigidbody.isKinematic = true;
@@ -99,6 +97,9 @@ namespace Com.Wulfram3
 
         private void Awake()
         {
+            hitpointsManager = GetComponent<HitPointsManager>();
+            gameManager = FindObjectOfType<GameManager>();
+            myRigidbody = GetComponent<Rigidbody>();
             // #Important
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
             if (photonView.isMine)
@@ -108,6 +109,11 @@ namespace Com.Wulfram3
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
             DontDestroyOnLoad(this.gameObject);
+        }
+
+        public bool GetIsGrounded()
+        {
+            return isGrounded;
         }
 
         public void Reset()
