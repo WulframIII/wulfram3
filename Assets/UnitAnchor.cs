@@ -44,7 +44,7 @@ namespace Com.Wulfram3 {
                 }
                 if (myUnit.unitType == UnitType.GunTurret) {
                     unitHeight = 4f;
-                    anchorStrength = 2f;
+                    anchorStrength = .1f; // 2f;
                 }
             }
 
@@ -70,9 +70,6 @@ namespace Com.Wulfram3 {
                 transform.Translate(hit.point - CenteredLowestPoint());
             }
         }
-
-
-
 
         private void FixedUpdate()
         {
@@ -113,7 +110,7 @@ namespace Com.Wulfram3 {
             }
             else if (unitHeight <= 0.05f && !isAnchored)
             {
-                if (myRigidbody.velocity.y == 0)
+                if (Vector3.Distance(anchorPosition, CenteredLowestPoint()) < 0.1f)
                 {
                     SetToNormal();
                     isAnchored = true;
