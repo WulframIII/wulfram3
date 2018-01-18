@@ -53,6 +53,8 @@ namespace Com.Wulfram3 {
 		public AudioClip clicksound;
 
 		public AudioSource click;
+
+        public GameObject loadingSpinner;
        
 
         
@@ -107,6 +109,7 @@ namespace Com.Wulfram3 {
             this.SetUserName();
             discordApi = DepenencyInjector.Resolve<IDiscordApi>();
             progressLabel.SetActive(false);
+            loadingSpinner.SetActive(false);
             controlPanel.SetActive(true);
             registrationPanel.SetActive(false);
             errorLabel.SetActive(false);
@@ -138,6 +141,7 @@ namespace Com.Wulfram3 {
 			click.PlayOneShot(clicksound, 3f);
             isConnecting = true;
             progressLabel.SetActive(true);
+            loadingSpinner.SetActive(true);
             controlPanel.SetActive(false);
             StartCoroutine(discordApi.PlayerJoined(PhotonNetwork.playerName));
             
@@ -155,20 +159,21 @@ namespace Com.Wulfram3 {
         public void Login()
         {
             progressLabel.SetActive(true);
+            loadingSpinner.SetActive(true);
             controlPanel.SetActive(false);
-            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Connecting to secure server...";
+            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Accessing governmental registery..";
 
             InputField userNameInputField = loginUsername.GetComponent<InputField>();
             InputField passwordInputField = loginPassword.GetComponent<InputField>();
 
             DepenencyInjector.Resolve<IUserController>().LoginCompleted += LoginCompleted;
             DepenencyInjector.Resolve<IUserController>().LoginUser(userNameInputField.text, passwordInputField.text);
-            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Checking players....";
+            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Provisioning assests...";
         }
 
         private void LoginCompleted(Assets.Wulfram3.Scripts.InternalApis.Classes.WulframPlayer arg1, string arg2)
         {
-            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Connecting to players..";
+            progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Warping to closest battleground";
             DepenencyInjector.Resolve<IUserController>().LoginCompleted -= LoginCompleted;
 
             if (arg1 != null)
@@ -183,6 +188,7 @@ namespace Com.Wulfram3 {
                 userNameInputField.text = "";
                 passwordInputField.text = "";
                 progressLabel.SetActive(false);
+                loadingSpinner.SetActive(false);
                 controlPanel.SetActive(true);
                 // Login failed
                 errorLabel.SetActive(true);
@@ -209,11 +215,13 @@ namespace Com.Wulfram3 {
         {
             registrationPanel.SetActive(false);
             controlPanel.SetActive(true);
+
         }
 
         public void RegisterNewUser()
         {
             progressLabel.SetActive(true);
+            loadingSpinner.SetActive(true);
             registrationPanel.SetActive(false);
             progressLabel.GetComponent<UnityEngine.UI.Text>().text = "Validating new user...";
 
@@ -230,6 +238,7 @@ namespace Com.Wulfram3 {
         {
             DepenencyInjector.Resolve<IUserController>().RegisterUserCompleted -= RegisterUserCompleted;
             progressLabel.SetActive(false);
+            loadingSpinner.SetActive(false);
             CloseRegistrationPanel();
             errorLabel.SetActive(true);
             //Get the GUIText Component attached to that GameObject named Best
