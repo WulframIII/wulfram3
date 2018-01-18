@@ -67,7 +67,12 @@ namespace Com.Wulfram3 {
                 Vector3 fwd = transform.forward;
                 Vector3 proj = fwd - (Vector3.Dot(fwd, hit.normal)) * hit.normal;
                 transform.rotation = Quaternion.LookRotation(proj, hit.normal);
-                transform.Translate(hit.point - CenteredLowestPoint());
+                if (hit.distance < 0.05f)
+                {
+                    //transform.Translate(hit.point - CenteredLowestPoint());
+                    isAnchored = true;
+                    myRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                }
             }
         }
 
@@ -110,12 +115,7 @@ namespace Com.Wulfram3 {
             }
             else if (unitHeight <= 0.05f && !isAnchored)
             {
-                if (Vector3.Distance(anchorPosition, CenteredLowestPoint()) < 0.1f)
-                {
-                    SetToNormal();
-                    isAnchored = true;
-                    myRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                }
+                SetToNormal();
             }
         }
     }

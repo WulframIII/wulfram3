@@ -282,6 +282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 10
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114409235480547926
 MonoBehaviour:
@@ -319,7 +321,7 @@ MonoBehaviour:
     itsRevealFogOfWar: 0
     itsShowToolTip: 1
     itsToolTip: Blue Skypump
-    itsIconScale: 1
+    itsIconScale: 0.5
     itsBlinking: 0
     itsDepth: 0
     itsRepresentation: {fileID: 0}

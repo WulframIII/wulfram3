@@ -10,7 +10,7 @@ namespace Com.Wulfram3 {
 		public AudioSource audio;
         public int bulletDamageinHitpoints = 1;
         public float bulletsPerSecond = 10;
-        public float range = 80;
+        private float range = 60;
         public float deviationConeRadius = 1;
         public int fuelPerBullet = 1;
 		private GameManager gameManager;
@@ -111,16 +111,16 @@ namespace Com.Wulfram3 {
                 Vector3 pos = gunEnd.position; //transform.position + (transform.forward * 1.0f + transform.up * 0.2f);
                 Quaternion rotation = gunEnd.rotation; // transform.rotation;
 
-
+                /*
                 Vector3 targetPoint = rotation * GetRandomPointInCircle();
                 targetPoint += pos + transform.forward * range;
                 if (debug) {
                     Debug.DrawLine(pos, targetPoint, Color.white, 1, false);
                 }
-
-                RaycastHit objectHit;
                 Vector3 targetDirection = (targetPoint - pos).normalized;
-                bool targetFound = Physics.Raycast(rayOrigin, targetDirection, out objectHit, range);// && objectHit.transform.GetComponent<Unit>() != null;
+                */
+                RaycastHit objectHit;
+                bool targetFound = Physics.Raycast(rayOrigin, transform.forward, out objectHit, range);// && objectHit.transform.GetComponent<Unit>() != null;
                 //check if user is on same team
                 //CHANGED HERE
                 if (targetFound && ValidTarget(objectHit.transform))
@@ -128,10 +128,11 @@ namespace Com.Wulfram3 {
                     Vector3 tPos = Camera.main.WorldToScreenPoint(objectHit.transform.GetComponent<Collider>().bounds.center);
                     Vector3 cPos = new Vector3(tPos.x, tPos.y, 0.0f);
                     float distanceFromCenter = Vector3.Distance(screenCenter, cPos);
-                    deviationConeRadius = Mathf.Clamp(distanceFromCenter / Object2dRect(objectHit.transform.gameObject).size.magnitude, 0, 1);
-                    float damageMultiplier = 1.1f - deviationConeRadius;
+                    deviationConeRadius = Mathf.Clamp(distanceFromCenter / (Object2dRect(objectHit.transform.gameObject).size.x / 2), 0, 1);
+                    float damageMultiplier = 1.5f - deviationConeRadius;
+
                     objectHit.transform.GetComponent<HitPointsManager>().TellServerTakeDamage((int) Mathf.Ceil(bulletDamageinHitpoints * damageMultiplier));
-                }
+                } 
                 AudioSource.PlayClipAtPoint(shootSound, gunEnd.position, 0.1f);
             }
             else {
@@ -141,27 +142,8 @@ namespace Com.Wulfram3 {
 
         public static Rect Object2dRect(GameObject go)
         {
-            Vector3 cen = go.GetComponent<Collider>().bounds.center;
-            Vector3 ext = go.GetComponent<Collider>().bounds.extents;
-            Vector2[] extentPoints = new Vector2[8]
-            {
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y-ext.y, cen.z-ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y-ext.y, cen.z-ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y-ext.y, cen.z+ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y-ext.y, cen.z+ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y+ext.y, cen.z-ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y+ext.y, cen.z-ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y+ext.y, cen.z+ext.z)),
-             Camera.main.WorldToScreenPoint(new Vector3(cen.x+ext.x, cen.y+ext.y, cen.z+ext.z))
-            };
-            Vector2 min = extentPoints[0];
-            Vector2 max = extentPoints[0];
-            foreach (Vector2 v in extentPoints)
-            {
-                min = Vector2.Min(min, v);
-                max = Vector2.Max(max, v);
-            }
-            return new Rect(min.x, min.y, max.x - min.x, max.y - min.y);
+            Bounds b = go.GetComponent<Collider>().bounds;
+            return new Rect(b.min.x, b.min.y, b.max.x - b.min.x, b.max.y - b.min.y);
         }
 
         private bool ValidTarget(Transform t)

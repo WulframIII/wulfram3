@@ -181,6 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 12
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114389028465179372
 MonoBehaviour:
@@ -204,7 +206,7 @@ MonoBehaviour:
     itsRevealFogOfWar: 0
     itsShowToolTip: 1
     itsToolTip: Red Uplink
-    itsIconScale: 1
+    itsIconScale: 0.5
     itsBlinking: 1
     itsDepth: 0
     itsRepresentation: {fileID: 0}

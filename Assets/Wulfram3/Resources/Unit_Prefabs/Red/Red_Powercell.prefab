@@ -29,6 +29,8 @@ GameObject:
   - component: {fileID: 114342175894455126}
   - component: {fileID: 114011703153066674}
   - component: {fileID: 114410956564375480}
+  - component: {fileID: 114702674713482782}
+  - component: {fileID: 135570043109766510}
   m_Layer: 0
   m_Name: Red_Powercell
   m_TagString: Untagged
@@ -246,6 +248,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa02b760a7e9fb647b5a682ab3a7436d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114702674713482782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1049792648804920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8bb26a1e59b51a4cac1f8cb633b0f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114716722108146418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -324,6 +337,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 4
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114937997096824822
 MonoBehaviour:
@@ -352,3 +367,15 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!135 &135570043109766510
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1049792648804920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}

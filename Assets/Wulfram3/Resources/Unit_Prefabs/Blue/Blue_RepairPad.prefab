@@ -310,6 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 5
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114151487558388334
 MonoBehaviour:
@@ -431,7 +433,7 @@ MonoBehaviour:
     itsRevealFogOfWar: 0
     itsShowToolTip: 1
     itsToolTip: Blue Repair Pad
-    itsIconScale: 1
+    itsIconScale: 0.75
     itsBlinking: 0
     itsDepth: 0
     itsRepresentation: {fileID: 0}

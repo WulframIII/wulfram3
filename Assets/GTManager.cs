@@ -27,6 +27,8 @@ namespace Com.Wulfram3
         private float deviationConeRadius = 1;
         private float timeBetweenShots;
 
+        private Unit myUnit;
+
         void Start()
         {
 
@@ -35,6 +37,7 @@ namespace Com.Wulfram3
             if (PhotonNetwork.isMasterClient)
             {
                 gameManager = GetGameManager();
+                myUnit = GetComponent<Unit>();
             }
         }
 
@@ -98,21 +101,24 @@ namespace Com.Wulfram3
         // Update is called once per frame
         void Update()
         {
-            FindTarget();
-            TurnTowardsCurrentTarget();
-            if (shooting)
+            if (myUnit.hasPower)
             {
-                timeSinceLastEffect += Time.deltaTime;
-                if (timeSinceLastEffect >= timeBetweenShots)
+                FindTarget();
+                TurnTowardsCurrentTarget();
+                if (shooting)
                 {
-                    timeSinceLastEffect = 0f;
-                    ShowFeedback();
+                    timeSinceLastEffect += Time.deltaTime;
+                    if (timeSinceLastEffect >= timeBetweenShots)
+                    {
+                        timeSinceLastEffect = 0f;
+                        ShowFeedback();
+                    }
                 }
-            }
-            if (PhotonNetwork.isMasterClient)
-            {
-                CheckTargetOnSight();
-                FireAtTarget();
+                if (PhotonNetwork.isMasterClient)
+                {
+                    CheckTargetOnSight();
+                    FireAtTarget();
+                }
             }
         }
 

@@ -283,7 +283,7 @@ MonoBehaviour:
     itsRevealFogOfWar: 0
     itsShowToolTip: 1
     itsToolTip: Blue Darklight
-    itsIconScale: 1
+    itsIconScale: 0.5
     itsBlinking: 0
     itsDepth: 0
     itsRepresentation: {fileID: 0}
@@ -324,4 +324,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 11
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1

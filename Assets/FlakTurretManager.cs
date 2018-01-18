@@ -7,11 +7,11 @@ namespace Com.Wulfram3 {
 
         // Settings
         public Transform gunEnd;  // Needs to be set in inspector, empty transform, where projectiles spawn
-        private float rangeMax = 75f; // Targets beyond this range will be discarded (Note: FlakTurret prefabs also employ a sphere trigger to track targetList)
-        private float rangeMin = 6f;  // Targets below this range will be ignored
-        private float fireDelay = 2.2f; // Delay between each three round burst
+        private float rangeMax = 120f; // Targets beyond this range will be discarded (Note: FlakTurret prefabs also employ a sphere trigger to track targetList)
+        private float rangeMin = 12f;  // Targets below this range will be ignored
+        private float fireDelay = 1.8f; // Delay between each three round burst
         private float shellDelay = 0.4f; // Delay between shells
-        private float turnSpeed = 90; // This value should be high to make sure turrets can intercept fast moving targets
+        private float turnSpeed = 60; // This value should be high to make sure turrets can intercept fast moving targets
         private int shellCount = 3; // Shells per burst
 
         // Internal vars
@@ -26,10 +26,13 @@ namespace Com.Wulfram3 {
         private bool targetOnSight = false;
         private PunTeams.Team team;
 
+        private Unit myUnit;
+
         // Use this for initialization
         void Start() {
             if (PhotonNetwork.isMasterClient) {
                 gameManager = FindObjectOfType<GameManager>();
+                myUnit = GetComponent<Unit>();
             }
             team = transform.GetComponent<Unit>().unitTeam;
             fireStamp = Time.time;
@@ -38,16 +41,19 @@ namespace Com.Wulfram3 {
 
         // Update is called once per frame
         void Update() {
-            if (currentTarget == null)
-                FindTarget();
-            // In case target is found above
-            if (currentTarget != null)
+            if (myUnit.hasPower)
             {
-                TurnTowardsCurrentTarget();
-                if (PhotonNetwork.isMasterClient)
+                if (currentTarget == null)
+                    FindTarget();
+                // In case target is found above
+                if (currentTarget != null)
                 {
-                    CheckTargetOnSight();
-                    FireAtTarget();
+                    TurnTowardsCurrentTarget();
+                    if (PhotonNetwork.isMasterClient)
+                    {
+                        CheckTargetOnSight();
+                        FireAtTarget();
+                    }
                 }
             }
         }
@@ -81,6 +87,7 @@ namespace Com.Wulfram3 {
             }
             // Clean target list, find new nearest target
             Transform closestTarget = null;
+            Unit closestType = null;
             float minDistance       = rangeMax;
             for (int i = targetList.Count-1; i>=0; i--) {
                 if (targetList[i] == null)
@@ -90,10 +97,18 @@ namespace Com.Wulfram3 {
                 else
                 {
                     float distance = Vector3.Distance(transform.position, targetList[i].transform.position);
-                    if (distance < minDistance)
+                    if (distance < rangeMax && distance > rangeMin)
                     {
-                        minDistance = distance;
-                        closestTarget = targetList[i].transform;
+                        if (closestTarget != null && closestType != null && targetList[i].transform.GetComponent<Unit>() == null)
+                        {
+                            closestTarget = targetList[i].transform;
+                            minDistance = distance;
+                        }
+                        else if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestTarget = targetList[i].transform;
+                        }
                     }
                 }
             }

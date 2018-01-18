@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 114960209025161110}
   - component: {fileID: 114280501517370726}
   - component: {fileID: 114849153664911234}
+  - component: {fileID: 135940260270404126}
   m_Layer: 0
   m_Name: Blue_GunTurret
   m_TagString: Untagged
@@ -363,6 +364,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 8
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114849153664911234
 MonoBehaviour:
@@ -495,3 +498,15 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!135 &135940260270404126
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407334942872630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}

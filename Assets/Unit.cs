@@ -9,6 +9,9 @@ namespace Com.Wulfram3
         public PunTeams.Team unitTeam;
         public UnitType unitType;
 
+        public bool needsPower = false;
+        public bool hasPower = false;
+
         public int hitPointRegenerationSpeed = 1;
 
         // Use this for initialization
@@ -21,13 +24,30 @@ namespace Com.Wulfram3
             {
                 Debug.Log("Unit.cs is missing a type assignment.");
             }
+            if (unitType == UnitType.RepairPad || unitType == UnitType.RefuelPad || unitType == UnitType.GunTurret || unitType == UnitType.FlakTurret || unitType == UnitType.MissleLauncher)
+            {
+                needsPower = true;
+            }
         }
 
         // Update is called once per frame
         void Update() {
             //Debug.Log(this.ToString());
         }
+        
+        [PunRPC]
+        public void RecievePower(PunTeams.Team t)
+        {
+            hasPower = true;
+            unitTeam = t;
+        }
 
+        [PunRPC]
+        public void LosePower()
+        {
+            hasPower = false;
+            unitTeam = PunTeams.Team.none;
+        }
 
         public static string GetPrefabName(UnitType u, PunTeams.Team t)
         {
@@ -65,6 +85,38 @@ namespace Com.Wulfram3
                 return "Red";
             }
             return "Grey";
+        }
+
+
+        public bool IsUnitFriendly()
+        {
+            if (PlayerMovementManager.LocalPlayerInstance.GetComponent<Unit>().unitTeam == this.unitTeam)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public PunTeams.Team GetHostileTeam()
+        {
+            switch (unitTeam)
+            {
+                case PunTeams.Team.red:
+                    return PunTeams.Team.blue;
+
+                case PunTeams.Team.blue:
+                    return PunTeams.Team.red;
+                default:
+                    return PunTeams.Team.none;
+            }
+        }
+
+        public override string ToString()
+        {
+            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam) + "| |" + this.unitType.ToString() + " " + this.unitTeam.ToString();
         }
 
         /*
@@ -113,36 +165,5 @@ namespace Com.Wulfram3
             return "Grey";
         }
         */
-
-        public bool IsUnitFriendly()
-        {
-            if (PlayerMovementManager.LocalPlayerInstance.GetComponent<Unit>().unitTeam == this.unitTeam)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public PunTeams.Team GetHostileTeam()
-        {
-            switch (unitTeam)
-            {
-                case PunTeams.Team.red:
-                    return PunTeams.Team.blue;
-
-                case PunTeams.Team.blue:
-                    return PunTeams.Team.red;
-                default:
-                    return PunTeams.Team.none;
-            }
-        }
-
-        public override string ToString()
-        {
-            return Enum.GetName(typeof(UnitType), unitType) + " " + Enum.GetName(typeof(PunTeams.Team), unitTeam) + "| |" + this.unitType.ToString() + " " + this.unitTeam.ToString();
-        }
     }
 }

@@ -512,7 +512,6 @@ MonoBehaviour:
   audio: {fileID: 82259958644520162}
   bulletDamageinHitpoints: 3
   bulletsPerSecond: 6
-  range: 50
   deviationConeRadius: 1
   fuelPerBullet: 1
   gunEnd: {fileID: 4194931982462756}
@@ -665,7 +664,6 @@ MonoBehaviour:
   audio: {fileID: 82259958644520162}
   bulletDamageinHitpoints: 10
   bulletsPerSecond: 10
-  range: 10
   deviationConeRadius: 1
   fuelPerBullet: 1
   gunEnd: {fileID: 4194931982462756}
@@ -766,9 +764,6 @@ MonoBehaviour:
   fuelPerPulse: 80
   timeBetweenShots: 3
   pulseShellFiringImpulse: 8
-  maxVelocityX: 3
-  maxVelocityZ: 5
-  boostMultiplier: 1.125
   currentHeight: 1
   defaultHeight: 1.2
   maximumHeight: 4.4
@@ -933,6 +928,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 2
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114731711858064040
 MonoBehaviour:

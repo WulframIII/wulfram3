@@ -15,7 +15,7 @@ namespace Com.Wulfram3
         public Transform gunEnd;
 
         [Tooltip("Main Thrust Power")]
-        private float baseThrust = 4f;
+        private float baseThrust = 5f;
         [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
         public float strafePercent = 0.6f;
         [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
@@ -28,9 +28,9 @@ namespace Com.Wulfram3
         public float timeBetweenShots = 3f;
         public float pulseShellFiringImpulse = 8f;
 
-        public float maxVelocityX = 1.5f;
-        public float maxVelocityZ = 2f;
-        public float boostMultiplier = 1.125f;
+        private float maxVelocityX = 1.5f;
+        private float maxVelocityZ = 2f;
+        private float boostMultiplier = 1.65f;
 
         [Tooltip("User Controlled, Also Starting Height")]
         public float currentHeight = 1.2f;  // tank current (and starting) level above ground
@@ -411,8 +411,10 @@ namespace Com.Wulfram3
             if (myRigidbody.velocity.z > maxVelocityZ * boost)
                 inputZ = 0;
             Vector3 td = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
-            myRigidbody.AddForce(Camera.main.transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier * boost);
-            myRigidbody.AddForce(td * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier * boost);
+            Vector3 totalSidewaysForce = Camera.main.transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier * boost;
+            Vector3 totalForwardForce = td * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier * boost;
+            myRigidbody.AddForce(totalForwardForce);
+            myRigidbody.AddForce(totalSidewaysForce);
             //myRigidbody.AddRelativeForce(new Vector3((x * strafeThrust * myRigidbody.mass) * thrustMultiplier, 0, (z * baseThrust * myRigidbody.mass) * thrustMultiplier));
         }
 
