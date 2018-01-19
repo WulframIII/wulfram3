@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4554516759837986}
   - component: {fileID: 33824149248020046}
   - component: {fileID: 23321502107628204}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cargo_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 114954733608971480}
   - component: {fileID: 114437864327012878}
   - component: {fileID: 114109148626131960}
-  - component: {fileID: 114259616893170212}
-  m_Layer: 0
+  - component: {fileID: 114659270841412690}
+  m_Layer: 12
   m_Name: Red_Cargo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,32 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   content: 4
---- !u!114 &114259616893170212
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1973409493937984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02254739a0001f849982520e1f08344c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itsDataMapIcon:
-    itsCategory: Red_Cargo
-    itsTextureIcon: {fileID: 2800000, guid: a3eb35041744e9c4fa9a3cc2d9f01fa0, type: 3}
-    itsTextureArrow: {fileID: 0}
-    itsRotate: 0
-    itsColor: {r: 1, g: 1, b: 1, a: 1}
-    itsIsVisible: 1
-    itsUseArrow: 0
-    itsRevealFogOfWar: 0
-    itsShowToolTip: 1
-    itsToolTip: Red Cargo Box
-    itsIconScale: 0.5
-    itsBlinking: 0
-    itsDepth: 0
-    itsRepresentation: {fileID: 0}
 --- !u!114 &114374398890195028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,6 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 3
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114437864327012878
 MonoBehaviour:
@@ -280,6 +256,32 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114659270841412690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1973409493937984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02254739a0001f849982520e1f08344c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itsDataMapIcon:
+    itsCategory: Red_Cargo
+    itsTextureIcon: {fileID: 2800000, guid: a3eb35041744e9c4fa9a3cc2d9f01fa0, type: 3}
+    itsTextureArrow: {fileID: 0}
+    itsRotate: 0
+    itsColor: {r: 1, g: 1, b: 1, a: 1}
+    itsIsVisible: 1
+    itsUseArrow: 0
+    itsRevealFogOfWar: 0
+    itsShowToolTip: 1
+    itsToolTip: Red Cargo Box
+    itsIconScale: 0.5
+    itsBlinking: 0
+    itsDepth: 0
+    itsRepresentation: {fileID: 0}
 --- !u!114 &114672046183528170
 MonoBehaviour:
   m_ObjectHideFlags: 1

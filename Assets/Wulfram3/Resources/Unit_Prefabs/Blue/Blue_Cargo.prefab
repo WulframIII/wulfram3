@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4820821543124914}
   - component: {fileID: 33899682161125544}
   - component: {fileID: 23375736434348602}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cargo_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 114994692456645654}
   - component: {fileID: 114606530444883916}
   - component: {fileID: 114899935853240000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Cargo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,6 +202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 3
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114689686102624414
 MonoBehaviour:

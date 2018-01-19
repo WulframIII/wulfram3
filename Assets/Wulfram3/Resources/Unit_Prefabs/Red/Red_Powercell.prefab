@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 114410956564375480}
   - component: {fileID: 114702674713482782}
   - component: {fileID: 135570043109766510}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Powercell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4316515748187500}
   - component: {fileID: 33052767926596024}
   - component: {fileID: 23393357927477480}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Powercell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

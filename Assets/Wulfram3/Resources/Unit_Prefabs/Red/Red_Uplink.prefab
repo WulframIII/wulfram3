@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4115776681927852}
   - component: {fileID: 33133132344860010}
   - component: {fileID: 23277557781512948}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Uplink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 114425631680865360}
   - component: {fileID: 114389028465179372}
   - component: {fileID: 114692304318900478}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Uplink
   m_TagString: Untagged
   m_Icon: {fileID: 0}

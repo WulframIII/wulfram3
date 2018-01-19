@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114336097434021786}
   - component: {fileID: 114522290771496388}
   - component: {fileID: 114093033276945372}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Skypump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4923031631066594}
   - component: {fileID: 33842669898115308}
   - component: {fileID: 23103393199075438}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Skypump
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4171763226670656}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RedSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 222089636466614202}
   - component: {fileID: 114269853440060470}
   - component: {fileID: 114250712573552764}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: RedFlag
   m_TagString: OverheadCamera
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 224914781996906438}
   - component: {fileID: 222475978743119750}
   - component: {fileID: 114243883824674380}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 65351598153965978}
   - component: {fileID: 114395215530488426}
   - component: {fileID: 65680854470151000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_RepairPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 223674277622067286}
   - component: {fileID: 114737531148365508}
   - component: {fileID: 114065591655752000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 114390404636507954}
   - component: {fileID: 222301872205318394}
   - component: {fileID: 114461353729064970}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4618282140007352}
   - component: {fileID: 33815316488566314}
   - component: {fileID: 23699998080434710}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_RepairPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,6 +580,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 5
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114737531148365508
 MonoBehaviour:

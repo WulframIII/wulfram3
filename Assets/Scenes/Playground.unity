@@ -1036,6 +1036,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 0
   unitType: 0
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &195461679
 MonoBehaviour:
@@ -8041,7 +8043,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22443856, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000016356884
+      value: -0.000030051793
       objectReference: {fileID: 0}
     - target: {fileID: 22447778, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_SizeDelta.y

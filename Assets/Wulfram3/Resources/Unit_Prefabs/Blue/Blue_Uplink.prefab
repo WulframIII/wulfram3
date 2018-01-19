@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4758998703973254}
   - component: {fileID: 33997892195964208}
   - component: {fileID: 23855780728313894}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Uplink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 95185217375397072}
   - component: {fileID: 114936973816388784}
   - component: {fileID: 114075115348313384}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Uplink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,6 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 12
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114541821859160298
 MonoBehaviour:

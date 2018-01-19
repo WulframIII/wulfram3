@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114030639380942160}
   - component: {fileID: 114743675938077850}
   - component: {fileID: 114891847560880276}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Skypump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4713281838432660}
   - component: {fileID: 33720465273881272}
   - component: {fileID: 23504418728633922}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Skypump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,6 +297,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 10
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114891847560880276
 MonoBehaviour:

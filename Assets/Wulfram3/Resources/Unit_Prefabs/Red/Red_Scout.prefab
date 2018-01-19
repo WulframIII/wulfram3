@@ -125,7 +125,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1311960525721248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -151.3712, y: 128.61868, z: 300.07672}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693970051691996}
@@ -538,7 +538,6 @@ MonoBehaviour:
   audio: {fileID: 82914968369634154}
   bulletDamageinHitpoints: 3
   bulletsPerSecond: 6
-  range: 50
   deviationConeRadius: 1
   fuelPerBullet: 1
   gunEnd: {fileID: 4218497653783558}
@@ -661,6 +660,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 2
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114466638274566740
 MonoBehaviour:
@@ -901,9 +902,6 @@ MonoBehaviour:
   fuelPerPulse: 80
   timeBetweenShots: 3
   pulseShellFiringImpulse: 8
-  maxVelocityX: 3
-  maxVelocityZ: 5
-  boostMultiplier: 1.125
   currentHeight: 1
   defaultHeight: 1.2
   maximumHeight: 4.4

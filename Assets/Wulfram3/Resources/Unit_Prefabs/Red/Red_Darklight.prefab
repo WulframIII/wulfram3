@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114673331832938842}
   - component: {fileID: 114537855860421078}
   - component: {fileID: 114062100831348862}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Darklight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4409652479125946}
   - component: {fileID: 33698006089904926}
   - component: {fileID: 23668435160188606}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_Darklight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 11
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114452900024546736
 MonoBehaviour:

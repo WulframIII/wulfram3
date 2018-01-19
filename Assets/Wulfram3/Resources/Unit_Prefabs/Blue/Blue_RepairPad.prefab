@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 65360920479441588}
   - component: {fileID: 114525337097628910}
   - component: {fileID: 65622682678262206}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_RepairPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4507075141521714}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BlueSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 4226848139006762}
   - component: {fileID: 33739571912835720}
   - component: {fileID: 23240482929412926}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_RepairPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 224737255905953512}
   - component: {fileID: 222151884364354002}
   - component: {fileID: 114710984539909026}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 223708669789755104}
   - component: {fileID: 114395081298969208}
   - component: {fileID: 114388352481443828}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

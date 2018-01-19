@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 114740387249911256}
   - component: {fileID: 120510102000796016}
   - component: {fileID: 114333228303748524}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Lightning Emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4506877027605806}
   - component: {fileID: 33332469108540494}
   - component: {fileID: 23618060044566468}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Scout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4194931982462756}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GunEnd
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 114596045229447764}
   - component: {fileID: 114357646662675358}
   - component: {fileID: 114731711858064040}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Scout
   m_TagString: BlueScout
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 4351671581793528}
   - component: {fileID: 108680316740828174}
   - component: {fileID: 114375137658336526}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: End Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

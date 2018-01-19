@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114709570165848432}
   - component: {fileID: 114595835502763240}
   - component: {fileID: 114651640252980472}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Darklight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4820515086912810}
   - component: {fileID: 33925355753303492}
   - component: {fileID: 23033125351890216}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Blue_Darklight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

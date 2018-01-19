@@ -28,11 +28,6 @@ namespace Com.Wulfram3 {
                 myRigidbody.isKinematic = true;
                 return;
             }
-            Ray groundFinder = new Ray(transform.position, -transform.up);
-            RaycastHit groundInfo;
-            Physics.Raycast(groundFinder, out groundInfo);
-            anchorPosition = groundInfo.point;
-            //Debug.Log(transform.name + " anchoring to " + anchorPosition);
             myUnit = GetComponent<Unit>();
             if (myUnit != null)
             {
@@ -99,11 +94,12 @@ namespace Com.Wulfram3 {
                         }
                         if (Mathf.Abs(unitHeight - d) < 0.25f)
                         {
-                            myRigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+                            myRigidbody.constraints = RigidbodyConstraints.FreezePosition;
                             heightAttained = true;
                         }
                     }
                 }
+                /*
                 float distanceFromAnchorX = transform.position.x - anchorPosition.x;
                 float distanceFromAnchorZ = transform.position.z - anchorPosition.z;
                 if (distanceFromAnchorX + distanceFromAnchorZ != 0f)
@@ -112,6 +108,7 @@ namespace Com.Wulfram3 {
                     float newZ = Mathf.SmoothDamp(transform.position.z, anchorPosition.z, ref zVelocitySmoothing, anchorStrength);
                     transform.position = new Vector3(newX, transform.position.y, newZ);
                 }
+                */
             }
             else if (unitHeight <= 0.05f && !isAnchored)
             {

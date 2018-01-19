@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4163923383164262}
   - component: {fileID: 33605409842654750}
   - component: {fileID: 23930499782684820}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4923383127385426}
   - component: {fileID: 33854694647469774}
   - component: {fileID: 23054127510020496}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4143340147559542}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Aim_Pan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 114694370829984470}
   - component: {fileID: 135410226607693276}
   - component: {fileID: 82555626763487778}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Turret_SAM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4673736075931180}
   - component: {fileID: 33867626792563890}
   - component: {fileID: 23008773420290224}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pivot_Pan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 4713586803012076}
   - component: {fileID: 33879487418193520}
   - component: {fileID: 23534706629696274}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red__Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 4990059336816000}
   - component: {fileID: 33093314665648750}
   - component: {fileID: 23168422526783314}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4624053654116444}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Aim_Tilt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 4611644063975032}
   - component: {fileID: 33806276634584198}
   - component: {fileID: 23571656024076332}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 4594509367410430}
   - component: {fileID: 33072279412985848}
   - component: {fileID: 23751008796079952}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 4950522974168826}
   - component: {fileID: 33140050474327806}
   - component: {fileID: 23797936295423862}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 4558334428427120}
   - component: {fileID: 33659172154300878}
   - component: {fileID: 23712605183318464}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pivot_Tilt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 4192904129658242}
   - component: {fileID: 33843749097329370}
   - component: {fileID: 23211571097180586}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: muzzlePoint_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 114745368100047022}
   - component: {fileID: 114808453313471254}
   - component: {fileID: 114310245221297142}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red_MissileLauncher
   m_TagString: RMLCargo
   m_Icon: {fileID: 0}
@@ -1132,6 +1132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 1
   unitType: 9
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114694370829984470
 MonoBehaviour:
