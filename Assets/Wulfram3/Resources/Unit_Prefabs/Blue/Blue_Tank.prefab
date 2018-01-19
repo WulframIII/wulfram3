@@ -515,6 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitTeam: 2
   unitType: 1
+  needsPower: 0
+  hasPower: 0
   hitPointRegenerationSpeed: 1
 --- !u!114 &114261402872893806
 MonoBehaviour:
@@ -600,6 +602,7 @@ MonoBehaviour:
   cargoType: 0
   cargoTeam: 0
   hasCargo: 0
+  isDeploying: 0
   dropPosition: {fileID: 4493493940011376}
   myTeam: 0
 --- !u!114 &114715170684940836
@@ -710,7 +713,6 @@ MonoBehaviour:
   audio: {fileID: 82656550880763504}
   bulletDamageinHitpoints: 4
   bulletsPerSecond: 8
-  range: 65
   deviationConeRadius: 1
   fuelPerBullet: 1
   gunEnd: {fileID: 4011267892925864}
@@ -749,21 +751,18 @@ MonoBehaviour:
   myMesh: {fileID: 4641428344420106}
   gunEnd: {fileID: 4011267892925864}
   strafePercent: 0.6
-  thrustMultiplier: 1
-  jumpForce: 16
+  thrustMultiplier: 0.5
+  jumpForce: 18
   fuelPerJump: 60
   timeBetweenJumps: 3
   fuelPerPulse: 80
-  timeBetweenShots: 4
+  timeBetweenPulse: 3
   pulseShellFiringImpulse: 10
-  maxVelocityX: 3
-  maxVelocityZ: 5
-  boostMultiplier: 1.125
   currentHeight: 1.2
   defaultHeight: 1.2
   maximumHeight: 4
-  riseSpeed: 0.065
-  lowerSpeed: 0.035
+  riseSpeed: 0.055
+  lowerSpeed: 0.025
   destroyDelayWhenDead: 3
   axes: 0
   sensitivityX: 1.5

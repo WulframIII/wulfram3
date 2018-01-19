@@ -895,13 +895,13 @@ MonoBehaviour:
   myMesh: {fileID: 4423198223423950}
   gunEnd: {fileID: 4218497653783558}
   strafePercent: 0.6
-  thrustMultiplier: 1
-  jumpForce: 700
-  fuelPerJump: 60
-  timeBetweenJumps: 3
-  fuelPerPulse: 80
-  timeBetweenShots: 3
-  pulseShellFiringImpulse: 8
+  thrustMultiplier: 0.5
+  jumpForce: 0
+  fuelPerJump: 0
+  timeBetweenJumps: 60
+  fuelPerPulse: 0
+  timeBetweenPulse: 3
+  pulseShellFiringImpulse: 0
   currentHeight: 1
   defaultHeight: 1.2
   maximumHeight: 4.4

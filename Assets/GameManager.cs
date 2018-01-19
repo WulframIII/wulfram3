@@ -149,7 +149,7 @@ namespace Com.Wulfram3
                 object[] instanceData = new object[2];
                 instanceData[0] = (PunTeams.Team) args[2];
                 instanceData[1] = UnitType.Tank;
-                PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/PulseShell", (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
+                PhotonNetwork.InstantiateSceneObject("Unit_Prefabs/Weapons/PulseShell", (Vector3) args[0], (Quaternion) args[1], 0, instanceData);
             }
         }
 
@@ -161,7 +161,7 @@ namespace Com.Wulfram3
                 instanceData[0] = team;
                 instanceData[1] = UnitType.FlakTurret;
                 instanceData[2] = fuse;
-                GameObject shell = PhotonNetwork.Instantiate("Unit_Prefabs/Weapons/PulseShell", pos, rotation, 0, instanceData);
+                GameObject shell = PhotonNetwork.InstantiateSceneObject("Unit_Prefabs/Weapons/PulseShell", pos, rotation, 0, instanceData);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Com.Wulfram3
         {
             if (PhotonNetwork.isMasterClient)
             {
-                PhotonNetwork.Instantiate("Effects/Explosion_01", pos, Quaternion.identity, 0);
+                PhotonNetwork.InstantiateSceneObject("Effects/Explosion_01", pos, Quaternion.identity, 0, null);
             }
         }
 
@@ -373,7 +373,7 @@ namespace Com.Wulfram3
                     PhotonNetwork.Destroy(cargo.gameObject);
                 }
             }
-        }*/
+        }
 
         private Cargo FindCargoInRange(Vector3 position, float scanRadius) {
             Transform closestTarget = null;
@@ -402,7 +402,7 @@ namespace Com.Wulfram3
             return closestTarget.GetComponentInParent<Cargo>();
         }
 
-        /*
+        
         public void PickUpCargo(CargoManager cargoManager) {
             photonView.RPC("RequestPickUpCargo", PhotonTargets.MasterClient, cargoManager);
         }*/
@@ -426,7 +426,7 @@ namespace Com.Wulfram3
                         object[] o = new object[2];
                         o[0] = cargoManager.cargoType;
                         o[1] = cargoManager.cargoTeam;
-                        PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
+                        PhotonNetwork.InstantiateSceneObject(Unit.GetPrefabName(UnitType.Cargo, u.unitTeam), cargoManager.dropPosition.position, cargoManager.dropPosition.rotation, 0, o);
                         pv.RPC("DroppedCargo", PhotonTargets.All, null);
                     }
                 }
@@ -445,7 +445,7 @@ namespace Com.Wulfram3
                 object[] o = new object[2];
                 o[0] = cargoType;
                 o[1] = cargoTeam;
-                PhotonNetwork.Instantiate(Unit.GetPrefabName(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
+                PhotonNetwork.InstantiateSceneObject(Unit.GetPrefabName(cargoType, cargoTeam), desiredPosition, desiredRotation, 0, o);
                 PhotonView.Find((int) args[4]).RPC("DeployedCargo", PhotonTargets.All, null);
 
             }

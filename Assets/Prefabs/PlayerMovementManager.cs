@@ -25,7 +25,7 @@ namespace Com.Wulfram3
         public float timeBetweenJumps = 3.0f;
 
         public int fuelPerPulse = 180;
-        public float timeBetweenShots = 3f;
+        public float timeBetweenPulse = 3f;
         public float pulseShellFiringImpulse = 8f;
 
         private float maxVelocityX = 8f;
@@ -58,7 +58,7 @@ namespace Com.Wulfram3
 
         // Internal vars
         private GameManager gameManager;
-        private float timestamp;
+        private float pulseStamp;
         private float jumptimestamp;
         private float landRequestTime;
         private float thrustStamp;
@@ -195,6 +195,157 @@ namespace Com.Wulfram3
             }
         }
 
+        private void CheckMouseMotion()
+        {
+            float mx = Input.GetAxis("Mouse X");
+            float my = Input.GetAxis("Mouse Y");
+            if ((isGrounded || isLanded) && mx + my > 0)
+            {
+                TakeOff();
+            }
+            if (!isGrounded)
+            {
+                if (axes == RotationAxes.MouseXAndY)
+                {
+                    // Read the mouse input axis
+                    rotationX += mx * sensitivityX;
+                    rotationY += my * sensitivityY;
+                    rotationX = ClampAngle(rotationX, minimumX, maximumX);
+                    rotationY = ClampAngle(rotationY, minimumY, maximumY);
+                    Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
+                    Quaternion yQuaternion = Quaternion.AngleAxis(rotationY, -Vector3.right);
+                    transform.localRotation = originalRotation * xQuaternion * yQuaternion;
+                }
+                else if (axes == RotationAxes.MouseX)
+                {
+                    rotationX += mx * sensitivityX;
+                    rotationX = ClampAngle(rotationX, minimumX, maximumX);
+                    Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
+                    transform.localRotation = originalRotation * xQuaternion;
+                }
+                else
+                {
+                    rotationY += my * sensitivityY;
+                    rotationY = ClampAngle(rotationY, minimumY, maximumY);
+                    Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
+                    transform.localRotation = originalRotation * yQuaternion;
+                }
+            }
+
+        }
+
+        private void CheckPropulsionControls()
+        {
+            inputX = Input.GetAxis("Strafe");
+            inputZ = Input.GetAxis("Drive");
+            boosting = Input.GetKeyDown(KeyCode.LeftShift);
+            if (Time.time >= thrustStamp)
+            {
+                if (Input.GetAxisRaw("ChangeThrust") > 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = Mathf.Clamp(thrustMultiplier + 0.01f, 0.1f, 1f);
+                }
+                else if (Input.GetAxisRaw("ChangeThrust") < 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = Mathf.Clamp(thrustMultiplier - 0.01f, 0.1f, 1f);
+                }
+                else if (Input.GetAxisRaw("SetSpeed1") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.1f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed2") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.2f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed3") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.3f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed4") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.4f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed5") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.5f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed6") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.6f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed7") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.7f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed8") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.8f;
+                }
+                else if (Input.GetAxisRaw("SetSpeed9") != 0)
+                {
+                    thrustStamp = Time.time + 0.3f;
+                    thrustMultiplier = 0.9f;
+                }
+            }
+        }
+
+        private void CheckFireSecondary()
+        {
+            if (GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= pulseStamp && Input.GetAxisRaw("Fire2") != 0 && fuelManager.TakeFuel(fuelPerPulse))
+            {
+                CmdFirePulseShell();
+            } else if (GetComponent<Unit>().unitType == UnitType.Scout)
+            {
+                Debug.Log("PlayerMovementManager.cs (Line: 309) Scout Secondary Firing Detected.");
+            }
+        }
+
+        private void CheckAltitudeControls()
+        {
+            if (Input.GetAxisRaw("ChangeAltitude") > 0)
+            {
+                currentHeight = Mathf.Min(currentHeight + riseSpeed, maximumHeight);
+            }
+            else if (Input.GetAxisRaw("ChangeAltitude") < 0 && !isLanded && !isGrounded)
+            {
+                currentHeight = Mathf.Max(currentHeight - lowerSpeed, 0f);
+            }
+            if (currentHeight > 0.001 && (isLanded || isGrounded))
+            {
+                TakeOff();
+            }
+            else if (currentHeight <= 0.001 && !isLanded)
+            {
+                isLanded = true;
+            }
+        }
+
+        private void CheckJumpjets()
+        {
+            if (GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
+            {
+                if (fuelManager.TakeFuel(fuelPerJump))
+                {
+                    if (isLanded || isGrounded)
+                    {
+                        TakeOff();
+                    }
+                    requestJump = true;
+                    jumptimestamp = Time.time + timeBetweenJumps;
+                }
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -203,147 +354,15 @@ namespace Com.Wulfram3
             if (!photonView.isMine || isDead || isSpawning)
                 return;
 
-
             if (!Cursor.visible)
             {
                 myRigidbody.freezeRotation = false;
                 myRigidbody.isKinematic = false;
-                float mx = Input.GetAxis("Mouse X");
-                float my = Input.GetAxis("Mouse Y");
-                if ((isGrounded || isLanded) && mx + my > 0)
-                {
-                    TakeOff();
-                }
-                if (!isGrounded)
-                {
-                    if (axes == RotationAxes.MouseXAndY)
-                    {
-                        // Read the mouse input axis
-                        rotationX += mx * sensitivityX;
-                        rotationY += my * sensitivityY;
-                        rotationX = ClampAngle(rotationX, minimumX, maximumX);
-                        rotationY = ClampAngle(rotationY, minimumY, maximumY);
-                        Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
-                        Quaternion yQuaternion = Quaternion.AngleAxis(rotationY, -Vector3.right);
-                        transform.localRotation = originalRotation * xQuaternion * yQuaternion;
-                    }
-                    else if (axes == RotationAxes.MouseX)
-                    {
-                        rotationX += mx * sensitivityX;
-                        rotationX = ClampAngle(rotationX, minimumX, maximumX);
-                        Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
-                        transform.localRotation = originalRotation * xQuaternion;
-                    }
-                    else
-                    {
-                        rotationY += my * sensitivityY;
-                        rotationY = ClampAngle(rotationY, minimumY, maximumY);
-                        Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
-                        transform.localRotation = originalRotation * yQuaternion;
-                    }
-                }
-                inputX = Input.GetAxis("Strafe");
-                inputZ = Input.GetAxis("Drive");
-                boosting = Input.GetKeyDown(KeyCode.LeftShift);
-                if (Time.time >= thrustStamp)
-                {
-                    if (Input.GetAxisRaw("ChangeThrust") > 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = Mathf.Clamp(thrustMultiplier + 0.01f, 0.1f, 1f);
-                    }
-                    else if (Input.GetAxisRaw("ChangeThrust") < 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = Mathf.Clamp(thrustMultiplier - 0.01f, 0.1f, 1f);
-                    } else if (Input.GetAxisRaw("SetSpeed1") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.1f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed2") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.2f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed3") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.3f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed4") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.4f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed5") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.5f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed6") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.6f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed7") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.7f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed8") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.8f;
-                    }
-                    else if (Input.GetAxisRaw("SetSpeed9") != 0)
-                    {
-                        thrustStamp = Time.time + 0.3f;
-                        thrustMultiplier = 0.9f;
-                    }
-                }
-
-                //Fire Pulse
-                if (this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= timestamp && Input.GetAxisRaw("Fire2") != 0)
-                {
-                    if (fuelManager.TakeFuel(fuelPerPulse))
-                    {
-                        CmdFirePulseShell();
-                        timestamp = Time.time + timeBetweenShots;
-                    }
-                }
-
-                // Altitude control, before jump to allow cancel of landing attempts by jumping
-                if (Input.GetAxisRaw("ChangeAltitude") > 0)
-                {
-                    currentHeight = Mathf.Min(currentHeight + riseSpeed, maximumHeight);
-                }
-                else if (Input.GetAxisRaw("ChangeAltitude") < 0 && !isLanded && !isGrounded)
-                {
-                    currentHeight = Mathf.Max(currentHeight - lowerSpeed, 0f);
-                }
-                if (currentHeight > 0.001 && (isLanded || isGrounded))
-                {
-                    TakeOff();
-                } else if (currentHeight <= 0.001 && !isLanded)
-                {
-                    isLanded = true;
-                }
-
-                // Tank Jump
-                if (Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
-                {
-                    if (fuelManager.TakeFuel(fuelPerJump))
-                    {
-                        if (isLanded || isGrounded)
-                        {
-                            TakeOff();
-                        }
-                        requestJump = true;
-                        jumptimestamp = Time.time + timeBetweenJumps;
-                    }
-                }
-
+                CheckMouseMotion();
+                CheckPropulsionControls(); // WSAD, as well as speed setting keys
+                CheckFireSecondary(); // Detects tank or scout, fires appropriate weapon
+                CheckAltitudeControls(); // Altitude control before jump to allow cancel of landing attempts by jumping
+                CheckJumpjets();
                 if (isLanded)
                 {
                     inputX = 0;
@@ -352,10 +371,9 @@ namespace Com.Wulfram3
                     if (!isGrounded && Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, GetComponent<Collider>().bounds.extents.z * 1.15f))
                         Land(hit);
                 }
-
             }
             else
-            {
+            { // In Menu, Freeze position and rotation.
                 myRigidbody.freezeRotation = true;
                 myRigidbody.isKinematic = true;
             }
@@ -418,7 +436,11 @@ namespace Com.Wulfram3
             args[1] = gunEnd.rotation;
             args[2] = transform.GetComponent<Unit>().unitTeam;
             gameManager.photonView.RPC("SpawnPulseShell", PhotonTargets.MasterClient, args);
-            myRigidbody.AddForce(-transform.forward * pulseShellFiringImpulse, ForceMode.Impulse);
+            if (!isGrounded)
+            {
+                myRigidbody.AddForce(-transform.forward * pulseShellFiringImpulse, ForceMode.Impulse);
+            }
+            pulseStamp = Time.time + timeBetweenPulse;
         }
 
         public void FixedUpdate()

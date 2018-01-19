@@ -118,7 +118,7 @@ namespace Com.Wulfram3
             /* Given that this is sort of a gimmick unit, and that we shouldn't get here without 
              * being masterClient, it should be okay to instantiate without gameManager */
             float rV = Random.Range(12, 24);
-            GameObject g = PhotonNetwork.Instantiate(prefabName, gunEnd.position, gunEnd.rotation, 0, o);
+            GameObject g = PhotonNetwork.InstantiateSceneObject(prefabName, gunEnd.position, gunEnd.rotation, 0, o);
             g.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * rV, ForceMode.Impulse);
             cargoList.Add(g.transform);
         }

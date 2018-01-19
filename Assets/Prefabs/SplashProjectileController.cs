@@ -69,10 +69,10 @@ namespace Com.Wulfram3 {
                     bluePulse.gameObject.SetActive(false);
                 }
             }
-            if (photonView.owner != null && photonView.owner.IsLocal)
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.velocity = transform.forward * velocity;
+            if (PhotonNetwork.isMasterClient)
             {
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.velocity = transform.forward * velocity;
                 gameManager = FindObjectOfType<GameManager>();
             }
         }
