@@ -11,8 +11,8 @@ namespace Com.Wulfram3 {
 
         private List<Transform> powerableObjects = new List<Transform>();
         private List<Transform> poweredObjects = new List<Transform>();
-        private float cleanStamp = 0;
-        private float cleanDelay = 3f;
+        private float checkStamp = 0;
+        private float checkDelay = 1.25f;
 
         private Unit myUnit;
 
@@ -29,9 +29,9 @@ namespace Com.Wulfram3 {
         {
             if (PhotonNetwork.isMasterClient)
             {
-                if (Time.time > cleanStamp)
+                if (Time.time > checkStamp)
                 {
-                    cleanStamp = Time.time + cleanDelay;
+                    checkStamp = Time.time + checkDelay;
                     for (int i = 0; i < poweredObjects.Count; i++)
                     {
                         if (poweredObjects[i] == null)
@@ -88,7 +88,6 @@ namespace Com.Wulfram3 {
         }
 
         /*
-
         private void OnTriggerStay(Collider other)
         {
             if (PhotonNetwork.isMasterClient)

@@ -247,56 +247,56 @@ namespace Com.Wulfram3
                 boosting = Input.GetKeyDown(KeyCode.LeftShift);
                 if (Time.time >= thrustStamp)
                 {
-                    if (Input.GetAxis("ChangeThrust") > 0)
+                    if (Input.GetAxisRaw("ChangeThrust") > 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = Mathf.Clamp(thrustMultiplier + 0.01f, 0.1f, 1f);
                     }
-                    else if (Input.GetAxis("ChangeThrust") < 0)
+                    else if (Input.GetAxisRaw("ChangeThrust") < 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = Mathf.Clamp(thrustMultiplier - 0.01f, 0.1f, 1f);
-                    } else if (Input.GetAxis("SetSpeed1") != 0)
+                    } else if (Input.GetAxisRaw("SetSpeed1") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.1f;
                     }
-                    else if (Input.GetAxis("SetSpeed2") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed2") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.2f;
                     }
-                    else if (Input.GetAxis("SetSpeed3") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed3") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.3f;
                     }
-                    else if (Input.GetAxis("SetSpeed4") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed4") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.4f;
                     }
-                    else if (Input.GetAxis("SetSpeed5") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed5") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.5f;
                     }
-                    else if (Input.GetAxis("SetSpeed6") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed6") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.6f;
                     }
-                    else if (Input.GetAxis("SetSpeed7") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed7") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.7f;
                     }
-                    else if (Input.GetAxis("SetSpeed8") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed8") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.8f;
                     }
-                    else if (Input.GetAxis("SetSpeed9") != 0)
+                    else if (Input.GetAxisRaw("SetSpeed9") != 0)
                     {
                         thrustStamp = Time.time + 0.3f;
                         thrustMultiplier = 0.9f;

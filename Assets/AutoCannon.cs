@@ -90,7 +90,7 @@ namespace Com.Wulfram3 {
 
 
         private void CheckAndFire() {
-            if (Input.GetMouseButton(0)) {
+            if ((Input.GetMouseButton(0) || Input.GetAxisRaw("Fire1") != 0) && !GetComponent<CargoManager>().isDeploying) {
                 deviationConeRadius = 1f;
                 float currentTime = Time.time;
                 if (lastFireTime + timeBetweenShots > currentTime ) {

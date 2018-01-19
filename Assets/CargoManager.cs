@@ -24,6 +24,7 @@ namespace Com.Wulfram3
         public UnitType cargoType;
         public PunTeams.Team cargoTeam;
         public bool hasCargo = false;
+        public bool isDeploying = false;
         public Transform dropPosition;
 
         public PunTeams.Team myTeam;
@@ -57,6 +58,12 @@ namespace Com.Wulfram3
                             CheckFinalPlacement();
                     }
                     //TODO: show animation of cargo in player HUD
+                } else
+                {
+                    if (Time.time > deployDelay)
+                    {
+                        isDeploying = false;
+                    }
                 }
             }
 
@@ -101,6 +108,7 @@ namespace Com.Wulfram3
             {
                 Destroy(currentPlaceableObject.gameObject);
                 currentPlaceableObject = null;
+                isDeploying = false;
             }
 
         }
@@ -109,6 +117,7 @@ namespace Com.Wulfram3
         {
             if (Input.GetAxis("DeployCargo") > 0f && hasCargo && currentPlaceableObject == null)
             {
+                isDeploying = true;
                 string prefab = Unit.GetPrefabName(cargoType, myTeam);
                 GameObject newObject = Instantiate(Resources.Load(prefab), GetBestPosition(), transform.rotation) as GameObject;
                 newObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -160,6 +169,7 @@ namespace Com.Wulfram3
                 Destroy(currentPlaceableObject.gameObject);
                 currentPlaceableObject = null;
             }
+            deployDelay = Time.time + 0.4f;
             hasCargo = false;
             cargoType = UnitType.None;
             cargoTeam = myTeam;
