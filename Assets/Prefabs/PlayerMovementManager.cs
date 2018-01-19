@@ -15,9 +15,9 @@ namespace Com.Wulfram3
         public Transform gunEnd;
 
         [Tooltip("Main Thrust Power")]
-        private float baseThrust = 5f;
+        private float baseThrust = 2f;
         [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
-        public float strafePercent = 0.6f;
+        public float strafePercent = 0.8f;
         [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
         public float thrustMultiplier = 0.5f;
         public float jumpForce = 16f;
@@ -28,8 +28,8 @@ namespace Com.Wulfram3
         public float timeBetweenShots = 3f;
         public float pulseShellFiringImpulse = 8f;
 
-        private float maxVelocityX = 1.5f;
-        private float maxVelocityZ = 2f;
+        private float maxVelocityX = 4f;
+        private float maxVelocityZ = 6f;
         private float boostMultiplier = 1.65f;
 
         [Tooltip("User Controlled, Also Starting Height")]
@@ -202,6 +202,7 @@ namespace Com.Wulfram3
             if (!Cursor.visible)
             {
                 myRigidbody.freezeRotation = false;
+                myRigidbody.isKinematic = false;
                 float mx = Input.GetAxis("Mouse X");
                 float my = Input.GetAxis("Mouse Y");
                 if ((isGrounded || isLanded) && mx + my > 0)
@@ -293,6 +294,7 @@ namespace Com.Wulfram3
             else
             {
                 myRigidbody.freezeRotation = true;
+                myRigidbody.isKinematic = true;
             }
 
 
@@ -405,15 +407,15 @@ namespace Com.Wulfram3
                 TakeOff();
             boost = 1f;
             if (boosting)
-                boost = 1.125f;
-            if (myRigidbody.velocity.x > maxVelocityX * boost)
+                boost = boostMultiplier;
+            
+            if (transform.InverseTransformDirection(myRigidbody.velocity).x > maxVelocityX * boost || transform.InverseTransformDirection(myRigidbody.velocity).x < -maxVelocityX * boost)
                 inputX = 0;
-            if (myRigidbody.velocity.z > maxVelocityZ * boost)
+            if (transform.InverseTransformDirection(myRigidbody.velocity).z > maxVelocityZ * boost || transform.InverseTransformDirection(myRigidbody.velocity).z < -maxVelocityZ * boost)
                 inputZ = 0;
-            Vector3 td = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z);
-            Vector3 totalSidewaysForce = Camera.main.transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier * boost;
-            Vector3 totalForwardForce = td * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier * boost;
-            myRigidbody.AddForce(totalForwardForce);
+            Vector3 totalSidewaysForce = transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier;
+            Vector3 totalForwardForce = Vector3.Cross(Vector3.up, transform.right) * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier;
+            myRigidbody.AddForce(-totalForwardForce);
             myRigidbody.AddForce(totalSidewaysForce);
             //myRigidbody.AddRelativeForce(new Vector3((x * strafeThrust * myRigidbody.mass) * thrustMultiplier, 0, (z * baseThrust * myRigidbody.mass) * thrustMultiplier));
         }

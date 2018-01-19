@@ -5967,9 +5967,9 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.4
     m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_NormalBias: 0
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
@@ -8043,11 +8043,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22443856, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000030051793
+      value: -0.00003603402
       objectReference: {fileID: 0}
     - target: {fileID: 22447778, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 22412608, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.y
