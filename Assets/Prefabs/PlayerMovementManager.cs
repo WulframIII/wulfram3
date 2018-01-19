@@ -15,7 +15,7 @@ namespace Com.Wulfram3
         public Transform gunEnd;
 
         [Tooltip("Main Thrust Power")]
-        private float baseThrust = 2f;
+        private float baseThrust = 5f;
         [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
         public float strafePercent = 0.8f;
         [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
@@ -28,9 +28,10 @@ namespace Com.Wulfram3
         public float timeBetweenShots = 3f;
         public float pulseShellFiringImpulse = 8f;
 
-        private float maxVelocityX = 4f;
-        private float maxVelocityZ = 6f;
-        private float boostMultiplier = 1.65f;
+        private float maxVelocityX = 8f;
+        private float maxVelocityZ = 12f;
+        private float boostMultiplier = 2.15f;
+        private int minPropulsionFuel = 40;
 
         [Tooltip("User Controlled, Also Starting Height")]
         public float currentHeight = 1.2f;  // tank current (and starting) level above ground
@@ -60,6 +61,8 @@ namespace Com.Wulfram3
         private float timestamp;
         private float jumptimestamp;
         private float landRequestTime;
+        private float thrustStamp;
+        private float propulsionStamp;
         private float timeSinceDead = 0;
         private float strafeThrust = 1f;
         private float takeOffBumpForce = 0.5f; // A little extra umph
@@ -81,6 +84,7 @@ namespace Com.Wulfram3
         private Quaternion originalRotation;
         private Rigidbody myRigidbody;
         private HitPointsManager hitpointsManager;
+        private FuelManager fuelManager;
         [HideInInspector]
         public Transform onRepairPad;
 
@@ -105,6 +109,7 @@ namespace Com.Wulfram3
             if (photonView.isMine)
             {
                 PlayerMovementManager.LocalPlayerInstance = this.gameObject;
+                fuelManager = GetComponent<FuelManager>();
             }
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
@@ -240,10 +245,68 @@ namespace Com.Wulfram3
                 inputX = Input.GetAxis("Strafe");
                 inputZ = Input.GetAxis("Drive");
                 boosting = Input.GetKeyDown(KeyCode.LeftShift);
+                if (Time.time >= thrustStamp)
+                {
+                    if (Input.GetAxis("ChangeThrust") > 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = Mathf.Clamp(thrustMultiplier + 0.01f, 0.1f, 1f);
+                    }
+                    else if (Input.GetAxis("ChangeThrust") < 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = Mathf.Clamp(thrustMultiplier - 0.01f, 0.1f, 1f);
+                    } else if (Input.GetAxis("SetSpeed1") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.1f;
+                    }
+                    else if (Input.GetAxis("SetSpeed2") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.2f;
+                    }
+                    else if (Input.GetAxis("SetSpeed3") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.3f;
+                    }
+                    else if (Input.GetAxis("SetSpeed4") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.4f;
+                    }
+                    else if (Input.GetAxis("SetSpeed5") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.5f;
+                    }
+                    else if (Input.GetAxis("SetSpeed6") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.6f;
+                    }
+                    else if (Input.GetAxis("SetSpeed7") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.7f;
+                    }
+                    else if (Input.GetAxis("SetSpeed8") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.8f;
+                    }
+                    else if (Input.GetAxis("SetSpeed9") != 0)
+                    {
+                        thrustStamp = Time.time + 0.3f;
+                        thrustMultiplier = 0.9f;
+                    }
+                }
+
                 //Fire Pulse
                 if (this.gameObject.GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= timestamp && Input.GetAxisRaw("Fire2") != 0)
                 {
-                    if (GetComponent<FuelManager>().TakeFuel(fuelPerPulse))
+                    if (fuelManager.TakeFuel(fuelPerPulse))
                     {
                         CmdFirePulseShell();
                         timestamp = Time.time + timeBetweenShots;
@@ -270,7 +333,7 @@ namespace Com.Wulfram3
                 // Tank Jump
                 if (Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
                 {
-                    if (GetComponent<FuelManager>().TakeFuel(fuelPerJump))
+                    if (fuelManager.TakeFuel(fuelPerJump))
                     {
                         if (isLanded || isGrounded)
                         {
@@ -310,11 +373,10 @@ namespace Com.Wulfram3
             if (hit.transform != null)
             {
                 Unit u = hit.transform.GetComponent<Unit>();
-                if (u != null && u.unitType == UnitType.RepairPad)
+                if (u != null && u.unitType == UnitType.RepairPad && u.unitTeam == GetComponent<Unit>().unitTeam)
                 {
                     Physics.IgnoreCollision(hit.transform.GetComponent<Collider>(), GetComponent<Collider>(), true);
                     onRepairPad = hit.transform;
-                    Debug.Log("Landed on Repair Pad.");
                 }
             }
             /*
@@ -336,7 +398,6 @@ namespace Com.Wulfram3
         {
             if (onRepairPad != null)
             {
-                Debug.Log("Took Off from Repair Pad.");
                 Physics.IgnoreCollision(onRepairPad.GetComponent<Collider>(), GetComponent<Collider>(), false);
                 onRepairPad = null;
             }
@@ -408,13 +469,17 @@ namespace Com.Wulfram3
             boost = 1f;
             if (boosting)
                 boost = boostMultiplier;
-            
-            if (transform.InverseTransformDirection(myRigidbody.velocity).x > maxVelocityX * boost || transform.InverseTransformDirection(myRigidbody.velocity).x < -maxVelocityX * boost)
+            float localXVelocity = Mathf.Abs(transform.InverseTransformDirection(myRigidbody.velocity).x);
+            float localZVelocity = Mathf.Abs(transform.InverseTransformDirection(myRigidbody.velocity).z);
+            float localXLimit = maxVelocityX * boost * thrustMultiplier;
+            float localZLimit = maxVelocityZ * boost * thrustMultiplier;
+            Vector3 relativeFwd = Vector3.Cross(Vector3.up, transform.right);
+            if (localXVelocity > localXLimit)
                 inputX = 0;
-            if (transform.InverseTransformDirection(myRigidbody.velocity).z > maxVelocityZ * boost || transform.InverseTransformDirection(myRigidbody.velocity).z < -maxVelocityZ * boost)
+            if (localZVelocity > localZLimit)
                 inputZ = 0;
-            Vector3 totalSidewaysForce = transform.right * inputX * strafeThrust * myRigidbody.mass * thrustMultiplier;
-            Vector3 totalForwardForce = Vector3.Cross(Vector3.up, transform.right) * inputZ * baseThrust * myRigidbody.mass * thrustMultiplier;
+            Vector3 totalSidewaysForce = transform.right * inputX * strafeThrust * myRigidbody.mass * boost;
+            Vector3 totalForwardForce = relativeFwd * inputZ * baseThrust * myRigidbody.mass * boost;
             myRigidbody.AddForce(-totalForwardForce);
             myRigidbody.AddForce(totalSidewaysForce);
             //myRigidbody.AddRelativeForce(new Vector3((x * strafeThrust * myRigidbody.mass) * thrustMultiplier, 0, (z * baseThrust * myRigidbody.mass) * thrustMultiplier));
