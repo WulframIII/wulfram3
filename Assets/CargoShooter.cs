@@ -101,10 +101,10 @@ namespace Com.Wulfram3
             } else if (rUn >= 500 && rUn < 1000)
             {
                 randomUnit = UnitType.Darklight;
-            } else if (rUn >= 1000 && rUn < 2000)
+            } else if (rUn >= 1000 && rUn < 5000)
             {
                 randomUnit = UnitType.PowerCell;
-            } else if (rUn >= 2000 && rUn < 5000)
+            } else if (rUn >= 5000 && rUn < 7500)
             {
                 randomUnit = UnitType.FlakTurret;
             } else
