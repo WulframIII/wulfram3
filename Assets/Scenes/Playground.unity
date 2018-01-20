@@ -617,7 +617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &155085633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1870,7 +1870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &380420406
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6319,7 +6319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1128912587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7073,7 +7073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1297390455
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8043,7 +8043,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22443856, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00003603402
+      value: -0.00008592683
       objectReference: {fileID: 0}
     - target: {fileID: 22447778, guid: addb59220be68eb4db8680d0a6d2e636, type: 2}
       propertyPath: m_SizeDelta.y
@@ -9313,7 +9313,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1829834677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9382,7 +9382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1833457672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9778,7 +9778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1885328030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9951,7 +9951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1923176082
 MonoBehaviour:
   m_ObjectHideFlags: 0
