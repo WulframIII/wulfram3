@@ -60,4 +60,6 @@ MonoBehaviour:
   - PickedUp
   - DeployedCargo
   - RequestDeployCargo
+  - LosePower
+  - RecievePower
   DisableAutoOpenWizard: 1
