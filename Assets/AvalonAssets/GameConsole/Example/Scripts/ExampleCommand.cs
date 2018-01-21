@@ -25,15 +25,22 @@ namespace AvalonAssets.Example
 
         public void Print(Action<string> output, string[] args)
         {
-				PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
-				player.gameObject.GetComponent<CameraManager> ().Detach ();
-				PhotonNetwork.Destroy (player.gameObject);
-				output.Invoke("Spawning Red Tank".AddColor(Color.red));
-
-				if (FindObjectOfType<RepairPad>().transform.position != null){
-					GameObject go = PhotonNetwork.Instantiate(this.crimsonTank.name, FindObjectOfType<RepairPad>().transform.position + new Vector3(0,5,0) , Quaternion.identity, 0);
-				}
-        }
+                Debug.Log("Output Kick: ");
+                Debug.Log("Player List: ");
+                name = "admin";
+                foreach (PhotonPlayer player in PhotonNetwork.playerList)
+                {
+                    string s = player.NickName;
+                    if (s != null && s == name)
+                    {
+                        Debug.Log("Kicking player :" + s);
+                        //PhotonNetwork.CloseConnection(player);
+                        photonView.RPC("KickPlayer", player);
+                        break;
+                    }
+                }
+            }
+        
 
         public void ColorHelloWorld(Action<string> output, string[] args)
         {
