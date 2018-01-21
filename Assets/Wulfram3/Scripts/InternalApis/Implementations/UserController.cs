@@ -22,6 +22,8 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Implementations
             Debug.Log("UserController constructor:" + player.userName);
             SetupSocketConnection();
             var tmp = Loom.Current;
+            var gen = new UnitModuleGenerator();
+            gen.GenerateNewModuleTest();
         }
 
         private WulframPlayer player;
