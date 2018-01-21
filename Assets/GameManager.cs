@@ -106,6 +106,12 @@ namespace Com.Wulfram3
                 Debug.Log("Number of Red players: " + redPlayers);
                 Debug.Log("Number of Blue players: " + bluePlayers);
                 GameObject player;
+                /* TODO: 
+                 * Sort Respawn Code
+                 * Detect player tags and modify starting prefab choices 
+                 
+                 */
+
                 if (bluePlayers > redPlayers) {
                     Debug.Log("Assigned to red team. Awaiting first spawn.");
                     player = PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Tank, PunTeams.Team.red), new Vector3(0,-100,0), Quaternion.identity, 0);
