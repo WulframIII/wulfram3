@@ -62,4 +62,5 @@ MonoBehaviour:
   - RequestDeployCargo
   - LosePower
   - RecievePower
+  - KickPlayer
   DisableAutoOpenWizard: 1
