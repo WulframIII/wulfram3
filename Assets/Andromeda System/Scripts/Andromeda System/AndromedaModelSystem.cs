@@ -95,12 +95,23 @@ public class AndromedaModelSystem : MonoBehaviour {
 			}
 		}
 
-		Color TempColor = hologramModelRenderer.material.color;
-		TempColor.a = flickerSpeed;
-		hologramModelRenderer.material.color = TempColor;
+        foreach (Material m in hologramModelRenderer.materials)
+        {
+            Color TempColor = m.color;
+            TempColor.a = flickerSpeed;
+            m.SetFloat("_Mode", 3f);
+            m.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+            m.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            m.SetInt("_ZWrite", 0);
+            m.DisableKeyword("_ALPHATEST_ON");
+            m.DisableKeyword("_ALPHABLEND_ON");
+            m.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+            m.renderQueue = 3000;
+            m.color = new Color(0, 0.7f, 0.75f, flickerSpeed/2f); // TempColor;
+        }
 
-		hologramModelRenderer.material.mainTextureOffset = new Vector2 (offsetX,offsetY); 
-	}
+        //hologramModelRenderer.material.mainTextureOffset = new Vector2 (offsetX,offsetY); 
+    }
 
 	IEnumerator  floatingup (){
 		YShake += shakeIntensity * Time.deltaTime;
