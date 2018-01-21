@@ -55,7 +55,13 @@ namespace Com.Wulfram3 {
 
                 if(hpm == null || unit ==null)
                 {
-                    targetInfoPanel.SetActive(false);
+                    TargetChanged(null);
+                    return;
+                }
+                // Check if targetd unit is now dead, if so, clear
+                if(target.GetComponent<HitPointsManager>().health == 0)
+                {
+                    TargetChanged(null);
                     return;
                 }
 
