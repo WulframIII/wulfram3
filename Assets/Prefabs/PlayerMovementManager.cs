@@ -126,15 +126,28 @@ namespace Com.Wulfram3
                 myMapIcon.SetTextureIcon(myIconTextures[0]);
             if (u.unitTeam == PunTeams.Team.Red)
                 myMapIcon.SetTextureIcon(myIconTextures[1]);
-            for (int i=0; i<meshList.Length; i++)
+            //Debug.Log(u.unitType);
+            if (u.unitType != UnitType.None)
             {
-                meshList[i].gameObject.SetActive(false);
-                if (meshList[i].name == u.unitTeam + "_" + u.unitType)
+                for (int i = 0; i < meshList.Length; i++)
                 {
-                    meshList[i].gameObject.SetActive(true);
-                    GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
-                    myMesh = meshList[i];
+                    meshList[i].gameObject.SetActive(false);
+                    if (meshList[i].name == u.unitTeam + "_" + u.unitType)
+                    {
+                        meshList[i].gameObject.SetActive(true);
+                        GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
+                        myMesh = meshList[i];
+                    }
                 }
+            } else
+            {
+                for (int i = 0; i < meshList.Length; i++)
+                {
+                    meshList[i].gameObject.SetActive(false);
+                }
+                meshList[4].gameObject.SetActive(true);
+                GetComponent<MeshCollider>().sharedMesh = availableColliders[4];
+                myMesh = meshList[4];
             }
         }
 
@@ -146,9 +159,12 @@ namespace Com.Wulfram3
             {
                 u.unitType = UnitType.Scout;
                 SetMesh();
-            } else if ((i==0 || i==2) && u.unitType != UnitType.Tank)
+            } else if ((i == 0 || i == 2) && u.unitType != UnitType.Tank)
             {
                 u.unitType = UnitType.Tank;
+                SetMesh();
+            } else if (i == 4 && u.unitType != UnitType.None) {
+                u.unitType = UnitType.None;
                 SetMesh();
             }
         }
@@ -360,7 +376,7 @@ namespace Com.Wulfram3
                 CmdFirePulseShell();
             } else if (GetComponent<Unit>().unitType == UnitType.Scout)
             {
-                Debug.Log("PlayerMovementManager.cs (Line: 309) Scout Secondary Firing Detected.");
+                //Debug.Log("PlayerMovementManager.cs (Line: 309) Scout Secondary Firing Detected.");
             }
         }
 

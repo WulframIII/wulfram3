@@ -13,11 +13,11 @@ namespace Assets.Wulfram3.Scripts.Units
     {
         public static SpawnStatus status;
 
-        public static float currentSpawnTime = 3f; // in seconds
+        public static float currentSpawnTime = 30f; // in seconds
 
         public Text countdownText;
 
-        private float defaultSpawnTime = 2f;
+        private float defaultSpawnTime = 30f;
 
         public void StartSpawn()
         {
