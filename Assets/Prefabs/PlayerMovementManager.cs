@@ -126,7 +126,6 @@ namespace Com.Wulfram3
                 myMapIcon.SetTextureIcon(myIconTextures[0]);
             if (u.unitTeam == PunTeams.Team.Red)
                 myMapIcon.SetTextureIcon(myIconTextures[1]);
-            //Debug.Log(u.unitType);
             if (i == 0)
             {
                 for (i = 0; i < meshList.Length; i++)
@@ -154,17 +153,16 @@ namespace Com.Wulfram3
         [PunRPC]
         public void SetSelectedVehicle(int i)
         {
-            Debug.Log(i);
             Unit u = GetComponent<Unit>();
-            if ((i == 1 || i == 3) && u.unitType != UnitType.Scout)
+            if ((i == 2 || i == 3))
             {
                 u.unitType = UnitType.Scout;
                 SetMesh(0);
-            } else if ((i == 0 || i == 2) && u.unitType != UnitType.Tank)
+            } else if ((i == 0 || i == 1))
             {
                 u.unitType = UnitType.Tank;
                 SetMesh(0);
-            } else if (i == 4 && u.unitType != UnitType.Other) {
+            } else if (i == 4) {
                 u.unitType = UnitType.Other;
                 SetMesh(4);
             }
