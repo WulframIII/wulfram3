@@ -15,12 +15,12 @@ namespace Com.Wulfram3
         public Transform gunEnd;
 
         [Tooltip("Main Thrust Power")]
-        private float baseThrust = 5f;
+        private float baseThrust = 3f;
         [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
         public float strafePercent = 0.8f;
         [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
         public float thrustMultiplier = 0.5f;
-        public float jumpForce = 16f;
+        private float jumpForce = 18f;
         public int fuelPerJump = 200;
         public float timeBetweenJumps = 3.0f;
 
@@ -36,22 +36,22 @@ namespace Com.Wulfram3
         [Tooltip("User Controlled, Also Starting Height")]
         public float currentHeight = 1.2f;  // tank current (and starting) level above ground
         [Tooltip("Height assumed when taking off from landed")]
-        public float defaultHeight = 1.2f;
-        public float maximumHeight = 4.0f;
-        public float riseSpeed = 0.055f;
-        public float lowerSpeed = 0.025f;
+        private float defaultHeight = 1.2f;
+        private float maximumHeight = 4.0f;
+        private float riseSpeed = 0.055f;
+        private float lowerSpeed = 0.025f;
 
         [Tooltip("Delay, in seconds, before respawn map appears")]
         public float destroyDelayWhenDead = 3;
 
         public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
         public RotationAxes axes = RotationAxes.MouseXAndY;
-        public float sensitivityX = 1.5F;
-        public float sensitivityY = 1.5F;
+        private float sensitivityX = 0.525f;
+        private float sensitivityY = 0.5f;
         public float minimumX = -360F;
         public float maximumX = 360F;
-        public float minimumY = -60F;
-        public float maximumY = 60F;
+        private float minimumY = -56F;
+        private float maximumY = 56F;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
@@ -88,6 +88,15 @@ namespace Com.Wulfram3
         [HideInInspector]
         public Transform onRepairPad;
 
+        public Transform[] meshList;
+
+        private PunTeams.Team initialTeam;
+        private UnitType initialUnit;
+
+        public KGFMapIcon myMapIcon;
+        public List<Mesh> availableColliders;
+        public List<Texture2D> myIconTextures;
+
         void Start()
         {
             if (!photonView.isMine)
@@ -95,15 +104,62 @@ namespace Com.Wulfram3
                 myRigidbody.isKinematic = true;
                 return;
             }
+            Unit u = GetComponent<Unit>();
+            if (u != null)
+            {
+                u.unitType = (UnitType)photonView.instantiationData[0];
+                u.unitTeam = (PunTeams.Team)photonView.instantiationData[1];
+            } else
+            {
+                Debug.Log("*******[Player Error]*******: Unit.cs or Instantiation Data Not Found. This may occur if a scene was loaded with existing vehicles.");
+            }
+            SetMesh();
             strafeThrust = strafePercent * baseThrust;
             originalRotation = transform.localRotation;
+            PrepareForRespawn();
         }
+
+        private void SetMesh()
+        {
+            Unit u = GetComponent<Unit>();
+            if (u.unitTeam == PunTeams.Team.Blue)
+                myMapIcon.SetTextureIcon(myIconTextures[0]);
+            if (u.unitTeam == PunTeams.Team.Red)
+                myMapIcon.SetTextureIcon(myIconTextures[1]);
+            for (int i=0; i<meshList.Length; i++)
+            {
+                meshList[i].gameObject.SetActive(false);
+                if (meshList[i].name == u.unitTeam + "_" + u.unitType)
+                {
+                    meshList[i].gameObject.SetActive(true);
+                    GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
+                    myMesh = meshList[i];
+                }
+            }
+        }
+
+        [PunRPC]
+        public void SetSelectedVehicle(int i)
+        {
+            Unit u = GetComponent<Unit>();
+            if ((i == 1 || i == 3) && u.unitType != UnitType.Scout)
+            {
+                u.unitType = UnitType.Scout;
+                SetMesh();
+            } else if ((i==0 || i==2) && u.unitType != UnitType.Tank)
+            {
+                u.unitType = UnitType.Tank;
+                SetMesh();
+            }
+        }
+
 
         private void Awake()
         {
             hitpointsManager = GetComponent<HitPointsManager>();
             gameManager = FindObjectOfType<GameManager>();
             myRigidbody = GetComponent<Rigidbody>();
+            //StartMesh();
             // #Important
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
             if (photonView.isMine)
@@ -113,6 +169,9 @@ namespace Com.Wulfram3
             }
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+            Unit u = GetComponent<Unit>();
+            u.unitTeam = initialTeam;
+            u.unitType = initialUnit;
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -132,9 +191,7 @@ namespace Com.Wulfram3
                 isGrounded = false;
                 requestJump = false;
                 timeSinceDead = 0;
-                isSpawning = true;
                 currentHeight = defaultHeight;
-                GetComponent<AudioSource>().Stop();
                 gameManager.Respawn(this);
             }
         }
@@ -151,12 +208,12 @@ namespace Com.Wulfram3
 
         void CheckRespawn()
         {
-            myMesh.gameObject.SetActive(true);
-            GetComponent<AudioSource>().Play();
-            GetComponent<Collider>().enabled = true;
-            GetComponent<KGFMapIcon>().SetVisibility(true);
             if (isSpawning)
             {
+                myMesh.gameObject.SetActive(true);
+                GetComponent<AudioSource>().Play();
+                GetComponent<Collider>().enabled = true;
+                GetComponent<KGFMapIcon>().SetVisibility(true);
                 isSpawning = false;
                 myRigidbody.isKinematic = false;
             }
@@ -165,17 +222,14 @@ namespace Com.Wulfram3
 
         public void PrepareForRespawn()
         {
+            isSpawning = true;
             myMesh.gameObject.SetActive(false);
-            if (myRigidbody != null)
-                myRigidbody.isKinematic = true;
+            myRigidbody.isKinematic = true;
             GetComponent<Collider>().enabled = false;
             GetComponent<KGFMapIcon>().SetVisibility(false);
+            GetComponent<AudioSource>().Stop();
             //gameManager.SpawnExplosion(transform.position);
-            if (photonView.isMine)
-            {
-                Reset();
-            }
-
+            Reset();
         }
 
         public void CheckIsDead()
@@ -318,13 +372,13 @@ namespace Com.Wulfram3
             }
             else if (Input.GetAxisRaw("ChangeAltitude") < 0 && !isLanded && !isGrounded)
             {
-                currentHeight = Mathf.Max(currentHeight - lowerSpeed, 0f);
+                currentHeight = Mathf.Max(currentHeight - lowerSpeed, 0.2f);
             }
-            if (currentHeight > 0.001 && (isLanded || isGrounded))
+            if (currentHeight > 0.2f && (isLanded || isGrounded))
             {
                 TakeOff();
             }
-            else if (currentHeight <= 0.001 && !isLanded)
+            else if (currentHeight <= 0.2f && !isLanded)
             {
                 isLanded = true;
             }
@@ -424,7 +478,7 @@ namespace Com.Wulfram3
             isLanded = false;
             isGrounded = false;
             currentHeight = defaultHeight;
-            myRigidbody.AddForce(Vector3.up * (takeOffBumpForce * myRigidbody.mass), ForceMode.Impulse);
+            //myRigidbody.AddForce(Vector3.up * (takeOffBumpForce * myRigidbody.mass), ForceMode.Impulse);
             AudioSource.PlayClipAtPoint(takeoffSource, transform.position);
             GetComponent<AudioSource>().Play();
         }
@@ -459,8 +513,9 @@ namespace Com.Wulfram3
                  */
                 //Ray ray = new Ray(transform.position, -Vector3.up);
                 //Debug.Log(rotationX + " " + rotationY);
-                Ray ray = new Ray(CenteredLowestPoint(), -Vector3.up);
-                Ray checkRay = new Ray(transform.position, -Vector3.up); // This double check helps make sure the tank doesn't get stuck in the ground
+                Vector3 clp = CenteredLowestPoint();
+                Ray ray = new Ray(clp, -Vector3.up);
+                Ray checkRay = new Ray(new Vector3(clp.x, transform.position.y, clp.z), -Vector3.up); // This double check helps make sure the tank doesn't get stuck in the ground
                 RaycastHit hit;
                 RaycastHit groundCheck;
                 if (Physics.Raycast(ray, out hit, currentHeight) || (Physics.Raycast(checkRay, out groundCheck, currentHeight) && groundCheck.distance != 0 && hit.distance == 0))

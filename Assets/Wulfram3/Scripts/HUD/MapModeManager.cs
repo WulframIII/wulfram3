@@ -126,10 +126,10 @@ public class MapModeManager : MonoBehaviour {
 
             if (unitInfo.unitType == UnitType.RepairPad)
             {
-                if(unitInfo.IsUnitFriendly())
+                if (unitInfo.IsUnitFriendly())
                 {
-                    if(PlayerSpawnManager.status == SpawnStatus.IsReady)
-                    {     
+                    if (PlayerSpawnManager.status == SpawnStatus.IsReady)
+                    {
                         PlayerSpawnManager.SpawnPlayer(foundObject.transform.position);
                         ActivateMapMode(MapType.Mini);
                     }

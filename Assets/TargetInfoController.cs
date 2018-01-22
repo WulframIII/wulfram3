@@ -76,11 +76,11 @@ namespace Com.Wulfram3 {
                         name.color = FindObjectOfType<GameManager>().graycolor.color;
                         //panel.color = FindObjectOfType<GameManager>().graycolor.color;
                         break;
-                    case PunTeams.Team.red:
+                    case PunTeams.Team.Red:
                         name.color = FindObjectOfType<GameManager>().redcolor.color;
                         //panel.color = FindObjectOfType<GameManager>().redcolor.color;
                         break;
-                    case PunTeams.Team.blue:
+                    case PunTeams.Team.Blue:
                         name.color = FindObjectOfType<GameManager>().bluecolor.color;
                         //panel.color = FindObjectOfType<GameManager>().bluecolor.color;
                         break;

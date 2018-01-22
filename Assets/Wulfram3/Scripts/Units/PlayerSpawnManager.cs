@@ -13,14 +13,17 @@ namespace Assets.Wulfram3.Scripts.Units
     {
         public static SpawnStatus status;
 
-        public static float currentSpawnTime = 30.0f; // in seconds
+        public static float currentSpawnTime = 3f; // in seconds
 
         public Text countdownText;
 
+        private float defaultSpawnTime = 2f;
 
         public void StartSpawn()
         {
             status = SpawnStatus.IsSpawning;
+            GameManager gm = FindObjectOfType<GameManager>();
+            gm.unitSelector.gameObject.SetActive(true);
         }
 
         public SpawnStatus GetSpawnStatus()
@@ -31,7 +34,10 @@ namespace Assets.Wulfram3.Scripts.Units
         public static void SpawnPlayer(Vector3 spawnPoint)
         {
             PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
-            KGFMapIcon icon = PlayerMovementManager.LocalPlayerInstance.GetComponent<KGFMapIcon>();
+            GameManager gm = FindObjectOfType<GameManager>();
+            player.photonView.RPC("SetSelectedVehicle", PhotonTargets.All, gm.unitSelector.current);
+            gm.unitSelector.gameObject.SetActive(false);
+            //KGFMapIcon icon = PlayerMovementManager.LocalPlayerInstance.GetComponent<KGFMapIcon>();
             //if (player.isDead)
             //{
             Cursor.visible = false;
@@ -44,7 +50,7 @@ namespace Assets.Wulfram3.Scripts.Units
 
             player.GetComponent<FuelManager>().ResetFuel();
             PlayerSpawnManager.status = SpawnStatus.IsAlive;
-            icon.SetVisibility(true);
+            //icon.SetVisibility(true);
             //}
         }
 
@@ -53,13 +59,13 @@ namespace Assets.Wulfram3.Scripts.Units
         {
             if(status == SpawnStatus.IsSpawning)
             {
-                KGFMapIcon icon = PlayerMovementManager.LocalPlayerInstance.GetComponent<KGFMapIcon>();
-                icon.SetVisibility(false);
+                //KGFMapIcon icon = PlayerMovementManager.LocalPlayerInstance.GetComponent<KGFMapIcon>();
+                //icon.SetVisibility(false);
                 currentSpawnTime -= Time.deltaTime;
                 if (currentSpawnTime < 0)
                 {
                     status = SpawnStatus.IsReady;
-                    currentSpawnTime = 30.0f; // in seconds
+                    currentSpawnTime = defaultSpawnTime; // in seconds
                     countdownText.text = "READY FOR DEPLOYMENT!";
                 }
                 else

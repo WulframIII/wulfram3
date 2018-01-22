@@ -83,10 +83,10 @@ namespace Com.Wulfram3
             PunTeams.Team randomTeam = PunTeams.Team.none;
             if (rTn == 0)
             {
-                randomTeam = PunTeams.Team.blue;
+                randomTeam = PunTeams.Team.Blue;
             } else if (rTn == 1)
             {
-                randomTeam = PunTeams.Team.red;
+                randomTeam = PunTeams.Team.Red;
             }
             string prefabName = Unit.GetPrefabName(UnitType.Cargo, randomTeam);
             UnitType randomUnit;

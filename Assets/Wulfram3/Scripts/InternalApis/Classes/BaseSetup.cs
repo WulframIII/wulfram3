@@ -68,7 +68,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
                         default:
                             return "";
                     }
-                case PunTeams.Team.red:
+                case PunTeams.Team.Red:
                     switch (unitType)
                     {
                         case UnitType.None:
@@ -100,7 +100,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
                         default:
                             return "";
                     }
-                case PunTeams.Team.blue:
+                case PunTeams.Team.Blue:
                     switch (unitType)
                     {
                         case UnitType.None:

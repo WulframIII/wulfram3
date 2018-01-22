@@ -38,6 +38,7 @@ namespace Com.Wulfram3 {
         private Vector3 screenCenter;
         private Transform targetPosition;
 
+        public List<Material> teamColorMaterials;
 
         // Use this for initialization
         void Start() {
@@ -47,9 +48,20 @@ namespace Com.Wulfram3 {
             {
                 screenCenter = new Vector3(Screen.width/2, Screen.height/2, 0.0f);
             }
+            Unit u = GetComponent<Unit>();
+            if (u.unitTeam == PunTeams.Team.Red)
+            {
+                laserLine.material = teamColorMaterials[0];
+            } else if (u.unitTeam == PunTeams.Team.Blue)
+            {
+                laserLine.material = teamColorMaterials[1];
+            } else
+            {
+                laserLine.material = teamColorMaterials[2];
+            }
         }
 
-		private GameManager GetGameManager() {
+        private GameManager GetGameManager() {
 			if (gameManager == null) {
 				gameManager = FindObjectOfType<GameManager>();
 			}

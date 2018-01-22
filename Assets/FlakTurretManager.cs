@@ -30,10 +30,8 @@ namespace Com.Wulfram3 {
 
         // Use this for initialization
         void Start() {
-            if (PhotonNetwork.isMasterClient) {
-                gameManager = FindObjectOfType<GameManager>();
-                myUnit = GetComponent<Unit>();
-            }
+            gameManager = FindObjectOfType<GameManager>();
+            myUnit = GetComponent<Unit>();
             team = transform.GetComponent<Unit>().unitTeam;
             fireStamp = Time.time;
             shellVelocity = SplashProjectileController.FlakVelocity;

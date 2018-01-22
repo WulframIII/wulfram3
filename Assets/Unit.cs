@@ -76,11 +76,11 @@ namespace Com.Wulfram3
 
         public static string PunTeamToTeamString(PunTeams.Team t)
         {
-            if (t == PunTeams.Team.blue)
+            if (t == PunTeams.Team.Blue)
             {
                 return "Blue";
             }
-            else if (t == PunTeams.Team.red)
+            else if (t == PunTeams.Team.Red)
             {
                 return "Red";
             }
@@ -104,11 +104,11 @@ namespace Com.Wulfram3
         {
             switch (unitTeam)
             {
-                case PunTeams.Team.red:
-                    return PunTeams.Team.blue;
+                case PunTeams.Team.Red:
+                    return PunTeams.Team.Blue;
 
-                case PunTeams.Team.blue:
-                    return PunTeams.Team.red;
+                case PunTeams.Team.Blue:
+                    return PunTeams.Team.Red;
                 default:
                     return PunTeams.Team.none;
             }

@@ -58,12 +58,12 @@ namespace Com.Wulfram3 {
                 directDamage = PulseDirectDamage;
                 splashRadius = PulseSplashRadius;
                 flakShell.gameObject.SetActive(false);
-                if (team == PunTeams.Team.blue)
+                if (team == PunTeams.Team.Blue)
                 {
                     redPulse.gameObject.SetActive(false);
                     bluePulse.gameObject.SetActive(true);
                 }
-                else if (team == PunTeams.Team.red)
+                else if (team == PunTeams.Team.Red)
                 {
                     redPulse.gameObject.SetActive(true);
                     bluePulse.gameObject.SetActive(false);

@@ -41,8 +41,8 @@ public class TeamCounter : MonoBehaviour {
 
     public void UpdateTeams()
     {
-        redTeamCounter.text = PunTeams.PlayersPerTeam[PunTeams.Team.red].Count.ToString();
-        blueTeamCounter.text = PunTeams.PlayersPerTeam[PunTeams.Team.blue].Count.ToString();
+        redTeamCounter.text = PunTeams.PlayersPerTeam[PunTeams.Team.Red].Count.ToString();
+        blueTeamCounter.text = PunTeams.PlayersPerTeam[PunTeams.Team.Blue].Count.ToString();
 
     }
 }

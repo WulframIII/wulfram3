@@ -31,6 +31,8 @@ namespace Com.Wulfram3
 
         private bool isFirstSpawn = true;
 
+        public VehicleSelector unitSelector;
+
         #region Photon Messages
 
 
@@ -94,14 +96,17 @@ namespace Com.Wulfram3
 
             if (PlayerMovementManager.LocalPlayerInstance == null) {
                 Debug.Log("We are Instantiating LocalPlayer from " + Application.loadedLevelName);
+
+                GameObject g = Instantiate(Resources.Load("VehicleSelector"), new Vector3(-500, -500, -500), Quaternion.identity, transform) as GameObject;
+                unitSelector = g.GetComponent<VehicleSelector>();
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
 
 
                 //team start
                 PunTeams.UpdateTeamsNow();
 
-                int redPlayers = PunTeams.PlayersPerTeam[PunTeams.Team.red].Count;
-                int bluePlayers = PunTeams.PlayersPerTeam[PunTeams.Team.blue].Count;
+                int redPlayers = PunTeams.PlayersPerTeam[PunTeams.Team.Red].Count;
+                int bluePlayers = PunTeams.PlayersPerTeam[PunTeams.Team.Blue].Count;
 
                 Debug.Log("Number of Red players: " + redPlayers);
                 Debug.Log("Number of Blue players: " + bluePlayers);
@@ -112,39 +117,62 @@ namespace Com.Wulfram3
                  
                  */
 
+                object[] o = new object[2];
+                o[0] = UnitType.Tank;
+                List<int> availableUnits = new List<int>();
                 if (bluePlayers > redPlayers) {
-                    Debug.Log("Assigned to red team. Awaiting first spawn.");
-                    player = PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Tank, PunTeams.Team.red), new Vector3(0,-100,0), Quaternion.identity, 0);
-                    PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-                    
-                   
-                } else {
-                    Debug.Log("Assigned to blue team. Awaiting first spawn.");
-                    player = PhotonNetwork.Instantiate(Unit.GetPrefabName(UnitType.Tank, PunTeams.Team.blue), new Vector3(0, -100, 0), Quaternion.identity, 0);
-                    PhotonNetwork.player.SetTeam(PunTeams.Team.blue);   
+                    o[1] = PunTeams.Team.Red;
+                    availableUnits.Add(0);
+                    availableUnits.Add(2);
                 }
-            } else {
+                else {
+                    o[1] = PunTeams.Team.Blue;
+                    availableUnits.Add(1);
+                    availableUnits.Add(3);
+                }
+                if (PhotonNetwork.player.name.Contains("[DEV]"))
+                {
+                    availableUnits.Add(4);
+                }
+
+
+                Debug.Log("Assigned to " + o[1] + " team. Awaiting first spawn.");
+                unitSelector.SetAvailableModels(availableUnits);
+                player = PhotonNetwork.Instantiate("Unit_Prefabs/Player/Player", new Vector3(0, -100, 0), Quaternion.identity, 0, o);
+                PhotonNetwork.player.SetTeam((PunTeams.Team)o[1]);
+            }
+            else {
                 Debug.Log("Ignoring scene load for " + Application.loadedLevelName);
             }
+            //PlayerSpawnManager.status = SpawnStatus.IsAlive;
+            GetComponent<PlayerSpawnManager>().StartSpawn();
+            GetComponent<MapModeManager>().ActivateMapMode(MapType.Spawn);
+            //normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();          
+        }
 
-            
-            PlayerSpawnManager.status = SpawnStatus.IsAlive;
-            normalCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();          
+        public void NextPreview()
+        {
+            unitSelector.Next();
+        }
+
+        public void PreviousPreview()
+        {
+            unitSelector.Previous();
         }
 
         private void Update()
         {
-           
+           /*
             if(isFirstSpawn)
             {
                 PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
                 if (player != null)
                 {
-                    player.PrepareForRespawn();
-                    this.Respawn(null);
+                    //player.PrepareForRespawn();
+                    //this.Respawn(null);
                     isFirstSpawn = false;
                 }
-            }
+            } */
         }
 
         [PunRPC]
@@ -249,10 +277,10 @@ namespace Com.Wulfram3
                 case PunTeams.Team.none:
                     teamColor = this.graycolor.color.ToHex();
                     break;
-                case PunTeams.Team.red:
+                case PunTeams.Team.Red:
                     teamColor = this.redcolor.color.ToHex();
                     break;
-                case PunTeams.Team.blue:
+                case PunTeams.Team.Blue:
                     teamColor = this.bluecolor.color.ToHex();
                     break;
                 default:

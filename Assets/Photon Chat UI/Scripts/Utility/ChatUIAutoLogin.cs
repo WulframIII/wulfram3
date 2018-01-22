@@ -34,7 +34,7 @@ namespace PhotonChatUI
                     Debug.Log("Chat Player Connected");
                 ischatConnected = true;
                 var team = PhotonNetwork.player.GetTeam();
-                if(team == PunTeams.Team.blue)
+                if(team == PunTeams.Team.Blue)
                 {
                     chatUI.CreatePublicChannel("Azure Alliance");
                 }

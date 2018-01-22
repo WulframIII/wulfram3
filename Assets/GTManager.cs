@@ -34,20 +34,11 @@ namespace Com.Wulfram3
 
             timeBetweenShots = 1f / bulletsPerSecond;
             laserLine = GetComponent<LineRenderer>();
-            if (PhotonNetwork.isMasterClient)
-            {
-                gameManager = GetGameManager();
-                myUnit = GetComponent<Unit>();
-            }
-        }
-
-        private GameManager GetGameManager()
-        {
-            if (gameManager == null)
-            {
+            //if (PhotonNetwork.isMasterClient)
+            //{
                 gameManager = FindObjectOfType<GameManager>();
-            }
-            return gameManager;
+                myUnit = GetComponent<Unit>();
+            //}
         }
 
         private IEnumerator ShotEffect()
@@ -55,7 +46,6 @@ namespace Com.Wulfram3
             laserLine.enabled = true;
             yield return shotDuration;
             laserLine.enabled = false;
-
         }
 
         private void SetAndSyncShooting(bool newValue)
