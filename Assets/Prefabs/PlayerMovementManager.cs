@@ -113,13 +113,13 @@ namespace Com.Wulfram3
             {
                 Debug.Log("*******[Player Error]*******: Unit.cs or Instantiation Data Not Found. This may occur if a scene was loaded with existing vehicles.");
             }
-            SetMesh();
+            SetMesh(0);
             strafeThrust = strafePercent * baseThrust;
             originalRotation = transform.localRotation;
             PrepareForRespawn();
         }
 
-        private void SetMesh()
+        private void SetMesh(int i)
         {
             Unit u = GetComponent<Unit>();
             if (u.unitTeam == PunTeams.Team.Blue)
@@ -127,9 +127,9 @@ namespace Com.Wulfram3
             if (u.unitTeam == PunTeams.Team.Red)
                 myMapIcon.SetTextureIcon(myIconTextures[1]);
             //Debug.Log(u.unitType);
-            if (u.unitType != UnitType.None)
+            if (i == 0)
             {
-                for (int i = 0; i < meshList.Length; i++)
+                for (i = 0; i < meshList.Length; i++)
                 {
                     meshList[i].gameObject.SetActive(false);
                     if (meshList[i].name == u.unitTeam + "_" + u.unitType)
@@ -141,7 +141,7 @@ namespace Com.Wulfram3
                 }
             } else
             {
-                for (int i = 0; i < meshList.Length; i++)
+                for (i = 0; i < meshList.Length; i++)
                 {
                     meshList[i].gameObject.SetActive(false);
                 }
@@ -154,18 +154,19 @@ namespace Com.Wulfram3
         [PunRPC]
         public void SetSelectedVehicle(int i)
         {
+            Debug.Log(i);
             Unit u = GetComponent<Unit>();
             if ((i == 1 || i == 3) && u.unitType != UnitType.Scout)
             {
                 u.unitType = UnitType.Scout;
-                SetMesh();
+                SetMesh(0);
             } else if ((i == 0 || i == 2) && u.unitType != UnitType.Tank)
             {
                 u.unitType = UnitType.Tank;
-                SetMesh();
-            } else if (i == 4 && u.unitType != UnitType.None) {
-                u.unitType = UnitType.None;
-                SetMesh();
+                SetMesh(0);
+            } else if (i == 4 && u.unitType != UnitType.Other) {
+                u.unitType = UnitType.Other;
+                SetMesh(4);
             }
         }
 

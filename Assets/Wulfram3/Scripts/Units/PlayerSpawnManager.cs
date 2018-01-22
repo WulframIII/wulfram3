@@ -35,7 +35,7 @@ namespace Assets.Wulfram3.Scripts.Units
         {
             PlayerMovementManager player = PlayerMovementManager.LocalPlayerInstance.GetComponent<PlayerMovementManager>();
             GameManager gm = FindObjectOfType<GameManager>();
-            player.photonView.RPC("SetSelectedVehicle", PhotonTargets.All, gm.unitSelector.current);
+            player.photonView.RPC("SetSelectedVehicle", PhotonTargets.All, gm.unitSelector.SelectedIndex());
             gm.unitSelector.gameObject.SetActive(false);
             //KGFMapIcon icon = PlayerMovementManager.LocalPlayerInstance.GetComponent<KGFMapIcon>();
             //if (player.isDead)

@@ -16,6 +16,7 @@ namespace Assets.Wulfram3.Scripts.InternalApis.Classes
         Skypump, 
         Darklight,
         Uplink,
+        Other,
     }
 
     public enum MapType

@@ -51,6 +51,11 @@ public class VehicleSelector : MonoBehaviour {
         }
     }
 
+    public int SelectedIndex()
+    {
+        return available[current];
+    }
+
     public void Next()
     {
         current++;
