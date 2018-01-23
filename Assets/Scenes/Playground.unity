@@ -7705,7 +7705,7 @@ MonoBehaviour:
   Canvas_indicatorSize: 45
   indicators:
   - onScreenSprite: {fileID: 21300000, guid: 5f7bd07bc1344e944a3c06c59c1ff34d, type: 3}
-    onScreenColor: {r: 0, g: 0.72794116, b: 0.18575038, a: 1}
+    onScreenColor: {r: 1, g: 0, b: 0, a: 1}
     onScreenRotates: 0
     offScreenSprite: {fileID: 21300000, guid: c94b23e59bd617e43ae03cc154ec0cb0, type: 3}
     offScreenColor: {r: 1, g: 0, b: 0, a: 1}
@@ -7713,11 +7713,11 @@ MonoBehaviour:
     targetOffset: {x: 0, y: 0, z: 0}
     transition: 1
     transitionDuration: 0.2
-  - onScreenSprite: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  - onScreenSprite: {fileID: 21300000, guid: 5f7bd07bc1344e944a3c06c59c1ff34d, type: 3}
     onScreenColor: {r: 0, g: 0.42068958, b: 1, a: 1}
     onScreenRotates: 0
-    offScreenSprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
-    offScreenColor: {r: 1, g: 0, b: 0.8896551, a: 1}
+    offScreenSprite: {fileID: 21300000, guid: c94b23e59bd617e43ae03cc154ec0cb0, type: 3}
+    offScreenColor: {r: 0, g: 0.41960785, b: 1, a: 1}
     offScreenRotates: 1
     targetOffset: {x: 0, y: 0, z: 0}
     transition: 1
