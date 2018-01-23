@@ -122,13 +122,13 @@ namespace Com.Wulfram3
                 List<int> availableUnits = new List<int>();
                 if (bluePlayers > redPlayers) {
                     o[1] = PunTeams.Team.Red;
-                    availableUnits.Add(0);
                     availableUnits.Add(2);
+                    availableUnits.Add(3);
                 }
                 else {
                     o[1] = PunTeams.Team.Blue;
+                    availableUnits.Add(0);
                     availableUnits.Add(1);
-                    availableUnits.Add(3);
                 }
                 if (PhotonNetwork.player.name.Contains("[DEV]"))
                 {

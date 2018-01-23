@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IVehicleSetting
+
 { 
     float BaseThrust { get; }
 
@@ -27,7 +28,7 @@ public interface IVehicleSetting
 
     float DefaultHeight { get; }
 
-    float DaximumHeight { get; }
+    float MaximumHeight { get; }
 
     float RiseSpeed { get; }
 
@@ -47,6 +48,8 @@ public class VehicleSettingFactory
                 return new TankVehicleSetting();
             case UnitType.Scout:
                 return new ScoutVehicleSettings();
+            case UnitType.Other:
+                return new OtherVehicleSetting();
             default:
                 return null;
         }

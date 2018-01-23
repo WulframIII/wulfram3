@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoutVehicleSettings : IVehicleSetting
+public class OtherVehicleSetting : IVehicleSetting
 {
     public float BaseThrust
     {
         get
         {
-            return 5f;
+            return 6f;
         }
     }
 
@@ -16,7 +16,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 0.8f;
+            return 0.9f;
         }
     }
 
@@ -24,7 +24,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 0.7f;
+            return 0.5f;
         }
     }
 
@@ -32,7 +32,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 0f;
+            return 17.6f;
         }
     }
 
@@ -40,7 +40,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 0;
+            return 30;
         }
     }
 
@@ -48,7 +48,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 0f;
+            return 2.2f;
         }
     }
 
@@ -56,7 +56,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 12f;
+            return 16f;
         }
     }
 
@@ -64,7 +64,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 16f;
+            return 24f;
         }
     }
 
@@ -72,7 +72,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 3f;
+            return 5.5f;
         }
     }
 
@@ -80,7 +80,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 40;
+            return 0;
         }
     }
 
@@ -88,7 +88,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 1.8f;
+            return 1.2f;
         }
     }
 
@@ -96,7 +96,7 @@ public class ScoutVehicleSettings : IVehicleSetting
     {
         get
         {
-            return 5.2f;
+            return 9.2f;
         }
     }
 
@@ -122,8 +122,8 @@ public class ScoutVehicleSettings : IVehicleSetting
         {
             return new List<WeaponTypes>
             {
-                WeaponTypes.MachineGun,
-                WeaponTypes.RepairBeam
+                WeaponTypes.Autocannon,
+                WeaponTypes.Pulse
             };
         }
     }

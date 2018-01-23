@@ -11,31 +11,31 @@ namespace Com.Wulfram3
         public AudioClip jumpSource;
         public AudioClip landSource;
         public AudioClip takeoffSource;
+        public Unit myUnit;
         public Transform myMesh;
         public Transform gunEnd;
+        public Transform firstPersonCamPos;
+        public Transform thirdPersonCamPos;
+        public Transform placePosition;
+        public Transform dropPosition;
 
-        [Tooltip("Main Thrust Power")]
         private float baseThrust = 3f;
-        [Tooltip("Strafe Thrust = Main Thrust * Strafe Percent")]
-        public float strafePercent = 0.8f;
-        [Tooltip("User Controlled, Also Starting Thrust Multiplier")]
-        public float thrustMultiplier = 0.5f;
+        private float strafePercent = 0.8f;
+        private float thrustMultiplier = 0.5f;
         private float jumpForce = 18f;
-        public int fuelPerJump = 200;
-        public float timeBetweenJumps = 3.0f;
+        private int fuelPerJump = 200;
+        private float timeBetweenJumps = 3.0f;
 
-        public int fuelPerPulse = 180;
-        public float timeBetweenPulse = 3f;
-        public float pulseShellFiringImpulse = 8f;
+        private int fuelPerPulse = 180;
+        private float timeBetweenPulse = 3f;
+        private float pulseShellFiringImpulse = 8f;
 
         private float maxVelocityX = 8f;
         private float maxVelocityZ = 12f;
         private float boostMultiplier = 2.15f;
         private int minPropulsionFuel = 40;
 
-        [Tooltip("User Controlled, Also Starting Height")]
-        public float currentHeight = 1.2f;  // tank current (and starting) level above ground
-        [Tooltip("Height assumed when taking off from landed")]
+        private float currentHeight = 1.2f;  // tank current (and starting) level above ground
         private float defaultHeight = 1.2f;
         private float maximumHeight = 4.0f;
         private float riseSpeed = 0.055f;
@@ -46,15 +46,17 @@ namespace Com.Wulfram3
 
         public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
         public RotationAxes axes = RotationAxes.MouseXAndY;
-        private float sensitivityX = 0.525f;
-        private float sensitivityY = 0.5f;
-        public float minimumX = -360F;
-        public float maximumX = 360F;
-        private float minimumY = -56F;
-        private float maximumY = 56F;
+        public float sensitivityX = 0.525f;
+        public float sensitivityY = 0.5f;
+        private float minimumX = -360F;
+        private float maximumX = 360F;
+        public float minimumY = -56F;
+        public float maximumY = 56F;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
+
+        private IVehicleSetting mySettings;
 
         // Internal vars
         private GameManager gameManager;
@@ -96,24 +98,32 @@ namespace Com.Wulfram3
         public KGFMapIcon myMapIcon;
         public List<Mesh> availableColliders;
         public List<Texture2D> myIconTextures;
+        public List<Transform> cargoDropPositions;
+        public List<Transform> unitPlacePositions;
+        public List<Transform> gunPositions;
+        public List<Transform> firstPersonCameraPositions;
+        public List<Transform> thirdPersonCameraPositions;
+
 
         void Start()
         {
+
+            myUnit = GetComponent<Unit>();
+            if (myUnit != null)
+            {
+                myUnit.unitType = (UnitType)photonView.instantiationData[0];
+                myUnit.unitTeam = (PunTeams.Team)photonView.instantiationData[1];
+            } else
+            {
+                Debug.Log("*******[Player Error]*******: Unit.cs or Instantiation Data Not Found. This may occur if a scene was loaded with existing vehicles.");
+            }
             if (!photonView.isMine)
             {
                 myRigidbody.isKinematic = true;
                 return;
             }
-            Unit u = GetComponent<Unit>();
-            if (u != null)
-            {
-                u.unitType = (UnitType)photonView.instantiationData[0];
-                u.unitTeam = (PunTeams.Team)photonView.instantiationData[1];
-            } else
-            {
-                Debug.Log("*******[Player Error]*******: Unit.cs or Instantiation Data Not Found. This may occur if a scene was loaded with existing vehicles.");
-            }
-            SetMesh(0);
+            myMesh = meshList[0];
+            //SetMesh(0);
             strafeThrust = strafePercent * baseThrust;
             originalRotation = transform.localRotation;
             PrepareForRespawn();
@@ -121,53 +131,56 @@ namespace Com.Wulfram3
 
         private void SetMesh(int i)
         {
-            Unit u = GetComponent<Unit>();
-            if (u.unitTeam == PunTeams.Team.Blue)
+            for (int n = 0; n < meshList.Length; n++)
+            {
+                meshList[n].gameObject.SetActive(false);
+            }
+            if (myUnit.unitTeam == PunTeams.Team.Blue)
                 myMapIcon.SetTextureIcon(myIconTextures[0]);
-            if (u.unitTeam == PunTeams.Team.Red)
+            else if (myUnit.unitTeam == PunTeams.Team.Red)
                 myMapIcon.SetTextureIcon(myIconTextures[1]);
+            else
+                Debug.Log("TODO: Set other team map icons.");
+
+
+            mySettings = VehicleSettingFactory.GetVehicleSetting(myUnit.unitType);
+            meshList[i].gameObject.SetActive(true);
+            GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
+            myMesh = meshList[i];
+            CameraManager cm = GetComponent<CameraManager>();
+            cm.SetFirstPersonPosition(firstPersonCameraPositions[i]);
+            cm.SetThirdPersonPosition(thirdPersonCameraPositions[i]);
+            gunEnd = gunPositions[i];
             if (i == 0)
             {
-                for (i = 0; i < meshList.Length; i++)
-                {
-                    meshList[i].gameObject.SetActive(false);
-                    if (meshList[i].name == u.unitTeam + "_" + u.unitType)
-                    {
-                        meshList[i].gameObject.SetActive(true);
-                        GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
-                        myMesh = meshList[i];
-                    }
-                }
-            } else
+                dropPosition = cargoDropPositions[0];
+                placePosition = unitPlacePositions[0];
+            } else if (i == 2)
             {
-                for (i = 0; i < meshList.Length; i++)
-                {
-                    meshList[i].gameObject.SetActive(false);
-                }
-                meshList[4].gameObject.SetActive(true);
-                GetComponent<MeshCollider>().sharedMesh = availableColliders[4];
-                myMesh = meshList[4];
-            }
-        }
+                dropPosition = cargoDropPositions[1];
+                placePosition = unitPlacePositions[1];
 
-        [PunRPC]
-        public void SetSelectedVehicle(int i)
-        {
-            Unit u = GetComponent<Unit>();
-            if ((i == 2 || i == 3))
-            {
-                u.unitType = UnitType.Scout;
-                SetMesh(0);
-            } else if ((i == 0 || i == 1))
-            {
-                u.unitType = UnitType.Tank;
-                SetMesh(0);
-            } else if (i == 4) {
-                u.unitType = UnitType.Other;
-                SetMesh(4);
             }
+            else if (i == 4)
+            {
+                dropPosition = cargoDropPositions[2];
+                placePosition = unitPlacePositions[2];
+            }
+            baseThrust = mySettings.BaseThrust;
+            strafePercent = mySettings.StrafePercent;
+            thrustMultiplier = mySettings.ThrustMultiplier;
+            jumpForce = mySettings.JumpForce;
+            fuelPerJump = mySettings.FuelPerJump;
+            timeBetweenJumps = mySettings.TimeBetweenJumps;
+            maxVelocityX = mySettings.MaxVelocityX;
+            maxVelocityZ = mySettings.MaxVelocityZ;
+            boostMultiplier = mySettings.BoostMultiplier;
+            minPropulsionFuel = mySettings.MinPropulsionFuel;
+            defaultHeight = mySettings.DefaultHeight;
+            maximumHeight = mySettings.MaximumHeight;
+            riseSpeed = mySettings.RiseSpeed;
+            lowerSpeed = mySettings.LowerSpeed;
         }
-
 
         private void Awake()
         {
@@ -184,9 +197,6 @@ namespace Com.Wulfram3
             }
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-            Unit u = GetComponent<Unit>();
-            u.unitTeam = initialTeam;
-            u.unitType = initialUnit;
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -209,6 +219,30 @@ namespace Com.Wulfram3
                 currentHeight = defaultHeight;
                 gameManager.Respawn(this);
             }
+        }
+
+        [PunRPC]
+        public void SetSelectedVehicle(int i)
+        {
+            if ((i == 1 || i == 3))
+            {
+                myUnit.unitType = UnitType.Scout;
+            }
+            else if ((i == 0 || i == 2))
+            {
+                myUnit.unitType = UnitType.Tank;
+            }
+            else
+            {
+                myUnit.unitType = UnitType.Other;
+            }
+            SetMesh(i);
+        }
+
+        [PunRPC]
+        public void SetTeam(PunTeams.Team t)
+        {
+            myUnit.unitTeam = t;
         }
 
         [PunRPC]
@@ -370,10 +404,10 @@ namespace Com.Wulfram3
 
         private void CheckFireSecondary()
         {
-            if (GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= pulseStamp && Input.GetAxisRaw("Fire2") != 0 && fuelManager.TakeFuel(fuelPerPulse))
+            if (myUnit.unitType == UnitType.Tank && Time.time >= pulseStamp && Input.GetAxisRaw("Fire2") != 0 && fuelManager.TakeFuel(fuelPerPulse))
             {
                 CmdFirePulseShell();
-            } else if (GetComponent<Unit>().unitType == UnitType.Scout)
+            } else if (myUnit.unitType == UnitType.Scout && Input.GetAxisRaw("Fire2") != 0)
             {
                 //Debug.Log("PlayerMovementManager.cs (Line: 309) Scout Secondary Firing Detected.");
             }
@@ -401,7 +435,7 @@ namespace Com.Wulfram3
 
         private void CheckJumpjets()
         {
-            if (GetComponent<Unit>().unitType == UnitType.Tank && Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
+            if (myUnit.unitType != UnitType.Scout && Time.time >= jumptimestamp && (Input.GetAxisRaw("Jump") != 0 || Input.GetKeyDown(KeyCode.Keypad0)))
             {
                 if (fuelManager.TakeFuel(fuelPerJump))
                 {
@@ -570,8 +604,8 @@ namespace Com.Wulfram3
                 inputX = 0;
             if (localZVelocity > localZLimit)
                 inputZ = 0;
-            Vector3 totalSidewaysForce = transform.right * inputX * strafeThrust * myRigidbody.mass * boost;
-            Vector3 totalForwardForce = relativeFwd * inputZ * baseThrust * myRigidbody.mass * boost;
+            Vector3 totalSidewaysForce = transform.right * inputX * (strafeThrust * boost) * myRigidbody.mass * boost;
+            Vector3 totalForwardForce = relativeFwd * inputZ * (baseThrust * boost) * myRigidbody.mass * boost;
             myRigidbody.AddForce(-totalForwardForce);
             myRigidbody.AddForce(totalSidewaysForce);
             //myRigidbody.AddRelativeForce(new Vector3((x * strafeThrust * myRigidbody.mass) * thrustMultiplier, 0, (z * baseThrust * myRigidbody.mass) * thrustMultiplier));

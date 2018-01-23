@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,11 +43,11 @@ namespace Com.Wulfram3 {
 
         // Use this for initialization
         void Start() {
-			laserLine = GetComponent<LineRenderer> ();
+            laserLine = GetComponent<LineRenderer>();
             timeBetweenShots = 1f / bulletsPerSecond;
             if (photonView.isMine)
             {
-                screenCenter = new Vector3(Screen.width/2, Screen.height/2, 0.0f);
+                screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0.0f);
             }
             Unit u = GetComponent<Unit>();
             if (u.unitTeam == PunTeams.Team.Red)
@@ -102,7 +103,7 @@ namespace Com.Wulfram3 {
 
 
         private void CheckAndFire() {
-            if ((Input.GetMouseButton(0) || Input.GetAxisRaw("Fire1") != 0) && !GetComponent<CargoManager>().isDeploying) {
+            if ((Input.GetMouseButton(0) || Input.GetAxisRaw("Fire1") != 0) && (GetComponent<Unit>().unitType == UnitType.Scout || !GetComponent<CargoManager>().isDeploying)) {
                 deviationConeRadius = 1f;
                 float currentTime = Time.time;
                 if (lastFireTime + timeBetweenShots > currentTime ) {

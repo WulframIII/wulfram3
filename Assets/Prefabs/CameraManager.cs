@@ -16,6 +16,7 @@ namespace Com.Wulfram3 {
         private Vector3 targetPos;
         private float transitionStartTime;
         private bool transitionComplete = true;
+        private bool needsReset = false;
 
         // Use this for initialization
         void Start() {
@@ -34,9 +35,29 @@ namespace Com.Wulfram3 {
 			cam.transform.SetParent(null);
 
 		}
+
+        public void SetFirstPersonPosition(Transform t)
+        {
+            firstPersonPos = transform.InverseTransformPoint(t.position);
+            needsReset = true;
+        }
+
+        public void SetThirdPersonPosition(Transform t)
+        {
+            thirdPersonPos = transform.InverseTransformPoint(t.position);
+            needsReset = true;
+        }
+
         // Update is called once per frame
         void Update() {
             if (photonView.isMine) {
+                if (needsReset)
+                {
+                    needsReset = false;
+                    transitionComplete = false;
+                    targetPos = firstPersonPos;
+                    transitionStartTime = Time.time;
+                }
                 if (Input.GetKeyDown(KeyCode.F2) && !Cursor.visible) {
                     SwapTargetpos();
                     transitionStartTime = Time.time;

@@ -8,7 +8,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 3f;
         }
     }
 
@@ -16,7 +16,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 0.6f;
         }
     }
 
@@ -24,7 +24,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 0.5f;
         }
     }
 
@@ -32,7 +32,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 17.6f;
         }
     }
 
@@ -40,7 +40,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 60;
         }
     }
 
@@ -48,7 +48,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 3.2f;
         }
     }
 
@@ -56,7 +56,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 8f;
         }
     }
 
@@ -64,7 +64,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 12f;
         }
     }
 
@@ -72,7 +72,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 2.5f;
         }
     }
 
@@ -80,7 +80,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 40;
         }
     }
 
@@ -88,15 +88,15 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 1.2f;
         }
     }
 
-    public float DaximumHeight
+    public float MaximumHeight
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 4.2f;
         }
     }
 
@@ -104,7 +104,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 0.05f;
         }
     }
 
@@ -112,7 +112,7 @@ public class TankVehicleSetting : IVehicleSetting
     {
         get
         {
-            throw new System.NotImplementedException();
+            return 0.03f;
         }
     }
 
