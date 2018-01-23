@@ -1,4 +1,5 @@
 ﻿using Assets.Wulfram3.Scripts.InternalApis.Classes;
+using Greyman;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,8 +19,14 @@ namespace Com.Wulfram3 {
         private GameObject target;
         private Vector3 pos;
 
+        private OffScreenIndicator offScreenIndicator; //0 red, 1 blue
         // Use this for initialization
         void Start() {
+            offScreenIndicator = FindObjectOfType<OffScreenIndicator>();
+            foreach (var item in offScreenIndicator.targets)
+            {
+                offScreenIndicator.RemoveIndicator(item.target);
+            }
             FindObjectOfType<GameManager>().AddTargetChangeListener(this);
             TargetChanged(null);
         }
@@ -27,6 +34,10 @@ namespace Com.Wulfram3 {
         // Update is called once per frame
         void LateUpdate() {
             //if (target != null && target.GetComponentInChildren<MeshRenderer>().isVisible && Camera.main != null)
+            foreach (var item in offScreenIndicator.targets)
+            {
+                offScreenIndicator.RemoveIndicator(item.target);
+            }
 
             if (target != null  && Camera.main != null) {
                 targetInfoPanel.SetActive(true);
@@ -74,19 +85,19 @@ namespace Com.Wulfram3 {
                 {
                     case PunTeams.Team.none:
                         name.color = FindObjectOfType<GameManager>().graycolor.color;
-                        //panel.color = FindObjectOfType<GameManager>().graycolor.color;
+                        offScreenIndicator.AddIndicator(target.transform, 2);
                         break;
                     case PunTeams.Team.Red:
                         name.color = FindObjectOfType<GameManager>().redcolor.color;
-                        //panel.color = FindObjectOfType<GameManager>().redcolor.color;
+                        offScreenIndicator.AddIndicator(target.transform, 0);
                         break;
                     case PunTeams.Team.Blue:
                         name.color = FindObjectOfType<GameManager>().bluecolor.color;
-                        //panel.color = FindObjectOfType<GameManager>().bluecolor.color;
+                        offScreenIndicator.AddIndicator(target.transform, 1);
                         break;
                     default:
                         name.color = FindObjectOfType<GameManager>().graycolor.color;
-                        //panel.color = FindObjectOfType<GameManager>().graycolor.color;
+                        offScreenIndicator.AddIndicator(target.transform, 2);
                         break;
                 }
 

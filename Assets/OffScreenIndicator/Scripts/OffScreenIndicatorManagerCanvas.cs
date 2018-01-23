@@ -105,6 +105,11 @@ namespace Greyman{
 		}
 		
 		protected override void UpdateIndicatorPosition(ArrowIndicator arrowIndicator, int id = 0){
+            if (arrowIndicator.target == null)
+            {
+                return;
+            }
+
 			Vector3 v2DPos = Camera.main.WorldToScreenPoint(arrowIndicator.target.localPosition + arrowIndicator.indicator.targetOffset);
 			float angle;
 			bool behindCamera;

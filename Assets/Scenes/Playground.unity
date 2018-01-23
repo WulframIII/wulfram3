@@ -7723,10 +7723,10 @@ MonoBehaviour:
     transition: 1
     transitionDuration: 0.2
   - onScreenSprite: {fileID: 21300000, guid: 5f7bd07bc1344e944a3c06c59c1ff34d, type: 3}
-    onScreenColor: {r: 0.94482756, g: 1, b: 0, a: 1}
+    onScreenColor: {r: 0.5882353, g: 0.5882353, b: 0.58431375, a: 1}
     onScreenRotates: 0
     offScreenSprite: {fileID: 21300000, guid: 34a2fb4ca5833c2449791d7de91908c1, type: 3}
-    offScreenColor: {r: 1, g: 0.6, b: 0, a: 1}
+    offScreenColor: {r: 0.5882353, g: 0.5882353, b: 0.58431375, a: 1}
     offScreenRotates: 1
     targetOffset: {x: 0, y: 0, z: 0}
     transition: 1
@@ -7740,11 +7740,7 @@ MonoBehaviour:
     targetOffset: {x: 0, y: 0, z: 0}
     transition: 1
     transitionDuration: 0.2
-  targets:
-  - target: {fileID: 4058579934421654, guid: bfab81d5b45ff2141b1c0c294d1e64eb, type: 2}
-    indicatorID: 0
-  - target: {fileID: 4513093658683430, guid: 840c16265bb3b7341a85d4c4456e72c0, type: 2}
-    indicatorID: 0
+  targets: []
 --- !u!4 &1246310383
 Transform:
   m_ObjectHideFlags: 0

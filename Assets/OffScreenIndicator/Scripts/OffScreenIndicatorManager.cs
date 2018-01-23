@@ -27,6 +27,7 @@ namespace Greyman{
 			foreach(ArrowIndicator arrowIndicator in arrowIndicators){
 				if(arrowIndicator.target == target){
 					exists = true;
+                    Debug.Log("ExistsIndicator found");
 				}
 			}
 			return exists;
