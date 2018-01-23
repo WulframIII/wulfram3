@@ -65,4 +65,5 @@ MonoBehaviour:
   - KickPlayer
   - SpawnEffectRpc
   - SetSelectedVehicle
+  - SetTeam
   DisableAutoOpenWizard: 1

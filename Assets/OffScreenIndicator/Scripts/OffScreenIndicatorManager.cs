@@ -15,8 +15,27 @@ namespace Greyman{
 
 		public Indicator[] indicators;
 		public abstract void AddIndicator(Transform target, int indicatorID);
-		public abstract void RemoveIndicator(Transform target);
-		protected abstract void UpdateIndicatorPosition(ArrowIndicator arrowIndicator, int id = 0);
+		//public abstract void RemoveIndicator(Transform target);
+        public void RemoveIndicator(Transform target)
+        {
+            var exists = ExistsIndicator(target);
+            Debug.LogWarning("Target removed: does exist? " + exists);
+            if (exists)
+            {
+                ArrowIndicator oldArrowTarget = arrowIndicators.Find(x => x.target == target);
+                int id = arrowIndicators.FindIndex(x => x.target == target);
+                arrowIndicators.RemoveAt(id);
+                GameObject.Destroy(oldArrowTarget.arrow);
+                ArrowIndicator.Destroy(oldArrowTarget);
+
+            }
+            else
+            {
+                Debug.LogWarning("Target no longer exists: " + target.name);
+            }
+        }
+
+        protected abstract void UpdateIndicatorPosition(ArrowIndicator arrowIndicator, int id = 0);
 
 		void Awake(){
 			arrowIndicators = new List<ArrowIndicator>();
@@ -27,7 +46,6 @@ namespace Greyman{
 			foreach(ArrowIndicator arrowIndicator in arrowIndicators){
 				if(arrowIndicator.target == target){
 					exists = true;
-                    Debug.Log("ExistsIndicator found");
 				}
 			}
 			return exists;

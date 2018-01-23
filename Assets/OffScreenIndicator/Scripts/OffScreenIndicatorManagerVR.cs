@@ -65,17 +65,17 @@ namespace Greyman{
 			}
 		}
 
-		public override void RemoveIndicator(Transform target){
-			if(ExistsIndicator(target)){
-				ArrowIndicator oldArrowTarget = arrowIndicators.Find(x=>x.target == target);
-				int id = arrowIndicators.FindIndex(x=>x.target == target);
-				arrowIndicators.RemoveAt(id);
-				GameObject.Destroy(oldArrowTarget.arrow);
-				ArrowIndicator.Destroy(oldArrowTarget);
-			}/* else {
-				Debug.LogWarning ("Target no longer exists: " + target.name);
-			}*/
-		}
+		//public override void RemoveIndicator(Transform target){
+		//	if(ExistsIndicator(target)){
+		//		ArrowIndicator oldArrowTarget = arrowIndicators.Find(x=>x.target == target);
+		//		int id = arrowIndicators.FindIndex(x=>x.target == target);
+		//		arrowIndicators.RemoveAt(id);
+		//		GameObject.Destroy(oldArrowTarget.arrow);
+		//		ArrowIndicator.Destroy(oldArrowTarget);
+		//	}/* else {
+		//		Debug.LogWarning ("Target no longer exists: " + target.name);
+		//	}*/
+		//}
 
 		protected override void UpdateIndicatorPosition(ArrowIndicator arrowIndicator, int id = 0){
 			Vector3 pCam = Camera.main.transform.position;

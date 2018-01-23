@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.VR;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Off screen indicator.
@@ -22,6 +24,8 @@ namespace Greyman{
 		public FixedTarget[] targets;
 		//public 
 		private OffScreenIndicatorManager manager;
+
+        public List<FixedTarget> targetList;
 
 		void Awake () {
 			/*
@@ -54,11 +58,14 @@ namespace Greyman{
 
 		public void AddIndicator(Transform target, int indicatorID){
 			manager.AddIndicator(target, indicatorID);
-		}
+            targetList.Add(new FixedTarget { target = target, indicatorID = indicatorID });
+        }
 
 		public void RemoveIndicator(Transform target){
 			manager.RemoveIndicator(target);
-		}
+            targetList.Remove(targetList.Where(t => t.target == target).FirstOrDefault());
+
+        }
 
 	}
 

@@ -23,7 +23,7 @@ namespace Com.Wulfram3 {
         // Use this for initialization
         void Start() {
             offScreenIndicator = FindObjectOfType<OffScreenIndicator>();
-            foreach (var item in offScreenIndicator.targets)
+            foreach (var item in offScreenIndicator.targetList)
             {
                 offScreenIndicator.RemoveIndicator(item.target);
             }
@@ -34,10 +34,7 @@ namespace Com.Wulfram3 {
         // Update is called once per frame
         void LateUpdate() {
             //if (target != null && target.GetComponentInChildren<MeshRenderer>().isVisible && Camera.main != null)
-            foreach (var item in offScreenIndicator.targets)
-            {
-                offScreenIndicator.RemoveIndicator(item.target);
-            }
+
 
             if (target != null  && Camera.main != null) {
                 targetInfoPanel.SetActive(true);
@@ -85,19 +82,15 @@ namespace Com.Wulfram3 {
                 {
                     case PunTeams.Team.none:
                         name.color = FindObjectOfType<GameManager>().graycolor.color;
-                        offScreenIndicator.AddIndicator(target.transform, 2);
                         break;
                     case PunTeams.Team.Red:
                         name.color = FindObjectOfType<GameManager>().redcolor.color;
-                        offScreenIndicator.AddIndicator(target.transform, 0);
                         break;
                     case PunTeams.Team.Blue:
                         name.color = FindObjectOfType<GameManager>().bluecolor.color;
-                        offScreenIndicator.AddIndicator(target.transform, 1);
                         break;
                     default:
                         name.color = FindObjectOfType<GameManager>().graycolor.color;
-                        offScreenIndicator.AddIndicator(target.transform, 2);
                         break;
                 }
 
@@ -122,6 +115,26 @@ namespace Com.Wulfram3 {
             if (t == null) {
                 targetInfoPanel.SetActive(false);
             } else {
+                foreach (var item in offScreenIndicator.targetList.ToArray())
+                {
+                    offScreenIndicator.RemoveIndicator(item.target);
+                }
+
+                switch (target.GetComponent<Unit>().unitTeam)
+                {
+                    case PunTeams.Team.none:
+                        offScreenIndicator.AddIndicator(target.transform, 2);
+                        break;
+                    case PunTeams.Team.Red:
+                        offScreenIndicator.AddIndicator(target.transform, 0);
+                        break;
+                    case PunTeams.Team.Blue:
+                        offScreenIndicator.AddIndicator(target.transform, 1);
+                        break;
+                    default:
+                        offScreenIndicator.AddIndicator(target.transform, 2);
+                        break;
+                }
                 targetInfoPanel.SetActive(true);
             }
         }
