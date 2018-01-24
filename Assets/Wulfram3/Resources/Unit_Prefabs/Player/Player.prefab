@@ -2332,7 +2332,7 @@ MonoBehaviour:
   unitType: 0
   needsPower: 0
   hasPower: 0
-  hitPointRegenerationSpeed: 1
+  hitPointRegenerationSpeed: 0
 --- !u!114 &114621915073000352
 MonoBehaviour:
   m_ObjectHideFlags: 1

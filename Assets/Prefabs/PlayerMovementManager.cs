@@ -11,12 +11,19 @@ namespace Com.Wulfram3
         public AudioClip jumpSource;
         public AudioClip landSource;
         public AudioClip takeoffSource;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Unit myUnit;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform myMesh;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform gunEnd;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform firstPersonCamPos;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform thirdPersonCamPos;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform placePosition;
+        [Tooltip("Visible for debug. Do Not Assign.")]
         public Transform dropPosition;
 
         private float baseThrust = 3f;
@@ -141,16 +148,18 @@ namespace Com.Wulfram3
                 myMapIcon.SetTextureIcon(myIconTextures[1]);
             else
                 Debug.Log("TODO: Set other team map icons.");
+            meshList[i].gameObject.SetActive(true);
+            myMesh = meshList[i];
+            gunEnd = gunPositions[i];
+            if (!photonView.isMine)
+                return;
 
 
             mySettings = VehicleSettingFactory.GetVehicleSetting(myUnit.unitType);
-            meshList[i].gameObject.SetActive(true);
             GetComponent<MeshCollider>().sharedMesh = availableColliders[i];
-            myMesh = meshList[i];
             CameraManager cm = GetComponent<CameraManager>();
             cm.SetFirstPersonPosition(firstPersonCameraPositions[i]);
             cm.SetThirdPersonPosition(thirdPersonCameraPositions[i]);
-            gunEnd = gunPositions[i];
             if (i == 0)
             {
                 dropPosition = cargoDropPositions[0];
